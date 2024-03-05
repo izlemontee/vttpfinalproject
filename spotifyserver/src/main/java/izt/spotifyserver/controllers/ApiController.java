@@ -31,29 +31,30 @@ public class ApiController {
     @Autowired
     private SpotifyApiService spotifyApiService;
 
-    // @GetMapping(path="/login")
-    // public ResponseEntity<String> getLoginUri(){
-    //     String clientId = spotifyApiService.getClientId();
-    //     String uri = spotifyApiService.generateLoginUri();
-    //     JsonObjectBuilder JOB = Json.createObjectBuilder();
-    //     JOB.add("clientid",clientId);
-    //     JOB.add("uri",uri);
-    //     ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
-    //                                     .body(JOB.build().toString());
-    //     return response;
-
-    // }
     @GetMapping(path="/login")
-    public String getLoginUriString(){
+    public ResponseEntity<String> getLoginUri(){
+        String clientId = spotifyApiService.getClientId();
         String uri = spotifyApiService.generateLoginUri();
-        return uri;
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("clientid",clientId);
+        JOB.add("uri",uri);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+                                        .body(JOB.build().toString());
+        return response;
+
     }
+    // @GetMapping(path="/login")
+    // public String getLoginUriString(){
+    //     String uri = spotifyApiService.generateLoginUri();
+    //     return uri;
+    // }
 
     @GetMapping(path = "/callback")
     public String redirectAfterAuth(@RequestParam("code") String authKey, HttpServletResponse response)throws Exception{
         String accessToken = spotifyApiService.redirectAfterAuth(authKey);
         
         System.out.println("reached here");
+        System.out.println(accessToken);
         response.sendRedirect("http://localhost:4200/redirect");
         return accessToken;
     }

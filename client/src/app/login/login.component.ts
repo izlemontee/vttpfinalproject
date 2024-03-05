@@ -21,28 +21,12 @@ export class LoginComponent {
 
 
   login(){
-    // this.httpService.getLoginUri().then(
-    //   value=> this.clientid = value.clientid
-    // ).then(
-    //   value => this.userAuth.setup(value)
-    // )
-    // this.httpService.getLoginUri().then(
-    //   value=>{
-    //     console.log(value)
-    //     this.loginUri = value.uri
-    //     value = value.uri
-    //   }
-    // ).then(
-    //   (value)=>window.location.href = this.loginUri
-    // )
-    const getSpotifyUserLogin = ()=>{
-      fetch("http://localhost:8080/api/login")
-      .then((response)=>response.text())
-      .then((response)=>{
-        window.location.replace(response)
-      })
-    }
-    getSpotifyUserLogin()
+    this.httpService.getLoginUri().then(
+      response =>{
+        console.log(response)
+        window.location.replace(response.uri)
+      }
+    )
     console.log("here")
   }
 
