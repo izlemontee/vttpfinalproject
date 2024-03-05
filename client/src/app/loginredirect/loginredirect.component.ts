@@ -1,7 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserauthService } from '../userauth.service';
 import { HttpService } from '../http.service';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-loginredirect',
@@ -13,22 +14,24 @@ export class LoginredirectComponent implements OnInit{
   private activatedRoute = inject(ActivatedRoute)
   private userAuth = inject(UserauthService)
   private httpService = inject(HttpService)
+  private router = inject(Router)
+  private sessionService = inject(SessionService)
 
-  code!:string
-  clientid!:string
+
+  tempId!: string
+  username!:string
 
   ngOnInit(): void {
-      // this.code = this.activatedRoute.snapshot.queryParams['code']
-      // console.log(this.code)
-      // this.httpService.getLoginUri().then(
-      //   value=> this.clientid = value.clientid
-      // ).then(
-      //   value=>{
-      //     console.log("value,",value)
-      //     this.userAuth.getApiToken(value,this.code)
-      //   }
-      // )
-      
+      this.tempId = this.activatedRoute.snapshot.queryParams['id']
+      console.log("tempid",this.tempId)
+      this.sessionService.getSession().then(
+        response =>{
+          this.username = response[0].username
+          this.httpService.addAccessKeyToUser(this.tempId,this.username)
+        }
+      )
+
+      this.router.navigate(['/setup'])
   }
 
 }

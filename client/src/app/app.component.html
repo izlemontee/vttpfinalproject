@@ -1,2 +1,11 @@
+<div *ngIf="loggedIn else loggedout">
+    <p>Logged in as: {{username}}</p>
+    <button (click)="logout()">Logout</button>
+</div>
 
-<router-outlet />
+<ng-template #loggedout>
+    <div *ngIf="!inLogin">
+        <button (click)="login()">Login</button>
+    </div>
+</ng-template>
+<router-outlet></router-outlet>

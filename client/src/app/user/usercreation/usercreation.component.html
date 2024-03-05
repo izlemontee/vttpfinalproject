@@ -1,0 +1,36 @@
+
+<form [formGroup]="creationForm">
+    <table>
+        <tbody>
+            <tr>
+                <td>Username: </td>
+                <td><p *ngIf="usernameExists">Username already exists!</p> 
+                    <input type="text" formControlName="username"></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><div><input [type]="passwordHidden ? 'text' : 'password'" formControlName="password">    
+                    <mat-icon (click)="togglePasswordVisibility()">
+                        {{ passwordHidden ? 'visibility' : 'visibility_off' }}
+                    </mat-icon></div></td>
+            </tr>
+
+            <tr>
+                <td>Email: </td>
+                <td> <input type="text" formControlName="email"></td>
+            </tr>
+            <tr>
+                <td>First Name: </td>
+                <td> <input type="text" formControlName="firstName"></td>
+            </tr>
+            <tr>
+                <td>Last Name: </td>
+                <td> <input type="text" formControlName="lastName"></td>
+            </tr>
+        </tbody>
+
+    </table>
+   <button type="submit" (click)="processForm()">Proceed</button>
+</form>
+
+<!-- <p>{{creationForm.value['firstName'] | titlecase}}</p> -->

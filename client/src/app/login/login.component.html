@@ -1,1 +1,25 @@
-<button (click)="login()">Login</button>
+<form [formGroup]="loginForm">
+    <div *ngIf="!usernamePasswordMatch">
+        Incorrect username or password!
+    </div>
+    <table>
+        <tr>
+            <td>Username: </td>
+            <td><p *ngIf="!usernameExists">Username does not exist</p><input type="text" formControlName="username"></td>
+        </tr>
+        <tr>
+            <td>Password: </td>
+            <td><div><input [type]="passwordHidden ? 'password' : 'text'" formControlName="password">    
+                <mat-icon (click)="togglePasswordVisibility()">
+                    {{ passwordHidden ? 'visibility_off' : 'visibility' }}
+                </mat-icon></div>
+            </td>
+        </tr>
+        <tr>
+            <button type="submit" (click)="login()">Login</button>
+        </tr>
+    </table>
+
+</form>
+
+

@@ -1,6 +1,8 @@
 package izt.spotifyserver.services;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,10 +12,18 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import izt.spotifyserver.Utils.Utils;
+import izt.spotifyserver.exceptions.SQLFailedException;
+import izt.spotifyserver.models.User;
+import izt.spotifyserver.repositories.UserSQLRepository;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
@@ -36,6 +46,12 @@ public class SpotifyApiService {
 
    
     private RestTemplate restTemplate = new RestTemplate();
+
+    private Map<String,User> temporaryUserMap = new HashMap<>();
+
+
+    @Autowired
+    private UserSQLRepository userSqlRepo;
 
     public String getClientId(){
         return clientId;
@@ -72,9 +88,14 @@ public class SpotifyApiService {
         AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(authKey).build();
         AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
         String token = authorizationCodeCredentials.getAccessToken();
-        return token;
+        User user = new User();
+        user.setAccessKey(token);
+        String tempId = Utils.generateShortUUID();
+        temporaryUserMap.put(tempId, user);
+        return tempId;
 
     }
+
 
     public void getUserAccessTokenFromClient(String authCode, String verifier){
         HttpHeaders headers = new HttpHeaders();
@@ -92,8 +113,74 @@ public class SpotifyApiService {
                                                         entity,
                                                         String.class);
         System.out.println(response.getBody());
+    }
+
+    @Transactional
+    public void createUser(String body){
+        JsonObject bodyJson = Utils.stringToJson(body);
+        User user = new User();
+        user.setUsername(bodyJson.getString("username"));
+        user.setEmail(bodyJson.getString("email"));
+        user.setFirstName(bodyJson.getString("firstName"));
+        user.setLastName(bodyJson.getString("lastName"));
+        user.setPassword(bodyJson.getString("password"));
+        int insertCount = userSqlRepo.createNewUser(user);
+        if(insertCount>0){
+
+        }
+        else{
+            throw new SQLFailedException();
+            
+        }
 
     }
 
+    public boolean userExists(String username){
+        return userSqlRepo.userExists(username);
+    }
+
+    public boolean usernameAndPasswordMatch(String requestBody){
+        JsonObject jsonObject = Utils.stringToJson(requestBody);
+        User user = new User();
+        user.setUsername(jsonObject.getString("username"));
+        user.setPassword(jsonObject.getString("password"));
+        boolean match = userSqlRepo.usernamePasswordMatch(user);
+        return match;
+    }
+
+    public String login(String requestBody){
+        JsonObject jsonObject = Utils.stringToJson(requestBody);
+        User user = new User();
+        user.setUsername(jsonObject.getString("username"));
+        user.setPassword(jsonObject.getString("password"));
+        String sessionid = addUserSession(user);
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("id",sessionid);
+        return JOB.build().toString();
+    }
+
+    public int logout(String id){
+        int count = userSqlRepo.deleterUserSession(id);
+        return count;
+    }
+
+    public String addUserSession(User user){
+        user.setSessionId(Utils.generateUUID());
+        try{
+            userSqlRepo.addUserSession(user);
+        }catch(Exception ex){
+            System.out.println("exception");
+            addUserSession(user);
+        }
+        return user.getSessionId();
+    }
+
+    public int addUserAccessKey(String requestBody){
+        JsonObject jsonObject = Utils.stringToJson(requestBody);
+        User user = temporaryUserMap.get(jsonObject.getString("tempId"));
+        user.setUsername(jsonObject.getString("username"));
+        int count = userSqlRepo.addAccessKey(user); 
+        return count;
+    }
     
 }
