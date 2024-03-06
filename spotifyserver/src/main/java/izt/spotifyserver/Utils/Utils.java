@@ -15,6 +15,12 @@ public class Utils {
         return jr.readObject();
     }
 
+    public static String getUsernameFromClientRequest(String requestBody){
+        JsonReader jr = Json.createReader(new StringReader(requestBody));
+        JsonObject object = jr.readObject();
+        return object.getString(("username"));
+    }
+
     public static String getErrorJsonString(String message){
         JsonObjectBuilder JOB = Json.createObjectBuilder();
         JOB.add("error", message);

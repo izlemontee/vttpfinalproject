@@ -19,3 +19,10 @@ export interface UserSession{
     password?:string,
     id?:string
 }
+
+export interface Artist{
+    name:string,
+    image:string,
+    external_url:string,
+    genres:string[]
+}

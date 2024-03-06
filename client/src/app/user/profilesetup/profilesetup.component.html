@@ -1,1 +1,24 @@
 <button (click)="loginToSpotify()">Setup spotify</button>
+<button (click)="refreshAccessToken()">Refresh Access key</button>
+<button (click)="getTopArtists()">Get top artists</button>
+
+<div *ngIf="artists.length>0">
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Icon</th>
+            <th>Genres</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let a of artists">
+            <td>{{a.name}}</td>
+            <td><img [src]="a.image" alt=""></td>
+            <td>{{a.genres}}</td>
+            <td><a [href]="a.external_url">Link</a></td>
+        </tr>
+    </tbody>
+</table>
+</div>

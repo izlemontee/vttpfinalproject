@@ -9,7 +9,14 @@ public class User {
     private String password;
     private String sessionId;
     private String accessKey;
+    private String refreshToken;
 
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
     public String getAccessKey() {
         return accessKey;
     }

@@ -50,11 +50,26 @@ public class UserSQLRepository {
     }
 
     public int addAccessKey(User user){
-        int count = jdbcTemplate.update(Queries.SQL_ADD_ACCESS_KEY, user.getAccessKey(), user.getUsername());
+        int count = jdbcTemplate.update(Queries.SQL_ADD_ACCESS_KEY, 
+        user.getAccessKey(), 
+        user.getRefreshToken(),
+        user.getUsername());
         return count;
     }
 
+    public SqlRowSet getUserAccessKeyAndRefresh(String username){
+        SqlRowSet result = jdbcTemplate.queryForRowSet(Queries.SQL_GET_USER_ACCESSKEY_AND_REFRESH, username);
+        return result;
+    }
 
+    public void updateUserAccessKey(User user){
+        System.out.println("access key:"+user.getAccessKey());
+        System.out.println(user.getUsername());
+        jdbcTemplate.update(Queries.SQL_UPDATE_ACCESS_KEY,
+                            user.getAccessKey()
+                            ,user.getUsername());
+                            System.out.println("done");
+    }
 
 
 

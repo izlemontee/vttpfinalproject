@@ -28,7 +28,20 @@ public class Queries {
             """;
     public static final String SQL_ADD_ACCESS_KEY="""
             UPDATE users
-            SET access_key = ?
+            SET access_key = ?, refresh_token = ?
             WHERE username = ?
             """;
+
+        public static final String SQL_GET_USER_ACCESSKEY_AND_REFRESH="""
+                        SELECT username,access_key,refresh_token
+                        FROM users
+                        WHERE username = ?
+                        """;
+
+        public static final String SQL_UPDATE_ACCESS_KEY="""
+                        UPDATE users 
+                        SET access_key = ?
+                        WHERE username = ?
+                        """;
+
 }

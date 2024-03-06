@@ -45,4 +45,14 @@ export class HttpService {
     return lastValueFrom (this.httpClient.post<any>(this.baseUrl+"/addaccesskey",body))
 
   }
+
+  refreshUserAccessKey(username:string){
+    const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.get<any>(this.baseUrl+"/refresh",{params:params}))
+  }
+
+  getTopArtists(username:string){
+    const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.get<any>(this.baseUrl+"/topartists",{params:params}))
+  }
 }

@@ -135,5 +135,22 @@ public class ApiController {
 
     }
 
+    @GetMapping(path = "/refresh")
+    public ResponseEntity<String> refreshAccessToken(@RequestParam String username){
+        spotifyApiService.getUserAccessKeyAndRefreshFromSql(username);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body("{}");
+        return response;
+    }
+
+    @GetMapping(path = "/topartists")
+    public ResponseEntity<String> getTopArtists(@RequestParam String username){
+        String body = spotifyApiService.getUserTopArtists(username);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body(body);
+        return response;
+    }
+
+
     
 }
