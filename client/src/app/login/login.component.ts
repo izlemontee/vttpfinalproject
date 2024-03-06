@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy{
   
   ngOnInit(): void {
       this.loginForm = this.createForm()
+      this.session.initialiseLoginButton()
   }
 
   login(){
@@ -68,17 +69,6 @@ export class LoginComponent implements OnInit, OnDestroy{
       username: this.fb.control<string>('', Validators.required),
       password: this.fb.control<string>('',Validators.required)
     })
-  }
-
-
-  loginToSpotify(){
-    this.httpService.getLoginUri().then(
-      response =>{
-        console.log(response)
-        window.location.replace(response.uri)
-      }
-    )
-    console.log("here")
   }
 
   togglePasswordVisibility(){

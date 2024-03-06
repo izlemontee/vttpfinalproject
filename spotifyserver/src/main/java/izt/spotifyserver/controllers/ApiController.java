@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -151,6 +152,21 @@ public class ApiController {
         return response;
     }
 
+    @GetMapping(path = "/setupinit/{username}")
+    public ResponseEntity<String> setupProfile(@PathVariable String username){
+        String body = spotifyApiService.getUserNameAndBio(username);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body(body);
+        return response;
+    }
+
+    @PostMapping(path = "/update/{username}")
+    public ResponseEntity<String> updateProfile(@PathVariable String username, @RequestBody String body){
+        spotifyApiService.updateProfileNameAndBio(body, username);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body("{}");
+        return response;
+    }
 
     
 }

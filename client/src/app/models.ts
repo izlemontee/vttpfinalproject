@@ -26,3 +26,9 @@ export interface Artist{
     external_url:string,
     genres:string[]
 }
+
+export interface User{
+    firstName:string,
+    lastName:string,
+    bio:string
+}

@@ -1,28 +1,35 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserCreate } from '../../models';
 import {MatIconModule} from '@angular/material/icon';
 import { HttpService } from '../../http.service';
+import { SessionService } from '../../session.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-usercreation',
   templateUrl: './usercreation.component.html',
   styleUrl: './usercreation.component.css'
 })
-export class UsercreationComponent implements OnInit{
+export class UsercreationComponent implements OnInit, OnDestroy{
 
   private fb = inject(FormBuilder)
   private httpService = inject(HttpService)
+  private session = inject(SessionService)
 
   creationForm !: FormGroup
   passwordHidden!: boolean
 
   usernameExists: boolean = false
   emailExists : boolean = false
+  username!:string
+
 
   ngOnInit(): void {
       this.creationForm = this.createForm()
       this.passwordHidden = false
+      this.session.initialiseSetupButton()
+
   }
 
   createForm(){
@@ -60,11 +67,14 @@ export class UsercreationComponent implements OnInit{
         this.usernameExists = false
         console.log('catch')
         this.httpService.createUser(userCreate).then(
-        ()=>{console.log("ok")
+        ()=>{
+          console.log("ok")
+          this.session.disableLoginButton()
       }
       )
     }
     )
+
 
 
     // this.httpService.createUser(userCreate).then
@@ -73,9 +83,13 @@ export class UsercreationComponent implements OnInit{
     // )
     
   }
-
+  ngOnDestroy(): void {
+    this.session.disableLoginButton()
+}
   togglePasswordVisibility(){
     this.passwordHidden = !this.passwordHidden
   }
+
+
 
 }

@@ -21,12 +21,20 @@ export class AppComponent implements OnInit{
   id!:string
   sessionSubscribe!: Observable<UserSession[]>
   loginButtonSubscribe!: Observable<void>
+
+  // for the initialisation
+  loginEnabledSubscribe !:Observable<void>
+  setupEnabledSubscribe !: Observable<void>
   loggedIn: boolean = false
   inLogin : boolean = false
+  inCreateUser : boolean = false
 
   ngOnInit(): void {
       this.getUsername()
       this.subscribeToSession()
+      this.iniitaliseLoginButtonState()
+      this.initaliseSetupButtonState()
+      this.subscribeToDisableLoginButton()
   }
 
   getUsername(){
@@ -61,6 +69,7 @@ export class AppComponent implements OnInit{
     this.loginButtonSubscribe.subscribe({
       next:()=>{
         this.inLogin = false
+        this.inCreateUser = false
       }
     })
   }
@@ -75,6 +84,28 @@ export class AppComponent implements OnInit{
   login(){
     this.inLogin = true
     this.router.navigate(['/login'])
+  }
+  createUser(){
+    this.inCreateUser = true
+    this.router.navigate(['/createuser'])
+  }
+
+  iniitaliseLoginButtonState(){
+    this.loginEnabledSubscribe = this.session.enableLoginButton
+    this.loginEnabledSubscribe.subscribe({
+      next: ()=>{
+        this.inLogin = true
+      }
+    })
+  }
+
+  initaliseSetupButtonState(){
+    this.setupEnabledSubscribe = this.session.enableSetupButton
+    this.setupEnabledSubscribe.subscribe({
+      next: ()=>{
+        this.inCreateUser = true
+      }
+    })
   }
 
   

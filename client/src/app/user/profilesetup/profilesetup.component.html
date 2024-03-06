@@ -2,6 +2,24 @@
 <button (click)="refreshAccessToken()">Refresh Access key</button>
 <button (click)="getTopArtists()">Get top artists</button>
 
+<form [formGroup]="profileForm">
+    <table>
+        <tr>
+            <td>First Name</td>
+            <td><input type="text" formControlName="firstname"></td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td><input type="text" formControlName="lastname"></td>
+        </tr>
+        <tr>
+            <td>Bio</td>
+            <td><input type="text" formControlName="bio"></td>
+        </tr>
+    </table>
+    <button (click)="processForm()">Setup</button>
+</form>
+
 <div *ngIf="artists.length>0">
 <table>
     <thead>

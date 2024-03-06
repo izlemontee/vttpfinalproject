@@ -12,6 +12,10 @@ export class SessionService extends Dexie{
   sessionObservable = new Subject<UserSession[]>
   forLoginObservable = new Subject<void>
 
+  enableSetupButton = new Subject<void>
+  enableLoginButton = new Subject<void>
+
+
   constructor() { 
     super("sessionDB")
     this.version(1).stores({
@@ -42,4 +46,13 @@ export class SessionService extends Dexie{
   disableLoginButton(){
     this.forLoginObservable.next()
   }
+
+  initialiseLoginButton(){
+    this.enableLoginButton.next()
+  }
+
+  initialiseSetupButton(){
+    this.enableSetupButton.next()
+  }
+
 }

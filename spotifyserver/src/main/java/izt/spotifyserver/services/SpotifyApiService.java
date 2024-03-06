@@ -47,6 +47,9 @@ public class SpotifyApiService {
     @Autowired
     private SpotifyApi spotifyApi;
 
+    @Autowired
+    private SpotifyApiCalls apiCalls;
+
    
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -92,10 +95,10 @@ public class SpotifyApiService {
         AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
         String token = authorizationCodeCredentials.getAccessToken();
         String refreshToken = authorizationCodeCredentials.getRefreshToken();
-        System.out.println("refresh token: "+refreshToken);
         User user = new User();
         user.setAccessKey(token);
         user.setRefreshToken(refreshToken);
+        
         String tempId = Utils.generateShortUUID();
         temporaryUserMap.put(tempId, user);
         return tempId;
@@ -230,6 +233,7 @@ public class SpotifyApiService {
         User user = temporaryUserMap.get(jsonObject.getString("tempId"));
         user.setUsername(jsonObject.getString("username"));
         int count = userSqlRepo.addAccessKey(user); 
+        apiCalls.addAccessKeyAndRefreshTokenToNewUser(user);
         return count;
     }
     
@@ -264,5 +268,35 @@ public class SpotifyApiService {
             String responseBody = getUserTopArtists(username);
             return responseBody;
         }
+    }
+
+    public String getUserNameAndBio(String username){
+        SqlRowSet rowset = userSqlRepo.getUserNameAndBio(username);
+        System.out.println(rowset.next());
+        String firstName = rowset.getString("firstname");
+        String lastName = rowset.getString("lastname");
+        String bio = "";
+        System.out.println("here");
+        if(rowset.getString("bio") !=null){
+            bio = rowset.getString("bio");
+        }
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("firstName",firstName)
+            .add("lastName",lastName)
+            .add("bio",bio);
+        return JOB.build().toString();
+    }
+
+    public void updateProfileNameAndBio(String body, String username){
+        JsonObject object = Utils.stringToJson(body);
+        String bio = object.getString("bio");
+        String firstName = object.getString("firstName");
+        String lastName = object.getString("lastName");
+        User user = new User();
+        user.setUsername(username);
+        user.setBio(bio);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        userSqlRepo.updateProfileNameAndBio(user);
     }
 }

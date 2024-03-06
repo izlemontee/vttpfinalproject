@@ -10,7 +10,14 @@ public class User {
     private String sessionId;
     private String accessKey;
     private String refreshToken;
+    private String bio;
 
+    public String getBio() {
+        return bio;
+    }
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
     public String getRefreshToken() {
         return refreshToken;
     }

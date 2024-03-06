@@ -71,8 +71,31 @@ public class UserSQLRepository {
                             System.out.println("done");
     }
 
+    public int addUserEmailAccessKeyRefreshToken(User user){
+        int count = jdbcTemplate.update(Queries.SQL_ADD_EMAIL_ACCESS_KEY_REFRESH,
+                            user.getEmail(),
+                            user.getAccessKey(),
+                            user.getRefreshToken(),
+                            user.getUsername());
+        return count;
+    }
 
+    public SqlRowSet getUserNameAndBio(String username){
+        System.out.println("username: "+username);
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(Queries.SQL_GET_NAME_AND_BIO, username);
+        return rowSet;
 
+    }
+
+    public void updateProfileNameAndBio(User user){
+        jdbcTemplate.update(Queries.SQL_UPDATE_NAME_AND_BIO,
+                            user.getFirstName(),
+                            user.getLastName(),
+                            user.getBio(),
+                            user.getUsername());
+                            
+
+    }
 
 
     

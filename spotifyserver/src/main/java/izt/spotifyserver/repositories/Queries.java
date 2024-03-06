@@ -44,4 +44,21 @@ public class Queries {
                         WHERE username = ?
                         """;
 
+        public static final String SQL_ADD_EMAIL_ACCESS_KEY_REFRESH="""
+                        UPDATE users 
+                        SET spotify_email = ?, spotify_linked = true, access_key = ?, refresh_token = ?
+                        WHERE username = ?
+                        """;
+
+        public static final String SQL_GET_NAME_AND_BIO="""
+                        SELECT username,firstname,lastname, bio
+                        FROM users
+                        WHERE username = ?
+                        """;
+        public static final String SQL_UPDATE_NAME_AND_BIO="""
+                        UPDATE users
+                        SET firstname =?, lastname = ?, bio = ?
+                        WHERE username = ?
+                        """;
+
 }
