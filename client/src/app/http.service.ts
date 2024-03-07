@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { last, lastValueFrom } from 'rxjs';
-import { User, UserCreate, UserSession } from './models';
+import { Artist, User, UserCreate, UserSession } from './models';
 
 @Injectable({
   providedIn: 'root'
@@ -51,8 +51,8 @@ export class HttpService {
     return lastValueFrom(this.httpClient.get<any>(this.baseUrl+"/refresh",{params:params}))
   }
 
-  getTopArtists(username:string){
-    const params = new HttpParams().set("username",username)
+  getTopArtists(username:string, duration:string){
+    const params = new HttpParams().set("username",username).set("duration",duration)
     return lastValueFrom(this.httpClient.get<any>(this.baseUrl+"/topartists",{params:params}))
   }
 
@@ -64,5 +64,10 @@ export class HttpService {
   updateUserProfile(user:User, username:string){
     const url = this.baseUrl+"/update/"+username
     return lastValueFrom(this.httpClient.post<any>(url, user))
+  }
+
+  updateUserArtists(username:string, artists:Artist[]){
+    const url = this.baseUrl+"/update/"+username+"/artists"
+    return lastValueFrom(this.httpClient.post<any>(url,artists))
   }
 }

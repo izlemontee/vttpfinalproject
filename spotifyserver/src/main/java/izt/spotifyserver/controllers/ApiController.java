@@ -145,8 +145,11 @@ public class ApiController {
     }
 
     @GetMapping(path = "/topartists")
-    public ResponseEntity<String> getTopArtists(@RequestParam String username){
-        String body = spotifyApiService.getUserTopArtists(username);
+    public ResponseEntity<String> getTopArtists(@RequestParam String username, @RequestParam(required=false) String duration){
+        if(duration == null){
+            duration = "medium_term";
+        }
+        String body = spotifyApiService.getUserTopArtists(username, duration);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
         .body(body);
         return response;
@@ -168,5 +171,22 @@ public class ApiController {
         return response;
     }
 
+
+    @PostMapping(path="/update/{username}/artists")
+    public ResponseEntity<String> updateArtists(@PathVariable String username, @RequestBody String body){
+        try{
+            spotifyApiService.addUserArtists(username, body);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body("{}");
+
+        return response;
+        }
+        catch(SQLFailedException ex){
+        ResponseEntity<String> response = ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON)
+            .body("{}");
+    
+        return response;
+        }
+    }
     
 }

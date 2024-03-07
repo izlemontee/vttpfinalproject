@@ -22,9 +22,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import izt.spotifyserver.Utils.Utils;
 import izt.spotifyserver.exceptions.SQLFailedException;
+import izt.spotifyserver.models.Artist;
 import izt.spotifyserver.models.User;
 import izt.spotifyserver.repositories.UserSQLRepository;
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import se.michaelthelin.spotify.SpotifyApi;
@@ -237,17 +239,17 @@ public class SpotifyApiService {
         return count;
     }
     
-    public String getUserTopArtists(String username){
+    public String getUserTopArtists(String username, String duration){
         User user = getUserAccessKeyAndRefreshFromSql(username);
         String api_endpoint = "https://api.spotify.com/v1/me/top/artists";
         HttpHeaders headers = new HttpHeaders();
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(api_endpoint)
                                                     .queryParam("limit", 10)
-                                                    .queryParam("time_range", "long_term");
+                                                    .queryParam("time_range", duration);
         String requestUri = uriComponentsBuilder.toUriString();
         Map<String,Object> params = new HashMap<>();
         params.put("limit",10);
-        params.put("time_range","long_term");
+        params.put("time_range",duration);
         String bearer = "Bearer "+ user.getAccessKey();
         headers.set("Authorization", bearer);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -265,7 +267,7 @@ public class SpotifyApiService {
             System.out.println("error");
             System.out.println(ex.getMessage());
             refreshUserAccessToken(user);
-            String responseBody = getUserTopArtists(username);
+            String responseBody = getUserTopArtists(username, duration);
             return responseBody;
         }
     }
@@ -276,6 +278,7 @@ public class SpotifyApiService {
         String firstName = rowset.getString("firstname");
         String lastName = rowset.getString("lastname");
         String bio = "";
+        boolean linked = rowset.getBoolean("spotify_linked");
         System.out.println("here");
         if(rowset.getString("bio") !=null){
             bio = rowset.getString("bio");
@@ -283,7 +286,8 @@ public class SpotifyApiService {
         JsonObjectBuilder JOB = Json.createObjectBuilder();
         JOB.add("firstName",firstName)
             .add("lastName",lastName)
-            .add("bio",bio);
+            .add("bio",bio)
+            .add("spotify_linked",linked);
         return JOB.build().toString();
     }
 
@@ -298,5 +302,33 @@ public class SpotifyApiService {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         userSqlRepo.updateProfileNameAndBio(user);
+    }
+
+    @Transactional
+    public void addUserArtists(String username, String requestBody){
+        // delete the artists first to avoid conflict
+        userSqlRepo.deleteArtists(username);
+        JsonArray jsonArray = Utils.stringToJsonArray(requestBody);
+        
+        int count = 0;
+        for(int i = 0; i<jsonArray.size(); i++){
+            JsonObject jsonObject = jsonArray.getJsonObject(i);
+            String name = jsonObject.getString("name");
+            String external_url = jsonObject.getString("external_url");
+            String image = jsonObject.getString("image");
+            Artist artist = new Artist();
+            artist.setImage(image);
+            artist.setName(name);
+            artist.setUrl(external_url);
+            artist.setUsername(username);
+            count += userSqlRepo.addArtist(artist);
+        }
+        System.out.println("count: "+count);
+        System.out.println("jsonarray length" + jsonArray.size());
+        if(count != jsonArray.size()){
+            throw new SQLFailedException();
+        }
+        
+
     }
 }

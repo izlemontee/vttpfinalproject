@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterContentInit, Component, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { HttpService } from '../../http.service';
 import { SessionService } from '../../session.service';
 import { Artist, User } from '../../models';
@@ -10,7 +10,7 @@ import { first, last } from 'rxjs';
   templateUrl: './profilesetup.component.html',
   styleUrl: './profilesetup.component.css'
 })
-export class ProfilesetupComponent implements OnInit{
+export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges{
 
   private httpService = inject(HttpService)
   private session = inject(SessionService)
@@ -18,10 +18,17 @@ export class ProfilesetupComponent implements OnInit{
 
   username!:string
   artists: Artist[] = []
+  spotify_linked: boolean = false
 
-  user!:User
+  user:User={
+    firstName:'',
+    lastName:'',
+    bio:''
+  }
 
   profileForm !: FormGroup
+
+  artistSelection: boolean = false
 
   ngOnInit(): void {
     this.session.getSession().then(
@@ -34,16 +41,21 @@ export class ProfilesetupComponent implements OnInit{
         }
       }
     )
+    
+  }
+  ngAfterContentInit(): void {
     this.profileForm = this.createForm()
+  }
 
-   
-
+  ngOnChanges(changes: SimpleChanges): void {
+      this.profileForm = this.createForm()
   }
 
   createForm(){
+    console.log(this.user)
     return this.fb.group({
-      firstname: this.fb.control<string>(''),
-      lastname : this.fb.control<string>(''),
+      firstName: this.fb.control<string>(''),
+      lastName : this.fb.control<string>(''),
       bio: this.fb.control<string>('')
     })
   }
@@ -67,34 +79,14 @@ export class ProfilesetupComponent implements OnInit{
         window.location.replace(response.uri)
       }
     )
-
   }
 
-  refreshAccessToken(){
-    this.session.getSession().then(
-      response =>{
-        if(response.length>0){
-          const username = response[0].username
-          this.httpService.refreshUserAccessKey(username)
-        }
-      }
-    )
-  }
 
   getTopArtists(){
-    this.httpService.getTopArtists(this.username).then(
-      response=>{
-        for(let a of response.items){
-          const artist: Artist = {
-            name: a.name,
-            external_url: a.external_urls.spotify,
-            image: a.images[2].url,
-            genres : a.genres
-          }
-          this.artists.push(artist)
-        }
-      }
-    )
+    this.artistSelection = true
+  }
+  deactivateArtistSelection(){
+    this.artistSelection = false
   }
 
   getUsername(){
@@ -114,8 +106,13 @@ export class ProfilesetupComponent implements OnInit{
           lastName: response.lastName,
           bio: response.bio
         }
+        this.spotify_linked = response.spotify_linked
         this.user = user
-        console.log(this.user)
+        this.profileForm.patchValue({
+          firstName: this.user.firstName,
+          lastName: this.user.lastName,
+          bio: this.user.bio
+        })
 
       }
     )

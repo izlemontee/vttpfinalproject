@@ -1,0 +1,37 @@
+<p>Select time range for your top artists</p>
+<span (click)="getArtists('short_term')">
+    <button>Short Term</button>
+</span>
+<span (click)="getArtists('medium_term')">
+    <button>Medium Term</button>
+</span>
+<span (click)="getArtists('long_term')">
+    <button>Long Term</button>
+</span>
+
+<div *ngIf="artists.length>0">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Icon</th>
+                <th>Genres</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let a of artists">
+                <td>{{a.name}}</td>
+                <td><img [src]="a.image" alt="" height="100px"></td>
+                <td>{{a.genres}}</td>
+                <td><a [href]="a.external_url">Link</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <button (click)="submitArtists()">Update Artists</button>
+
+</div>
+<button (click)="cancel()">Cancel</button>
+
+    
+

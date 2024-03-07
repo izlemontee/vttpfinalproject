@@ -14,6 +14,9 @@ import { UsercreationComponent } from './user/usercreation/usercreation.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ProfilesetupComponent } from './user/profilesetup/profilesetup.component';
+import { ArtistsComponent } from './user/artists/artists.component';
+import { PictureComponent } from './user/picture/picture.component';
+import { ProfileComponent } from './user/profile/profile.component';
 
 
 @NgModule({
@@ -24,6 +27,9 @@ import { ProfilesetupComponent } from './user/profilesetup/profilesetup.componen
     LoginredirectComponent,
     UsercreationComponent,
     ProfilesetupComponent,
+    ArtistsComponent,
+    PictureComponent,
+    ProfileComponent,
 
   ],
   imports: [

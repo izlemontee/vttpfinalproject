@@ -1,42 +1,25 @@
 <button (click)="loginToSpotify()">Setup spotify</button>
-<button (click)="refreshAccessToken()">Refresh Access key</button>
-<button (click)="getTopArtists()">Get top artists</button>
+<button *ngIf="spotify_linked" (click)="getTopArtists()">Get top artists</button>
 
 <form [formGroup]="profileForm">
     <table>
         <tr>
             <td>First Name</td>
-            <td><input type="text" formControlName="firstname"></td>
+            <td><input type="text" formControlName="firstName"></td>
         </tr>
         <tr>
             <td>Last Name</td>
-            <td><input type="text" formControlName="lastname"></td>
+            <td><input type="text" formControlName="lastName"></td>
         </tr>
         <tr>
             <td>Bio</td>
             <td><input type="text" formControlName="bio"></td>
         </tr>
     </table>
-    <button (click)="processForm()">Setup</button>
+    <button (click)="processForm()">Save</button>
 </form>
 
-<div *ngIf="artists.length>0">
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Icon</th>
-            <th>Genres</th>
-            <th>Link</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let a of artists">
-            <td>{{a.name}}</td>
-            <td><img [src]="a.image" alt=""></td>
-            <td>{{a.genres}}</td>
-            <td><a [href]="a.external_url">Link</a></td>
-        </tr>
-    </tbody>
-</table>
+<div *ngIf="artistSelection">
+    <app-artists [username]="username" (deactivateArtistSelection)="deactivateArtistSelection()"></app-artists>
 </div>
+

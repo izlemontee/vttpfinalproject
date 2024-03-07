@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import izt.spotifyserver.models.Artist;
 import izt.spotifyserver.models.User;
 
 
@@ -95,6 +96,18 @@ public class UserSQLRepository {
                             user.getUsername());
                             
 
+    }
+
+    public int addArtist(Artist artist){
+        return jdbcTemplate.update(Queries.SQL_ADD_ARTIST, 
+                            artist.getName(),
+                            artist.getImage(),
+                            artist.getUrl(),
+                            artist.getUsername());
+    }
+
+    public void deleteArtists(String username){
+        jdbcTemplate.update(Queries.SQL_DELETE_ARTISTS, username);
     }
 
 

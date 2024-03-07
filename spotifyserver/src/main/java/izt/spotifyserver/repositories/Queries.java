@@ -51,13 +51,22 @@ public class Queries {
                         """;
 
         public static final String SQL_GET_NAME_AND_BIO="""
-                        SELECT username,firstname,lastname, bio
+                        SELECT username,firstname,lastname, bio, spotify_linked
                         FROM users
                         WHERE username = ?
                         """;
         public static final String SQL_UPDATE_NAME_AND_BIO="""
                         UPDATE users
                         SET firstname =?, lastname = ?, bio = ?
+                        WHERE username = ?
+                        """;
+        public static final String SQL_ADD_ARTIST="""
+                        INSERT INTO artists (name, image, url, username)
+                        VALUES(?, ?, ?, ?)
+
+                        """;
+        public static final String SQL_DELETE_ARTISTS="""
+                        DELETE FROM artists
                         WHERE username = ?
                         """;
 

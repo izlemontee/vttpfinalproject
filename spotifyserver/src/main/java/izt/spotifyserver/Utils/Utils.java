@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.UUID;
 
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonReader;
@@ -13,6 +14,11 @@ public class Utils {
     public static JsonObject stringToJson(String text){
         JsonReader jr = Json.createReader(new StringReader(text));
         return jr.readObject();
+    }
+
+    public static JsonArray stringToJsonArray(String text){
+        JsonReader jr = Json.createReader(new StringReader(text));
+        return jr.readArray();
     }
 
     public static String getUsernameFromClientRequest(String requestBody){
