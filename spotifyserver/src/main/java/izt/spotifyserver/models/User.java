@@ -1,5 +1,7 @@
 package izt.spotifyserver.models;
 
+import java.util.List;
+
 public class User {
 
     private String username;
@@ -11,7 +13,14 @@ public class User {
     private String accessKey;
     private String refreshToken;
     private String bio;
+    private List<Artist> artists;
 
+    public List<Artist> getArtists() {
+        return artists;
+    }
+    public void setArtists(List<Artist> artists) {
+        this.artists = artists;
+    }
     public String getBio() {
         return bio;
     }

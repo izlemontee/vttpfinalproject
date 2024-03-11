@@ -69,5 +69,13 @@ public class Queries {
                         DELETE FROM artists
                         WHERE username = ?
                         """;
+        public static final String SQL_GET_USER_INFO="""
+                        SELECT * FROM users
+                        WHERE username = ?
+                        """;
+        public static final String SQL_GET_ARTISTS="""
+                        SELECT * FROM artists
+                        WHERE username = ?
+                        """;
 
 }

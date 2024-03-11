@@ -110,6 +110,11 @@ public class UserSQLRepository {
         jdbcTemplate.update(Queries.SQL_DELETE_ARTISTS, username);
     }
 
-
+    public SqlRowSet getUserProfile(String username){
+        return jdbcTemplate.queryForRowSet(Queries.SQL_GET_USER_INFO, username);
+    }
+    public SqlRowSet getArtists(String username){
+        return jdbcTemplate.queryForRowSet(Queries.SQL_GET_ARTISTS, username);
+    }
     
 }

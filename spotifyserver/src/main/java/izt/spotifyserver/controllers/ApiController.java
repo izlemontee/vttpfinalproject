@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import izt.spotifyserver.Utils.Utils;
 import izt.spotifyserver.exceptions.SQLFailedException;
+import izt.spotifyserver.exceptions.UserNotFoundException;
 import izt.spotifyserver.services.SpotifyApiService;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -186,6 +187,22 @@ public class ApiController {
             .body("{}");
     
         return response;
+        }
+    }
+
+    @GetMapping(path = "/user/{username}")
+    public ResponseEntity<String> getUserProfile(@PathVariable String username){
+        try{
+            String body = spotifyApiService.getUserProfile(username);
+            ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+            .body(body);
+            return response;
+        }catch(UserNotFoundException ex){
+            ResponseEntity<String> response = ResponseEntity.status(404).contentType(MediaType.APPLICATION_JSON)
+            .body(ex.getMessage());
+    
+        return response;
+
         }
     }
     

@@ -3,6 +3,8 @@ package izt.spotifyserver.services;
 import java.net.URI;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import izt.spotifyserver.Utils.Utils;
 import izt.spotifyserver.exceptions.SQLFailedException;
+import izt.spotifyserver.exceptions.UserNotFoundException;
 import izt.spotifyserver.models.Artist;
 import izt.spotifyserver.models.User;
 import izt.spotifyserver.repositories.UserSQLRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import se.michaelthelin.spotify.SpotifyApi;
@@ -143,10 +147,8 @@ public class SpotifyApiService {
                                                         entity,
                                                         String.class);
         String responseBody = response.getBody();
-        System.out.println(responseBody);
         JsonObject responseBodyJson = Utils.stringToJson(responseBody);
         String accessKey = responseBodyJson.getString("access_token");
-        System.out.println(accessKey);
         user.setAccessKey(accessKey);
         userSqlRepo.updateUserAccessKey(user);
     }
@@ -167,7 +169,6 @@ public class SpotifyApiService {
                                                         HttpMethod.POST,
                                                         entity,
                                                         String.class);
-        System.out.println(response.getBody());
     }
 
     @Transactional
@@ -224,7 +225,6 @@ public class SpotifyApiService {
         try{
             userSqlRepo.addUserSession(user);
         }catch(Exception ex){
-            System.out.println("exception");
             addUserSession(user);
         }
         return user.getSessionId();
@@ -264,8 +264,6 @@ public class SpotifyApiService {
         }
         // if the access key has expired
         catch(Exception ex){
-            System.out.println("error");
-            System.out.println(ex.getMessage());
             refreshUserAccessToken(user);
             String responseBody = getUserTopArtists(username, duration);
             return responseBody;
@@ -274,12 +272,11 @@ public class SpotifyApiService {
 
     public String getUserNameAndBio(String username){
         SqlRowSet rowset = userSqlRepo.getUserNameAndBio(username);
-        System.out.println(rowset.next());
+        rowset.next();
         String firstName = rowset.getString("firstname");
         String lastName = rowset.getString("lastname");
         String bio = "";
         boolean linked = rowset.getBoolean("spotify_linked");
-        System.out.println("here");
         if(rowset.getString("bio") !=null){
             bio = rowset.getString("bio");
         }
@@ -323,12 +320,53 @@ public class SpotifyApiService {
             artist.setUsername(username);
             count += userSqlRepo.addArtist(artist);
         }
-        System.out.println("count: "+count);
-        System.out.println("jsonarray length" + jsonArray.size());
         if(count != jsonArray.size()){
             throw new SQLFailedException();
         }
-        
+    }
 
+    public String getUserProfile(String username){
+        if(userExists(username)){
+            SqlRowSet rowSet = userSqlRepo.getUserProfile(username);
+            rowSet.next();
+            User user = new User();
+            user.setUsername(username);
+            user.setFirstName(rowSet.getString("firstname"));
+            user.setLastName(rowSet.getString("lastname"));
+            String bio = "";
+            if(rowSet.getString("bio") != null){
+                bio = rowSet.getString("bio");
+            }
+            user.setBio(bio);
+            SqlRowSet artistRowSet = userSqlRepo.getArtists(username);
+            List<Artist> artists = new LinkedList<>();
+            while(artistRowSet.next()){
+                Artist artist = new Artist();
+                artist.setImage(artistRowSet.getString("image"));
+                artist.setName(artistRowSet.getString("name"));
+                artist.setUrl(artistRowSet.getString("url"));
+                artists.add(artist);
+            }
+
+           
+            JsonArrayBuilder JAB = Json.createArrayBuilder();
+            for(Artist a: artists){
+                JsonObjectBuilder JOB = Json.createObjectBuilder();
+                JOB.add("image", a.getImage())
+                    .add("name",a.getName())
+                    .add("external_url",a.getUrl());
+                JAB.add(JOB.build());
+            }
+            JsonObjectBuilder JOB = Json.createObjectBuilder();
+            JOB.add("username", user.getUsername())
+                .add("firstName",user.getFirstName())
+                .add("lastName",user.getLastName())
+                .add("bio",user.getBio())
+                .add("artists",JAB.build());
+            return JOB.build().toString();
+        }
+        else{
+            throw new UserNotFoundException();
+        }
     }
 }
