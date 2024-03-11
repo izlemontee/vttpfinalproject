@@ -26,7 +26,9 @@ import izt.spotifyserver.Utils.Utils;
 import izt.spotifyserver.exceptions.SQLFailedException;
 import izt.spotifyserver.exceptions.UserNotFoundException;
 import izt.spotifyserver.models.Artist;
+import izt.spotifyserver.models.Neo4jUser;
 import izt.spotifyserver.models.User;
+import izt.spotifyserver.repositories.UserNeo4jRepository;
 import izt.spotifyserver.repositories.UserSQLRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -49,6 +51,9 @@ public class SpotifyApiService {
 
     @Value("${spotify.redirect.uri}")
     private String redirectUri;
+
+    @Autowired
+    private UserNeo4jRepository userNeo4j;
 
     @Autowired
     private SpotifyApi spotifyApi;
@@ -369,4 +374,27 @@ public class SpotifyApiService {
             throw new UserNotFoundException();
         }
     }
+
+    public void neo4jTest(){
+        // List<Neo4jUser> users = userNeo4j.findAll();
+        // for(Neo4jUser u:users){
+        //     System.out.println(u.toString());
+        //     System.out.println(u.getUsername());
+        // }
+        // System.out.println("users:"+users.toString());
+        Iterable<Neo4jUser> userIterable = userNeo4j.findUserByUsername("izlemontee");
+        for(Neo4jUser u:userIterable){
+            System.out.println(u.getUsername());
+        }
+    }
+
+    public void addUserNeo4j(){
+        // Neo4jUser neo4jUser = new Neo4jUser();
+        // neo4jUser.setUsername("neo4juser");
+        // neo4jUser.setFirstName("neo4j");
+        // neo4jUser.setLastName("user");
+        // userNeo4j.save(neo4jUser);
+        neo4jTest();
+    }
+
 }

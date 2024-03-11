@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import izt.spotifyserver.Utils.Utils;
 import izt.spotifyserver.exceptions.SQLFailedException;
 import izt.spotifyserver.exceptions.UserNotFoundException;
+import izt.spotifyserver.services.Neo4JUserService;
 import izt.spotifyserver.services.SpotifyApiService;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -35,6 +36,9 @@ public class ApiController {
 
     @Autowired
     private SpotifyApiService spotifyApiService;
+
+    @Autowired
+    private Neo4JUserService neo4JService;
 
     @GetMapping(path="/authenticate")
     public ResponseEntity<String> getLoginUri(){
@@ -204,6 +208,17 @@ public class ApiController {
         return response;
 
         }
+    }
+
+    @GetMapping(path = "/userneo4j")
+    public ResponseEntity<String> neo4jTest(){
+        // spotifyApiService.addUserNeo4j();
+        neo4JService.findUserInstruments();
+        // System.out.println("user exists: "+neo4JService.userExists("izlemonteehjkhkhjk"));
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body("{}");
+        return response;
+
     }
     
 }

@@ -70,4 +70,9 @@ export class HttpService {
     const url = this.baseUrl+"/update/"+username+"/artists"
     return lastValueFrom(this.httpClient.post<any>(url,artists))
   }
+
+  getUserProfile(username:string){
+    const url = this.baseUrl+"/user/"+username
+    return lastValueFrom(this.httpClient.get<any>(url))
+  }
 }

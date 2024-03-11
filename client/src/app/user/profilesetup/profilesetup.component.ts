@@ -4,6 +4,7 @@ import { SessionService } from '../../session.service';
 import { Artist, User } from '../../models';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { first, last } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profilesetup',
@@ -15,6 +16,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   private httpService = inject(HttpService)
   private session = inject(SessionService)
   private fb = inject(FormBuilder)
+  private router = inject(Router)
 
   username!:string
   artists: Artist[] = []
@@ -61,15 +63,19 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   }
 
   processForm(){
-    const firstname = this.profileForm.value['firstname'].toLowerCase()
-    const lastname = this.profileForm.value['lastname'].toLowerCase()
+    const firstname = this.profileForm.value['firstName'].toLowerCase()
+    const lastname = this.profileForm.value['lastName'].toLowerCase()
     const bio = this.profileForm.value['bio']
     const user: User = {
       firstName : firstname,
       lastName: lastname,
       bio:bio
     }
-    this.httpService.updateUserProfile(user, this.username)
+    this.httpService.updateUserProfile(user, this.username).then(
+      ()=>{
+        this.router.navigate(['/user',this.username])
+      }
+    )
   }
 
   loginToSpotify(){

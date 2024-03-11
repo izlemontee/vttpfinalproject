@@ -5,6 +5,7 @@ import { MainComponent } from './main/main.component';
 import { LoginredirectComponent } from './loginredirect/loginredirect.component';
 import { UsercreationComponent } from './user/usercreation/usercreation.component';
 import { ProfilesetupComponent } from './user/profilesetup/profilesetup.component';
+import { ProfileComponent } from './user/profile/profile.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'redirect',component:LoginredirectComponent},
   {path:'createuser',component:UsercreationComponent},
-  {path:'setup',component:ProfilesetupComponent}
+  {path:'setup',component:ProfilesetupComponent},
+  {path:'user/:username', component:ProfileComponent}
 
 ];
 
