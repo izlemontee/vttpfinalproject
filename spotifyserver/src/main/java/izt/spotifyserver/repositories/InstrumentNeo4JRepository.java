@@ -18,6 +18,16 @@ public interface InstrumentNeo4JRepository extends Neo4jRepository<Instrument,Lo
     @Query(Neo4JQueries.NEO4J_INSTRUMENT_ADDED_BY_USER)
     List<Instrument> findUserInstrumentRelations(String username, String instrument);
 
+    @Query(Neo4JQueries.NEO4J_CREATE_INSTRUMENT)
+    void createNewInstrument(String instrument);
+
+    @Query(Neo4JQueries.NEO4J_ADD_INSTRUMENT_TO_USER)
+    void addInstrumentToUser(String username, String instrument);
+    
+    @Query(Neo4JQueries.NEO4J_FIND_INSTRUMENT_BY_NAME)
+    List<Instrument> findInstrumentByName(String name);
+
+
 
     
 }

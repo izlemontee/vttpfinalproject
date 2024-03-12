@@ -21,6 +21,7 @@ import izt.spotifyserver.exceptions.UserNotFoundException;
 import izt.spotifyserver.services.Neo4JUserService;
 import izt.spotifyserver.services.SpotifyApiService;
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonReader;
@@ -154,10 +155,19 @@ public class ApiController {
         if(duration == null){
             duration = "medium_term";
         }
+        try{
         String body = spotifyApiService.getUserTopArtists(username, duration);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
         .body(body);
         return response;
+        }
+        catch(RuntimeException ex){
+            JsonObjectBuilder JOB = Json.createObjectBuilder();
+            JOB.add("error","Link your spotify again");
+            ResponseEntity<String> response = ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON)
+            .body(JOB.build().toString());
+            return response;
+        }
     }
 
     @GetMapping(path = "/setupinit/{username}")
@@ -212,13 +222,37 @@ public class ApiController {
 
     @GetMapping(path = "/userneo4j")
     public ResponseEntity<String> neo4jTest(){
-        // spotifyApiService.addUserNeo4j();
-        neo4JService.findUserInstruments();
-        // System.out.println("user exists: "+neo4JService.userExists("izlemonteehjkhkhjk"));
+        neo4JService.addInstrumentToUser("izlemontee", "electric guitar");
+        System.out.println("ok");
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
         .body("{}");
         return response;
 
+    }
+
+    @PostMapping(path = "/addinstruments/{username}")
+    public ResponseEntity<String> addInstrumentsToUser(@RequestBody String requestBody, @PathVariable String username){
+        JsonObject jsonObject = Utils.stringToJson(requestBody);
+        JsonArray jsonArray = jsonObject.getJsonArray("instruments");
+        neo4JService.deleteInstrumentRelations(username);
+        for(int i = 0; i<jsonArray.size(); i++){
+            String instrument = jsonArray.getString(i);
+            System.out.println(instrument);
+            neo4JService.addInstrumentToUser(username, instrument);
+        }
+
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body("{}");
+        return response;
+    }
+
+    @GetMapping(path="/{username}/instruments")
+    public ResponseEntity<String> getUserInstruments(@PathVariable String username){
+        String body = neo4JService.findUserInstruments(username).toString();
+
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body(body);
+        return response;
     }
     
 }

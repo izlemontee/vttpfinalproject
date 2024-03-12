@@ -17,6 +17,9 @@ public interface UserNeo4jRepository extends Neo4jRepository<Neo4jUser,String> {
     @Query("MATCH(user:User) WHERE(user.username=$username) RETURN user")
     Iterable<Neo4jUser> findUserByUsername(String username);
 
+    @Query(Neo4JQueries.NEO4J_DELETE_INSTRUMENT_RELATIONS)
+    void deleteUserInstrumentRelations(String username);
+
 
 
 

@@ -20,7 +20,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
 
   username!:string
   artists: Artist[] = []
-  spotify_linked: boolean = false
+  spotify_linked: boolean = true
 
   user:User={
     firstName:'',
@@ -31,10 +31,13 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   profileForm !: FormGroup
 
   artistSelection: boolean = false
+  instrumentSelection: boolean = false
 
   ngOnInit(): void {
+    console.log("here")
     this.session.getSession().then(
       response =>{
+        console.log("response", response)
         if(response.length>0){
           this.username = response[0].username
           console.log("username",this.username)
@@ -95,6 +98,13 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
     this.artistSelection = false
   }
 
+  addInstruments(){
+    this.instrumentSelection = true
+  }
+  deactivateInstrumentAdd(){
+    this.instrumentSelection = false
+  }
+
   getUsername(){
     this.session.getSession().then(
       response=>{
@@ -104,6 +114,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   }
 
   setupInit(username:string){
+    console.log("setupinit username", username)
     this.httpService.initUserSetup(username).then(
       response=>{
         

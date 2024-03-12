@@ -1,0 +1,13 @@
+<p>Instruments that you play:</p>
+<div *ngIf="instruments.length>0">
+    <span *ngFor="let i of instruments; index as index">{{i}} 
+        <button (click)="deleteInstrument(index)">Delete</button>
+    
+    </span>
+</div>
+<form [formGroup]="form">
+    <input type="text" formControlName="instrument">
+    <button type="submit" [disabled]="form.invalid" (click)="processForm()">Add</button>
+    <button (click)="submitInstruments()">Update Profile!</button>
+</form>
+<button (click)="deactivate()">Cancel</button>

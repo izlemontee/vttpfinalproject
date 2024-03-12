@@ -17,6 +17,7 @@ import { ProfilesetupComponent } from './user/profilesetup/profilesetup.componen
 import { ArtistsComponent } from './user/artists/artists.component';
 import { PictureComponent } from './user/picture/picture.component';
 import { ProfileComponent } from './user/profile/profile.component';
+import { InstrumentsComponent } from './user/instruments/instruments.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { ProfileComponent } from './user/profile/profile.component';
     ArtistsComponent,
     PictureComponent,
     ProfileComponent,
+    InstrumentsComponent,
 
   ],
   imports: [

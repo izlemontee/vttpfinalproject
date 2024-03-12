@@ -30,4 +30,13 @@ public class Neo4JQueries {
         -[plays:PLAYS]->(instrument:Instrument {name:$instrument})
         RETURN plays
             """;
+    public static final String NEO4J_FIND_INSTRUMENT_BY_NAME="""
+            MATCH(instrument:Instrument {name:$name})
+            RETURN instrument
+            """;
+    public static final String NEO4J_DELETE_INSTRUMENT_RELATIONS="""
+            MATCH(user: User {username:$username})
+            -[plays:PLAYS]-> (instrument:Instrument)
+            DELETE plays
+            """;
 }

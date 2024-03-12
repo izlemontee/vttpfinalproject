@@ -73,6 +73,20 @@ export class HttpService {
 
   getUserProfile(username:string){
     const url = this.baseUrl+"/user/"+username
+    console.log(url)
     return lastValueFrom(this.httpClient.get<any>(url))
+  }
+
+  getUserInstruments(username:string){
+    const url = this.baseUrl+"/"+username+"/instruments"
+    return lastValueFrom(this.httpClient.get<any>(url))
+  }
+
+  updateUserInstruments(instruments: string[], username:string){
+    const url = this.baseUrl+"/addinstruments/"+username
+    var payload={
+      instruments:instruments
+    }
+    return lastValueFrom(this.httpClient.post<any>(url,payload))
   }
 }

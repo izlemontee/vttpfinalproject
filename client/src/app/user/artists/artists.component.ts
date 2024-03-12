@@ -42,6 +42,10 @@ export class ArtistsComponent {
         
       }
       
+    ).catch(
+      error =>{
+        alert("Something went wrong. Try again.")
+      }
     )
   }
 

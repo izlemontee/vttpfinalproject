@@ -258,21 +258,31 @@ public class SpotifyApiService {
         String bearer = "Bearer "+ user.getAccessKey();
         headers.set("Authorization", bearer);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
-        try{
+       
         ResponseEntity<String> response = restTemplate.exchange(requestUri,
                                             HttpMethod.GET
                                             ,entity,
                                             String.class
                                             );
-        String responseBody = response.getBody();
-        return responseBody;
-        }
         // if the access key has expired
-        catch(Exception ex){
+        if(response.getStatusCode().value() == 401){
             refreshUserAccessToken(user);
             String responseBody = getUserTopArtists(username, duration);
             return responseBody;
         }
+        else if(response.getStatusCode().value() == 403){
+            String body = response.getBody();
+            return body;
+        }
+        String responseBody = response.getBody();
+        return responseBody;
+        
+        // if the access key has expired
+        // catch(Exception ex){
+        //     refreshUserAccessToken(user);
+        //     String responseBody = getUserTopArtists(username, duration);
+        //     return responseBody;
+        // }
     }
 
     public String getUserNameAndBio(String username){

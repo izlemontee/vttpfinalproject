@@ -40,12 +40,10 @@ public class Neo4JUserService {
         neo4Juser.setLastName(lastName);
         userNeo4jRepo.save(neo4Juser);
         
-       
-
     }
 
-    public JsonObject findUserInstruments(){
-        List<Instrument> instruments = instrumentNeo4jRepo.findUserInstruments("izlemontee");
+    public JsonObject findUserInstruments(String username){
+        List<Instrument> instruments = instrumentNeo4jRepo.findUserInstruments(username);
         JsonArrayBuilder JAB = Json.createArrayBuilder();
         for(Instrument i: instruments){
             JAB.add(i.getName());
@@ -56,12 +54,37 @@ public class Neo4JUserService {
         return JOB.build();
     }
 
+    public void createNewInstrument(String name){
+        Instrument instrument = new Instrument();
+        instrument.setName(name);
+        instrumentNeo4jRepo.save(instrument);
+
+    }
+
+    public void addInstrumentToUser(String username, String instrument){
+        if(!instrumentExists(instrument)){
+            createNewInstrument(instrument);
+        }
+
+        if(!userHasAddedInstrument(username, instrument)){
+            instrumentNeo4jRepo.addInstrumentToUser(username, instrument);
+        }
+    }
+
+    public void deleteInstrumentRelations(String username){
+        userNeo4jRepo.deleteUserInstrumentRelations(username);
+    }
+
     public boolean userExists(String username){
         return userNeo4jRepo.findUserByUsername(username).iterator().hasNext();
     }
 
     public boolean userHasAddedInstrument(String username, String instrument){
         return instrumentNeo4jRepo.findUserInstrumentRelations(username, instrument).size()>0;
+    }
+
+    public boolean instrumentExists(String instrument){
+        return instrumentNeo4jRepo.findInstrumentByName(instrument).size()>0;
     }
     
 }
