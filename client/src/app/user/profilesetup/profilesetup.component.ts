@@ -32,6 +32,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
 
   artistSelection: boolean = false
   instrumentSelection: boolean = false
+  profilePictureUpload : boolean = false
 
   ngOnInit(): void {
     console.log("here")
@@ -103,6 +104,14 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   }
   deactivateInstrumentAdd(){
     this.instrumentSelection = false
+  }
+
+  uploadProfilePicture(){
+    this.profilePictureUpload = true
+  }
+
+  deactivatePictureUpload(){
+    this.profilePictureUpload = false
   }
 
   getUsername(){

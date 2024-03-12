@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import izt.spotifyserver.Utils.Utils;
 import izt.spotifyserver.exceptions.SQLFailedException;
 import izt.spotifyserver.exceptions.UserNotFoundException;
+import izt.spotifyserver.services.ImageService;
 import izt.spotifyserver.services.Neo4JUserService;
 import izt.spotifyserver.services.SpotifyApiService;
 import jakarta.json.Json;
@@ -40,6 +43,9 @@ public class ApiController {
 
     @Autowired
     private Neo4JUserService neo4JService;
+
+    @Autowired
+    private ImageService imageService;
 
     @GetMapping(path="/authenticate")
     public ResponseEntity<String> getLoginUri(){
@@ -253,6 +259,22 @@ public class ApiController {
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
         .body(body);
         return response;
+    }
+
+    @PostMapping(path = "/profilepicture/{username}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadUserPicture(@RequestPart MultipartFile file, @PathVariable String username){
+        try{
+            imageService.updateProfilePicture(file, username);
+            ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+            .body("{}");
+            return response;
+        }catch(Exception ex){
+            ResponseEntity<String> response = ResponseEntity.status(500).contentType(MediaType.APPLICATION_JSON)
+            .body("{}");
+            return response;
+
+        }
+
     }
     
 }

@@ -116,5 +116,9 @@ public class UserSQLRepository {
     public SqlRowSet getArtists(String username){
         return jdbcTemplate.queryForRowSet(Queries.SQL_GET_ARTISTS, username);
     }
+
+    public long addImageToUser(String imageUrl, String username){
+        return jdbcTemplate.update(Queries.SQL_ADD_IMAGE_URL_USER, imageUrl, username);
+    }
     
 }

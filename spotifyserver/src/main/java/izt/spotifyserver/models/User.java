@@ -18,6 +18,13 @@ public class User {
     private String accessKey;
     private String refreshToken;
     private String bio;
+    private String imageUrl;
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
     private List<Artist> artists;
 
     public List<Artist> getArtists() {

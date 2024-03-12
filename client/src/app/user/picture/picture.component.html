@@ -1,1 +1,5 @@
-<p>picture works!</p>
+<h3>Upload Profile Picture</h3>
+<form [formGroup]="form">
+    <input type="file" formControlName="image" (change)="imageDetected($event)">
+    <button (click)="uploadImage()">Upload</button>
+</form>

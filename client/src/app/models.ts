@@ -32,5 +32,6 @@ export interface User{
     lastName:string,
     bio:string,
     username?:string,
-    artists?:Artist[]
+    artists?:Artist[],
+    image ?: string
 }

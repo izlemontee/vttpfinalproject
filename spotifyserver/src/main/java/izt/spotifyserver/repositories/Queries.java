@@ -77,5 +77,10 @@ public class Queries {
                         SELECT * FROM artists
                         WHERE username = ?
                         """;
+        public static final String SQL_ADD_IMAGE_URL_USER="""
+                        UPDATE users
+                        SET image = ?
+                        WHERE username = ?
+                        """;
 
 }

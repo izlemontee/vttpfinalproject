@@ -352,7 +352,12 @@ public class SpotifyApiService {
             if(rowSet.getString("bio") != null){
                 bio = rowSet.getString("bio");
             }
+            String image = "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg";
+            if(rowSet.getString("image") !=null){
+                image = rowSet.getString("image");
+            }
             user.setBio(bio);
+            user.setImageUrl(image);
             SqlRowSet artistRowSet = userSqlRepo.getArtists(username);
             List<Artist> artists = new LinkedList<>();
             while(artistRowSet.next()){
@@ -377,6 +382,7 @@ public class SpotifyApiService {
                 .add("firstName",user.getFirstName())
                 .add("lastName",user.getLastName())
                 .add("bio",user.getBio())
+                .add("image", user.getImageUrl())
                 .add("artists",JAB.build());
             return JOB.build().toString();
         }

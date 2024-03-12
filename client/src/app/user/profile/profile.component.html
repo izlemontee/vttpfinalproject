@@ -10,6 +10,7 @@
         <td>{{user.bio}}</td>
     </tr>
 </table>
+<img [src]="user.image" alt="" width="200">
 <h4>{{user.username}}'s top artists</h4>
 <table>
     <tr *ngFor="let a of user.artists">

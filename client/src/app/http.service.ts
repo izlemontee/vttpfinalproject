@@ -89,4 +89,14 @@ export class HttpService {
     }
     return lastValueFrom(this.httpClient.post<any>(url,payload))
   }
+
+  uploadUserProfilePicture(file:File, username:string){
+    const url = this.baseUrl+"/profilepicture/"+username
+    const formData = new FormData()
+    formData.set("file", file)
+    formData.set("title","profile pic")
+    formData.set("text","sample text")
+
+    return lastValueFrom(this.httpClient.post<any>(url, formData))
+  }
 }

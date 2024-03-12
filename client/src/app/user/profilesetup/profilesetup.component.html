@@ -1,6 +1,7 @@
 <button (click)="loginToSpotify()">Setup spotify</button>
 <button *ngIf="spotify_linked" (click)="getTopArtists()">Get top artists</button>
 <button (click)="addInstruments()">Add instruments</button>
+<button (click)="uploadProfilePicture()">Upload Profile Picture</button>
 
 <form [formGroup]="profileForm">
     <table>
@@ -26,5 +27,9 @@
 
 <div *ngIf="instrumentSelection">
     <app-instruments [username]="username" (deactivateInstrumentSelection)="deactivateInstrumentAdd()"></app-instruments>
+</div>
+
+<div *ngIf="profilePictureUpload">
+    <app-picture [username]="username" (deactivateImageUploader)="deactivatePictureUpload()"></app-picture>
 </div>
 
