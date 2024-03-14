@@ -1,6 +1,7 @@
 <div *ngIf="loggedIn else loggedout">
     <p>Logged in as: {{username}}</p>
     <button (click)="logout()">Logout</button>
+    <button (click)="setupUser()">Setup Profile</button>
 </div>
 
 

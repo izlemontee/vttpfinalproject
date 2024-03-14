@@ -1,1 +1,7 @@
-<p>main works!</p>
+<div *ngIf="loggedIn else loggedout">
+    <app-feed></app-feed>
+</div>
+
+<ng-template #loggedout>
+    <app-welcome></app-welcome>
+</ng-template>

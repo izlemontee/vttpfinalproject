@@ -13,7 +13,7 @@ export class GuardService{
   private store = inject(Store)
 
   constructor() { 
-    this.loggedIn = this.changeLoginStatus()
+    this.changeLoginStatus()
   }
 
   isLoggedIn():boolean{
@@ -71,29 +71,24 @@ export class GuardService{
     return this.store.select(selectAllUsers)
   }
 
-  changeLoginStatus():boolean{
+  changeLoginStatus(){
     this.store.select(selectAllUsers).subscribe({
       next:(response)=>{
         console.log("userngrx",response)
         if(response != null){
           if(!this.usernameOrIdEmpty(response.username, response.id)){
             this.loggedIn = true
-            console.log(true)
-            return true
           }
           else{
             this.loggedIn = false
-            console.log(false)
-            return false
           }
         }
         else{
           this.loggedIn = false
-          return false
         }
       }
     })
-    return false
+
   }
 
 

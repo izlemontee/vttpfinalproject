@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { SessionService } from './session.service';
 import { Store } from '@ngrx/store';
 import { createUserSession } from './state/state.actions';
+import { selectAllUsers } from './state/state.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class AppInitialiserService {
 
   initialise(){
     this.getUserInfo()
+    this.getUserState()
   }
 
   getUserInfo(){
@@ -36,6 +38,14 @@ export class AppInitialiserService {
         this.store.dispatch(createUserSession(payload))
       }
     )
+  }
+
+  getUserState(){
+    this.store.select(selectAllUsers).subscribe({
+      next:(response)=>{
+        console.log("user state:",response)
+      }
+    })
   }
 
 

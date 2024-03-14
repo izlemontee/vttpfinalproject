@@ -22,6 +22,8 @@ import { ImageComponent } from './user/image/image.component';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './state/state.reduce';
 import { AppInitialiserService } from './app-initialiser.service';
+import { WelcomeComponent } from './main/welcome/welcome.component';
+import { FeedComponent } from './main/feed/feed.component';
 
 
 @NgModule({
@@ -37,6 +39,8 @@ import { AppInitialiserService } from './app-initialiser.service';
     ProfileComponent,
     InstrumentsComponent,
     ImageComponent,
+    WelcomeComponent,
+    FeedComponent,
 
   ],
   imports: [

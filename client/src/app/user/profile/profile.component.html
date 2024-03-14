@@ -1,4 +1,7 @@
 <div *ngIf="user">
+    <div *ngIf="!isMyProfile">
+        Add friend
+    </div>
 <table>
     <tr>
         <td>{{user.username}}</td>

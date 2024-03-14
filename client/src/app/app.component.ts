@@ -72,6 +72,9 @@ export class AppComponent implements OnInit{
     this.inCreateUser = true
     this.router.navigate(['/createuser'])
   }
+  setupUser(){
+    this.router.navigate(['/setup'])
+  }
 
   iniitaliseLoginButtonState(){
     this.loginEnabledSubscribe = this.session.enableLoginButton
@@ -94,7 +97,7 @@ export class AppComponent implements OnInit{
   userNgRx(){
     this.store.select(selectAllUsers).subscribe({
       next:(response)=>{
-        console.log("userngrx",response)
+        // console.log("userngrx",response)
         if(response != null){
           if(!this.usernameOrIdEmpty(response.username, response.id)){
             this.username = response.username

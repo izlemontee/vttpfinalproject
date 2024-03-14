@@ -6,12 +6,12 @@ import { LoginredirectComponent } from './loginredirect/loginredirect.component'
 import { UsercreationComponent } from './user/usercreation/usercreation.component';
 import { ProfilesetupComponent } from './user/profilesetup/profilesetup.component';
 import { ProfileComponent } from './user/profile/profile.component';
-import { isLoggedIn } from './guards';
+import { isLoggedIn, isLoggedOut } from './guards';
 
 
 const routes: Routes = [
   {path:"",component:MainComponent},
-  {path:'login',component:LoginComponent},
+  {path:'login',component:LoginComponent, canActivate:[isLoggedOut]},
   {path:'redirect',component:LoginredirectComponent},
   {path:'createuser',component:UsercreationComponent},
   {path:'setup',component:ProfilesetupComponent, canActivate:[isLoggedIn]},
