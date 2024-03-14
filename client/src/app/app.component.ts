@@ -40,81 +40,10 @@ export class AppComponent implements OnInit{
   
 
   ngOnInit(): void {
-      this.getUsername()
-      this.store.dispatch(loadUserSession())
-      // this.subscribeToSession()
       this.iniitaliseLoginButtonState()
       this.initaliseSetupButtonState()
       this.subscribeToDisableLoginButton()
-      // this.subscribeToSessionComponent()
-      // this.userNgRx()
-  }
-
-  getUsername(){
-    this.session.getSession().then(
-      response =>{
-        if(response.length>0){
-          this.username = response[0].username
-          this.id = response[0].id!
-          const username:string = response[0].username
-          const session:string = response[0].id!
-          const id:string = response[0].id!
-          this.sessionComponent.updateUser({session, username})
-          // this.sessionNgrx.createUserSession({username, id})
-          const payload={
-            username:username,
-            id:id,
-          }
-          this.store.dispatch(createUserSession(payload))
-          this.userNgRx()
-
-        }
-      }
-    )
-  }
-
-  subscribeToSessionNgrx(){
-    // this.store.pipe(
-    //   select(this.sessionNgrx.selectUsername),
-    //   // select(this.sessionNgrx.selectId),
-    // ).subscribe(({username, id})=>{
-    //   this.username = username
-    //   this.id = id
-    // })
-  }
-
-  // subscribeToSession(){
-  //   this.sessionSubscribe = this.session.sessionObservable
-  //   this.sessionSubscribe.subscribe({
-  //     next:(response)=>{
-  //       console.log('before processing response')
-  //       console.log("response:",response)
-  //       this.username = response[0].username
-  //       this.id = response[0].id!
-  //       this.loggedIn = true
-        
-  //     }
-  //   })
-
-  // }
-
-  subscribeToSessionComponent(){
-    this.sessionSubscribe = this.sessionComponent.user$
-    this.sessionSubscribe.subscribe({
-      next:(response=>{
-        console.log("response:", response)
-        this.username = response.username,
-        this.id = response.id!
-        if(this.username=='' && this.id==''){
-        
-          this.loggedIn=false
-          console.log(this.loggedIn)
-        }
-        else{
-        this.loggedIn = true
-        }
-      })
-    })
+      this.userNgRx()
   }
 
   subscribeToDisableLoginButton(){

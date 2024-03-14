@@ -3,7 +3,7 @@ import { createAction, props } from "@ngrx/store";
 // this is the action to create the user session
 export const createUserSession = createAction(
     '[User] Create User Session',
-    props<{username:string, id:string}>()
+    props<{username:string, id:string, loggedIn:boolean}>()
   )
 
 export const deleteSession = createAction(

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +21,7 @@ import { InstrumentsComponent } from './user/instruments/instruments.component';
 import { ImageComponent } from './user/image/image.component';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './state/state.reduce';
+import { AppInitialiserService } from './app-initialiser.service';
 
 
 @NgModule({
@@ -45,9 +46,15 @@ import { userReducer } from './state/state.reduce';
     ReactiveFormsModule,
     MatIconModule,
     StoreModule.forRoot({user:userReducer}, {})
-    // StoreModule.forRoot({}, {})
   ],
-  providers: [Document, provideAnimationsAsync()],
+  providers: [Document, provideAnimationsAsync(),
+    {
+      provide:APP_INITIALIZER,
+      useFactory:(initialiser: AppInitialiserService)=>()=> initialiser.initialise(),
+      deps:[AppInitialiserService],
+      multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

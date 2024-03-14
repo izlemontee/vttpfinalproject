@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy{
         const payload={
           username:username,
           id:session,
+          loggedIn:true
         }
         this.store.dispatch(createUserSession(payload))
         // this.sessionComponent.updateUser({session, username})

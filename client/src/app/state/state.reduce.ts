@@ -20,13 +20,13 @@ export const INIT_STATE: UserState = {
 export const userReducer = createReducer(
     INIT_STATE,
     // create user session
-    on(createUserSession, (state:any, {username, id}) =>({
+    on(createUserSession, (state:any, {username, id, loggedIn}) =>({
         ...state,
         // returns the state
         // user:{username, id, loggedIn}
         username:username,
         id:id,
-        loggedIn:true,
+        loggedIn:loggedIn,
         
     }),
         
