@@ -3,6 +3,9 @@ package izt.spotifyserver.Utils;
 import java.io.StringReader;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import izt.spotifyserver.repositories.UserSQLRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
@@ -10,6 +13,9 @@ import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonReader;
 
 public class Utils {
+
+    @Autowired
+    private static UserSQLRepository userSQLRepository;
 
     public static JsonObject stringToJson(String text){
         JsonReader jr = Json.createReader(new StringReader(text));
@@ -43,5 +49,10 @@ public class Utils {
         String id = UUID.randomUUID().toString().substring(0, 8);
         return id;
     }
+
+    public static boolean validSession(String sessionid, String username){
+        return userSQLRepository.sessionValid(sessionid, username);
+    }
+
     
 }

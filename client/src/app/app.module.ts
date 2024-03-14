@@ -19,6 +19,8 @@ import { PictureComponent } from './user/picture/picture.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { InstrumentsComponent } from './user/instruments/instruments.component';
 import { ImageComponent } from './user/image/image.component';
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from './state/state.reduce';
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { ImageComponent } from './user/image/image.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
+    StoreModule.forRoot({user:userReducer}, {})
+    // StoreModule.forRoot({}, {})
   ],
   providers: [Document, provideAnimationsAsync()],
   bootstrap: [AppComponent]

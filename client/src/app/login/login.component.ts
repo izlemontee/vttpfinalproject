@@ -7,6 +7,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserSession } from '../models';
 import { SessionService } from '../session.service';
 import { Subject } from 'rxjs';
+import { SessioncomponentService } from '../sessioncomponent.service';
+import { Store } from '@ngrx/store';
+import { createUserSession } from '../state/state.actions';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +22,8 @@ export class LoginComponent implements OnInit, OnDestroy{
   private router = inject(Router)
   private fb = inject(FormBuilder)
   private session = inject(SessionService)
+  private sessionComponent = inject(SessioncomponentService)
+  private store = inject(Store)
   loginUri!: string
 
   clientid!:string
@@ -54,7 +59,15 @@ export class LoginComponent implements OnInit, OnDestroy{
           username:userSession.username,
           id:response.id
         }
+        const session = response.id
+        const username = userSession.username
         this.session.addSession(sessionForStorage)
+        const payload={
+          username:username,
+          id:session,
+        }
+        this.store.dispatch(createUserSession(payload))
+        // this.sessionComponent.updateUser({session, username})
         this.router.navigate([''])
       }
     ).catch(

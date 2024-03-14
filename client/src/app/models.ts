@@ -17,7 +17,8 @@ export interface UserCreate{
 export interface UserSession{
     username:string,
     password?:string,
-    id?:string
+    id?:string,
+    loggedIn?:boolean
 }
 
 export interface Artist{

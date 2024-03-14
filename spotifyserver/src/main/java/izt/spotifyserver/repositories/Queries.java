@@ -82,5 +82,10 @@ public class Queries {
                         SET image = ?
                         WHERE username = ?
                         """;
+        public static final String SQL_FIND_SESSION_AND_USER="""
+                        SELECT sessionid, username
+                        FROM usersessions
+                        WHERE sessionid = ? AND username = ?
+                        """;
 
 }

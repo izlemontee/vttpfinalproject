@@ -120,5 +120,11 @@ public class UserSQLRepository {
     public long addImageToUser(String imageUrl, String username){
         return jdbcTemplate.update(Queries.SQL_ADD_IMAGE_URL_USER, imageUrl, username);
     }
+
+    public boolean sessionValid(String sessionid, String username){
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_FIND_SESSION_AND_USER, sessionid, username);
+        return rowset.next();
+
+    }
     
 }

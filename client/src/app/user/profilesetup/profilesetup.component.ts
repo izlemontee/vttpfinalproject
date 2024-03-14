@@ -17,8 +17,10 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   private session = inject(SessionService)
   private fb = inject(FormBuilder)
   private router = inject(Router)
+  
 
   username!:string
+  sessionId!:string
   artists: Artist[] = []
   spotify_linked: boolean = true
 
@@ -51,6 +53,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   }
   ngAfterContentInit(): void {
     this.profileForm = this.createForm()
+    
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -78,6 +81,10 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
     this.httpService.updateUserProfile(user, this.username).then(
       ()=>{
         this.router.navigate(['/user',this.username])
+      }
+    ).catch(
+      ()=>{
+        alert("Something went wrong. Please try again.")
       }
     )
   }
