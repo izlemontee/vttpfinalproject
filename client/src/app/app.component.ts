@@ -8,7 +8,7 @@ import { SessioncomponentService } from './sessioncomponent.service';
 import { UserstateService } from './userstate.service';
 import { Store, select } from '@ngrx/store';
 import { selectAllUsers } from './state/state.selectors';
-import { createUserSession, loadUserSession } from './state/state.actions';
+import { createUserSession, deleteSession, loadUserSession } from './state/state.actions';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +22,6 @@ export class AppComponent implements OnInit{
   private httpService = inject(HttpService)
   private router = inject(Router)
   private sessionComponent = inject(SessioncomponentService)
-  private sessionNgrx = inject(UserstateService)
   private store = inject(Store)
 
   username!:string
@@ -129,11 +128,12 @@ export class AppComponent implements OnInit{
   }
   logout(){
 
-    this.loggedIn = false
+    // this.loggedIn = false
     this.httpService.deleteSession(this.id)
     this.session.deleteSession(this.id)
-    this.username = ""
-    this.id = ""
+    this.store.dispatch(deleteSession())
+    // this.username = ""
+    // this.id = ""
   }
   login(){
     this.inLogin = true

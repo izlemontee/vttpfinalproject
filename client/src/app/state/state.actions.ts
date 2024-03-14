@@ -6,6 +6,11 @@ export const createUserSession = createAction(
     props<{username:string, id:string}>()
   )
 
+export const deleteSession = createAction(
+  '[User] Delete User Session',
+  
+)
+
 export const loadUserSession = createAction(
     '[User] Get Session Details'
 )

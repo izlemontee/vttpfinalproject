@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { UserSession } from "../models";
-import { createUserSession, loadUserSession } from "./state.actions";
+import { createUserSession, deleteSession, loadUserSession } from "./state.actions";
 
 
 // reducers are to modify the state when the actions are dispatched
@@ -28,9 +28,15 @@ export const userReducer = createReducer(
         id:id,
         loggedIn:true,
         
-    })
+    }),
         
     ),
+    on(deleteSession, (state:any) =>({
+        ...state,
+        username:'',
+        id:'',
+        loggedIn:false
+    }) ),
     on(loadUserSession, (state:any) => ({
         ...state
     })
