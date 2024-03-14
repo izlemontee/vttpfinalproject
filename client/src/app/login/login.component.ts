@@ -2,7 +2,6 @@ import { Component, Inject, OnDestroy, OnInit, Output, inject } from '@angular/c
 import { HttpService } from '../http.service';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
-import { UserauthService } from '../userauth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserSession } from '../models';
 import { SessionService } from '../session.service';

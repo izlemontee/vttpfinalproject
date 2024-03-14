@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserauthService } from '../userauth.service';
 import { HttpService } from '../http.service';
 import { SessionService } from '../session.service';
 
@@ -12,7 +11,6 @@ import { SessionService } from '../session.service';
 export class LoginredirectComponent implements OnInit{
 
   private activatedRoute = inject(ActivatedRoute)
-  private userAuth = inject(UserauthService)
   private httpService = inject(HttpService)
   private router = inject(Router)
   private sessionService = inject(SessionService)
