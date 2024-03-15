@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit{
   usernameInProfile!:string
 
   user!:User
+  instruments: string[] =[]
 
   // checks if this profile is the current user's profile, otherwise have an add option
   isMyProfile: boolean = false
@@ -30,6 +31,7 @@ export class ProfileComponent implements OnInit{
   ngOnInit(): void {
       this.usernameInProfile = this.activatedRoute.snapshot.params['username']
       this.getUserProfile()
+      this.getUserInstruments()
       this.checkUsernameWithStore()
   }
 
@@ -40,6 +42,14 @@ export class ProfileComponent implements OnInit{
         console.log(response)
         this.user = response as User
         console.log(this.user)
+      }
+    )
+  }
+
+  getUserInstruments(){
+    this.httpService.getUserInstruments(this.usernameInProfile).then(
+      response =>{
+        this.instruments = response.instruments
       }
     )
   }

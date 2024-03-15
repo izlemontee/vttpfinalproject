@@ -31,6 +31,12 @@
     <button (click)="submitArtists()">Update Artists</button>
 
 </div>
+<div *ngIf="genres.length>0">
+    <h3>Top genres</h3>
+    <div>
+        <span *ngFor="let g of genres">{{g}}, </span>
+    </div>
+</div>
 <button (click)="cancel()">Cancel</button>
 
     

@@ -24,6 +24,7 @@ export class ArtistsComponent {
   deactivateArtistSelection = new Subject<void>
 
   artists: Artist[] = []
+  genres: String[]=[]
 
 
   getArtists(term:string){
@@ -47,6 +48,7 @@ export class ArtistsComponent {
         alert("Something went wrong. Try again.")
       }
     )
+    this.getGenres(term)
   }
 
   submitArtists(){
@@ -56,6 +58,14 @@ export class ArtistsComponent {
 
   cancel(){
     this.deactivateArtistSelection.next()
+  }
+
+  getGenres(term:string){
+    this.httpService.getTopGenres(this.username,term).then(
+      (response)=>{
+        this.genres = response
+      }
+    )
   }
 
 }

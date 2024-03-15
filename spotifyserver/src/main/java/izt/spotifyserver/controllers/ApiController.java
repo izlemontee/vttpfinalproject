@@ -22,6 +22,7 @@ import izt.spotifyserver.exceptions.SQLFailedException;
 import izt.spotifyserver.exceptions.UserNotFoundException;
 import izt.spotifyserver.services.ImageService;
 import izt.spotifyserver.services.Neo4JUserService;
+import izt.spotifyserver.services.SpotifyApiCalls;
 import izt.spotifyserver.services.SpotifyApiService;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -40,6 +41,9 @@ public class ApiController {
 
     @Autowired
     private SpotifyApiService spotifyApiService;
+
+    @Autowired
+    private SpotifyApiCalls spotifyApiCalls;
 
     @Autowired
     private Neo4JUserService neo4JService;
@@ -163,6 +167,26 @@ public class ApiController {
         }
         try{
         String body = spotifyApiService.getUserTopArtists(username, duration);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body(body);
+        return response;
+        }
+        catch(RuntimeException ex){
+            JsonObjectBuilder JOB = Json.createObjectBuilder();
+            JOB.add("error","Link your spotify again");
+            ResponseEntity<String> response = ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON)
+            .body(JOB.build().toString());
+            return response;
+        }
+    }
+
+    @GetMapping(path = "/genres")
+    public ResponseEntity<String> getGenres(@RequestParam String username, @RequestParam(required=false) String duration){
+        if(duration == null){
+            duration = "medium_term";
+        }
+        try{
+        String body = spotifyApiCalls.getUserTopGenres(username, duration);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
         .body(body);
         return response;

@@ -56,6 +56,11 @@ export class HttpService {
     return lastValueFrom(this.httpClient.get<any>(this.baseUrl+"/topartists",{params:params}))
   }
 
+  getTopGenres(username:string, duration:string){
+    const params = new HttpParams().set("username",username).set("duration",duration)
+    return lastValueFrom(this.httpClient.get<any>(this.baseUrl+"/genres",{params:params}))
+  }
+
   initUserSetup(username:string){
     const url = this.baseUrl+"/setupinit/"+username
     return lastValueFrom(this.httpClient.get<any>(url))

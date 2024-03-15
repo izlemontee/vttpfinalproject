@@ -22,3 +22,9 @@
     </tr>
 </table>
 </div>
+<div *ngIf="instruments.length>0">
+    <h2>{{usernameInProfile}} plays:</h2>
+    <div>
+        <span *ngFor="let i of instruments">{{i}} </span>
+    </div>
+</div>
