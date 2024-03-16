@@ -126,5 +126,13 @@ public class UserSQLRepository {
         return rowset.next();
 
     }
-    
+
+    public SqlRowSet getGenres(String username){
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_FIND_GENRES_BY_USER, username);
+        return rowset;
+    }
+    public long addGenres(String genre, String username){
+        long count = jdbcTemplate.update(Queries.SQL_ADD_GENRE_TO_USER, genre, username);
+        return count;
+    }
 }

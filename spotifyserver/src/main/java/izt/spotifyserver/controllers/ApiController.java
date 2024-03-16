@@ -301,4 +301,21 @@ public class ApiController {
 
     }
     
+    @GetMapping(path = "/profile/genres")
+    public ResponseEntity<String> getGenres(@RequestParam String username){
+        String body = spotifyApiService.getGenres(username);
+        ResponseEntity<String> response = ResponseEntity.status(200)
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .body(body);
+        return response;
+    }
+
+    @PostMapping(path = "/profile/genres/{username}")
+    public ResponseEntity<String> addGenres(@PathVariable String username, @RequestBody String requestBody){
+        spotifyApiService.addGenres(requestBody, username);
+        ResponseEntity<String> response = ResponseEntity.status(200)
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .body("{}");
+        return response;
+    }
 }

@@ -26,10 +26,11 @@ export class LoginredirectComponent implements OnInit{
         response =>{
           this.username = response[0].username
           this.httpService.addAccessKeyToUser(this.tempId,this.username)
+          this.router.navigate(['/user/'+this.username])
         }
       )
 
-      this.router.navigate(['/setup'])
+      
   }
 
 }

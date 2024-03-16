@@ -28,3 +28,10 @@
         <span *ngFor="let i of instruments">{{i}} </span>
     </div>
 </div>
+
+<div *ngIf="genres.length>0">
+    <h2>{{usernameInProfile}}'s top genres:</h2>
+    <div>
+        <span *ngFor="let g of genres">{{g}} </span>
+    </div>
+</div>

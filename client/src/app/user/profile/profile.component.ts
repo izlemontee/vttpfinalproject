@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit{
 
   user!:User
   instruments: string[] =[]
+  genres: string[]=[]
 
   // checks if this profile is the current user's profile, otherwise have an add option
   isMyProfile: boolean = false
@@ -33,6 +34,7 @@ export class ProfileComponent implements OnInit{
       this.getUserProfile()
       this.getUserInstruments()
       this.checkUsernameWithStore()
+      this.getGenres()
   }
 
 
@@ -67,6 +69,14 @@ export class ProfileComponent implements OnInit{
         }
       }
     })
+  }
+
+  getGenres(){
+    this.httpService.getUserProfileGenres(this.usernameInProfile).then(
+      (response)=>{
+        this.genres = response.genres
+      }
+    )
   }
 
 

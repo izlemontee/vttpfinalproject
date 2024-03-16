@@ -1,6 +1,7 @@
 package izt.spotifyserver.services;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -35,6 +36,8 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
@@ -316,7 +319,7 @@ public class SpotifyApiService {
         userSqlRepo.updateProfileNameAndBio(user);
     }
 
-    @Transactional
+    // @Transactional
     public void addUserArtists(String username, String requestBody){
         // delete the artists first to avoid conflict
         userSqlRepo.deleteArtists(username);
@@ -411,6 +414,27 @@ public class SpotifyApiService {
         // neo4jUser.setLastName("user");
         // userNeo4j.save(neo4jUser);
         neo4jTest();
+    }
+    
+    public String getGenres(String username){
+        SqlRowSet rowset = userSqlRepo.getGenres(username);
+        JsonArrayBuilder genres = Json.createArrayBuilder();
+        while(rowset.next()){
+            String genre = rowset.getString("name");
+            genres.add(genre);
+        }
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("genres", genres.build());
+        return JOB.build().toString();
+    }
+
+    public void addGenres(String requestBody, String username){
+        JsonArray genresArray = Utils.stringToJsonArray(requestBody);
+        long count = 0;
+        for(JsonValue v:genresArray){
+            String genre = v.toString().replace("\"", "");
+            count += userSqlRepo.addGenres(genre, username);
+        }
     }
 
 }

@@ -14,8 +14,8 @@ const routes: Routes = [
   {path:'login',component:LoginComponent, canActivate:[isLoggedOut]},
   {path:'redirect',component:LoginredirectComponent},
   {path:'createuser',component:UsercreationComponent},
-  // {path:'setup',component:ProfilesetupComponent, canActivate:[isLoggedIn]},
-  {path:'setup',component:ProfilesetupComponent},
+  {path:'setup',component:ProfilesetupComponent, canActivate:[isLoggedIn]},
+  // {path:'setup',component:ProfilesetupComponent},
   {path:'user/:username', component:ProfileComponent}
 
 ];

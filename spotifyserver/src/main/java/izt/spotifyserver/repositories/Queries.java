@@ -87,5 +87,14 @@ public class Queries {
                         FROM usersessions
                         WHERE sessionid = ? AND username = ?
                         """;
+        public static final String SQL_FIND_GENRES_BY_USER="""
+                        SELECT name
+                        FROM genres
+                        WHERE username = ?
+                        """;
+        public static final String SQL_ADD_GENRE_TO_USER="""
+                        INSERT INTO genres (name, username)
+                        VALUES(?,?)
+                        """;
 
 }

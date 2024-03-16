@@ -104,4 +104,17 @@ export class HttpService {
 
     return lastValueFrom(this.httpClient.post<any>(url, formData))
   }
+
+  getUserProfileGenres(username:string){
+    const url = this.baseUrl+"/profile/genres"
+    const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  submitGenres(genres:string[], username:string){
+    const url = this.baseUrl+"/profile/genres/"+username
+    const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.post<any>(url,genres))
+
+  }
 }

@@ -20,9 +20,13 @@ export class AppComponent implements OnInit{
 
   private session = inject(SessionService)
   private httpService = inject(HttpService)
-  private router = inject(Router)
+  // private router = inject(Router)
   private sessionComponent = inject(SessioncomponentService)
   private store = inject(Store)
+
+  constructor(private router:Router){
+    router.initialNavigation()
+  }
 
   username!:string
   id!:string

@@ -2,6 +2,7 @@ import { inject } from "@angular/core";
 import { CanActivateFn, Router } from "@angular/router";
 import { GuardService } from "./guard.service";
 import { lastValueFrom } from "rxjs";
+import { AppInitialiserService } from "./app-initialiser.service";
 
 export const isLoggedIn: CanActivateFn=
     (route, state)=>{

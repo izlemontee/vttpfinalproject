@@ -24,6 +24,7 @@ import { userReducer } from './state/state.reduce';
 import { AppInitialiserService } from './app-initialiser.service';
 import { WelcomeComponent } from './main/welcome/welcome.component';
 import { FeedComponent } from './main/feed/feed.component';
+import { GuardService } from './guard.service';
 
 
 @NgModule({
@@ -52,12 +53,16 @@ import { FeedComponent } from './main/feed/feed.component';
     StoreModule.forRoot({user:userReducer}, {})
   ],
   providers: [Document, provideAnimationsAsync(),
+    AppInitialiserService,
+    GuardService,
     {
       provide:APP_INITIALIZER,
       useFactory:(initialiser: AppInitialiserService)=>()=> initialiser.initialise(),
+      // useFactory: initialise(),
       deps:[AppInitialiserService],
       multi:true
-    }
+    },
+
   ],
   bootstrap: [AppComponent]
 })

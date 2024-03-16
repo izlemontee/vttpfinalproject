@@ -17,27 +17,33 @@ export class AppInitialiserService {
   initialise(){
     this.getUserInfo()
     this.getUserState()
+    
   }
 
-  getUserInfo(){
-    this.dexieSession.getSession().then(
-      (response)=>{
-        console.log("response in initialiser", response)
-        var payload = {
-          username:'',
-          id:'',
-          loggedIn:false
-        }
-        if(response.length>0){
-          payload = {
-            username:response[0].username,
-            id: response[0].id!,
-            loggedIn:true
+  getUserInfo():Promise<void>{
+  
+    return new Promise<void>((resolve, reject) =>{
+      this.dexieSession.getSession().then(
+        (response)=>{
+          console.log("response in initialiser", response)
+          var payload = {
+            username:'',
+            id:'',
+            loggedIn:false
           }
+          if(response.length>0){
+            payload = {
+              username:response[0].username,
+              id: response[0].id!,
+              loggedIn:true
+            }
+          }
+          this.store.dispatch(createUserSession(payload))
+          resolve();
+          
         }
-        this.store.dispatch(createUserSession(payload))
-      }
-    )
+      )
+    })
   }
 
   getUserState(){
