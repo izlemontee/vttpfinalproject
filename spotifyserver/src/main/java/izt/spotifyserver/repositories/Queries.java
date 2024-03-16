@@ -96,5 +96,18 @@ public class Queries {
                         INSERT INTO genres (name, username)
                         VALUES(?,?)
                         """;
+        public static final String SQL_ADD_NEW_NOTIFICATION="""
+                INSERT INTO notifications (id, username, text, url, type)
+                VALUES(?, ?, ?, ?, ?)
+                        """;
+        public static final String SQL_READ_NOTIFICATION="""
+                UPDATE notifications
+                SET notification_read = true
+                WHERE id = ?
+                """;
+        public static final String SQL_GET_NOTIFICATIONS_GLANCE="""
+                SELECT * FROM notifications
+                WHERE username = ?        
+                """;
 
 }

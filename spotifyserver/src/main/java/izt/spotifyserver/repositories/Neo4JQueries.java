@@ -39,4 +39,32 @@ public class Neo4JQueries {
             -[plays:PLAYS]-> (instrument:Instrument)
             DELETE plays
             """;
+    public static final String NEO4J_SEND_FRIEND_REQUEST="""
+            MATCH(user: User {username:$username}),(friend: User {username:$friend})
+            CREATE (user)-[:ADDED]->(friend)
+            
+            """;
+    public static final String NEO4J_ACCEPT_FRIEND_REQUEST="""
+        MATCH(user: User {username:$username}),(friend: User {username:$friend})
+        CREATE (user)-[:FRIENDS_WITH]->(friend)
+        
+            """;
+    public static final String NEO4J_DELETE_FRIEND_REQUEST="""
+        MATCH(user: User {username:$username})
+        -[request:ADDED]->(friend: User {username:$friend})
+        DELETE request
+        
+            """;
+    public static final String NEO4J_DELETE_FRIEND="""
+            
+    MATCH(user: User {username:$username})
+    -[request:FRIENDS_WITH]->(friend: User {username:$friend})
+    DELETE request
+    
+            """;
+    public static final String NEO4J_FIND_FRIENDS="""
+        MATCH(user: User {username:$username})
+        -[:FRIENDS_WITH]->(friend: User)
+        RETURN friend
+            """;
 }

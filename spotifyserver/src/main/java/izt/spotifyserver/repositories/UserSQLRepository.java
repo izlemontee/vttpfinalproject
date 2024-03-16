@@ -6,6 +6,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import izt.spotifyserver.models.Artist;
+import izt.spotifyserver.models.Notification;
 import izt.spotifyserver.models.User;
 
 
@@ -134,5 +135,25 @@ public class UserSQLRepository {
     public long addGenres(String genre, String username){
         long count = jdbcTemplate.update(Queries.SQL_ADD_GENRE_TO_USER, genre, username);
         return count;
+    }
+
+    public long addNewNotification(Notification notification){
+        long count = jdbcTemplate.update(Queries.SQL_ADD_NEW_NOTIFICATION,
+                    notification.getId(),
+                    notification.getUsername(),
+                    notification.getText(),
+                    notification.getUrl(),
+                    notification.getType());
+        return count;
+
+    }   
+    public long readNotification(String id){
+        long count = jdbcTemplate.update(Queries.SQL_READ_NOTIFICATION, id);
+        return count;
+    }
+
+    public SqlRowSet getNotificationsGlance(String username){
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_GET_NOTIFICATIONS_GLANCE, username);
+        return rowset;
     }
 }
