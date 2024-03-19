@@ -1,0 +1,15 @@
+<div *ngIf="searchResults.length>0 else noResults">
+    <h3>Search results for: "{{searchTerm}}"</h3>
+    <table>
+        <tr *ngFor="let s of searchResults">
+            <td>{{s.username}}</td>
+            <td>{{s.firstName}}</td>
+            <td>{{s.lastName}}</td>
+            <td><img [src]="s.image" alt="" height="100" width="100"></td>
+        </tr>
+    </table>
+</div>
+
+<ng-template #noResults>
+    <p>Sorry, there were no users</p>
+</ng-template>

@@ -25,6 +25,9 @@ import { AppInitialiserService } from './app-initialiser.service';
 import { WelcomeComponent } from './main/welcome/welcome.component';
 import { FeedComponent } from './main/feed/feed.component';
 import { GuardService } from './guard.service';
+import { SearchbarComponent } from './searchbar/searchbar.component';
+import { HeaderComponent } from './header/header.component';
+import { SearchresultsComponent } from './searchresults/searchresults.component';
 
 
 @NgModule({
@@ -42,6 +45,9 @@ import { GuardService } from './guard.service';
     ImageComponent,
     WelcomeComponent,
     FeedComponent,
+    SearchbarComponent,
+    HeaderComponent,
+    SearchresultsComponent,
 
   ],
   imports: [

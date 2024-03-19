@@ -7,6 +7,7 @@ import { UsercreationComponent } from './user/usercreation/usercreation.componen
 import { ProfilesetupComponent } from './user/profilesetup/profilesetup.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { isLoggedIn, isLoggedOut } from './guards';
+import { SearchresultsComponent } from './searchresults/searchresults.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path:'createuser',component:UsercreationComponent},
   {path:'setup',component:ProfilesetupComponent, canActivate:[isLoggedIn]},
   // {path:'setup',component:ProfilesetupComponent},
-  {path:'user/:username', component:ProfileComponent}
+  {path:'user/:username', component:ProfileComponent},
+  {path:"search", component:SearchresultsComponent}
 
 ];
 

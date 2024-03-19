@@ -156,4 +156,10 @@ public class UserSQLRepository {
         SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_GET_NOTIFICATIONS_GLANCE, username);
         return rowset;
     }
+
+    public SqlRowSet searchForUsers(String searchTerm){
+        searchTerm = "%"+searchTerm+"%";
+        SqlRowSet rowset= jdbcTemplate.queryForRowSet(Queries.SQL_GET_USERNAME_NAME_IMAGE,searchTerm);
+        return rowset;
+    }
 }

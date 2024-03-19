@@ -117,4 +117,10 @@ export class HttpService {
     return lastValueFrom(this.httpClient.post<any>(url,genres))
 
   }
+
+  searchUser(searchTerm:string){
+    const url = this.baseUrl+"/search/user"
+    const params = new HttpParams().set("searchTerm", searchTerm)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
 }

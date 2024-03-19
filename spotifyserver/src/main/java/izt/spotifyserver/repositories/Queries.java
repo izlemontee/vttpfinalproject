@@ -109,5 +109,9 @@ public class Queries {
                 SELECT * FROM notifications
                 WHERE username = ?        
                 """;
-
+        public static final String SQL_GET_USERNAME_NAME_IMAGE="""
+                SELECT username, firstname, lastname, image
+                FROM users
+                WHERE username LIKE ?
+                        """;
 }

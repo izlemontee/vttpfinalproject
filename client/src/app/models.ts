@@ -36,3 +36,10 @@ export interface User{
     artists?:Artist[],
     image ?: string
 }
+
+export interface UserSearch{
+    username:string,
+    firstName:string,
+    lastName:string,
+    image:string
+}

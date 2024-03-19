@@ -318,4 +318,14 @@ public class ApiController {
                                         .body("{}");
         return response;
     }
+
+    @GetMapping(path = "/search/user")
+    public ResponseEntity<String> searchUsers(@RequestParam String searchTerm){
+        String body = spotifyApiService.getUserSearchResults(searchTerm);
+        ResponseEntity<String> response = ResponseEntity.status(200)
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .body(body);
+        
+        return response;
+    }
 }

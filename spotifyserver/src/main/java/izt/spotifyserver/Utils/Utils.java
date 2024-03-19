@@ -17,6 +17,8 @@ public class Utils {
     @Autowired
     private static UserSQLRepository userSQLRepository;
 
+    public static final String PLACEHOLDER_IMAGE = "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg";
+
     public static JsonObject stringToJson(String text){
         JsonReader jr = Json.createReader(new StringReader(text));
         return jr.readObject();

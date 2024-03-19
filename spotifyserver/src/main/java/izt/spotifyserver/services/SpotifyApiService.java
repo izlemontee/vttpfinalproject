@@ -437,4 +437,25 @@ public class SpotifyApiService {
         }
     }
 
+    public String getUserSearchResults(String searchTerm){
+        SqlRowSet rowset = userSqlRepo.searchForUsers(searchTerm);
+        JsonArrayBuilder JAB = Json.createArrayBuilder();
+        while(rowset.next()){
+            String username = rowset.getString("username");
+            String firstName = rowset.getString("firstname");
+            String lastName = rowset.getString("lastname");
+            String image = Utils.PLACEHOLDER_IMAGE;
+            if(rowset.getString("image") != null){
+                image = rowset.getString("image");
+            }
+            JsonObjectBuilder JOB = Json.createObjectBuilder();
+            JOB.add("username",username)
+                .add("firstName", firstName)
+                .add("lastName",lastName)
+                .add("image",image);
+            JAB.add(JOB.build());
+        }
+        return JAB.build().toString();
+    }
+
 }
