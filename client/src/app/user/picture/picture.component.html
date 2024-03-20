@@ -1,5 +1,5 @@
 <h3>Upload Profile Picture</h3>
 <form [formGroup]="form">
-    <input type="file" formControlName="image" (change)="imageDetected($event)">
-    <button (click)="uploadImage()">Upload</button>
+    <app-imagecropper (croppedImageUpload)="uploadImage($event)"></app-imagecropper>
+    <button (click)="deactivate()">Cancel</button>
 </form>

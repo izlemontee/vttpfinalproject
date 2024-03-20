@@ -34,16 +34,6 @@ export class SearchresultsComponent implements OnInit{
         )
       }
     )
-      // this.searchTerm = this.activatedRoute.snapshot.queryParams['searchTerm']
-      // console.log(this.searchTerm)
-      // this.httpService.searchUser(this.searchTerm).then(
-      //   response=>{
-      //     console.log(response)
-      //     if(response.length>0){
-      //       this.searchResults = response
-      //     }
-      //   }
-      // )
   }
 
 }

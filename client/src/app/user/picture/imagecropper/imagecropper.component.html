@@ -1,0 +1,24 @@
+
+<h3 >Angular Image Crop Example</h3>
+<div >
+  <input type="file" (change)="onFileChange($event)" />
+</div>
+<div >
+  <image-cropper 
+    [imageChangedEvent]="imgChangeEvt" 
+    [maintainAspectRatio]="true" 
+    [aspectRatio]="4 / 4"
+    [resizeToWidth]="256" 
+    format="png" 
+    (imageCropped)="cropImg($event)" 
+    (imageLoaded)="imgLoad()"
+    (cropperReady)="initCropper()" 
+    (loadImageFailed)="imgFailed()">
+  </image-cropper>
+</div>
+<div >
+  <h6>Image Preview</h6>
+  <img [src]="cropImgPreview" />
+  <button (click)="uploadImage()">Ok</button>
+  <!-- <img [src]="objectUrl" /> -->
+</div>

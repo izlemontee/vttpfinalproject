@@ -28,6 +28,9 @@ import { GuardService } from './guard.service';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { HeaderComponent } from './header/header.component';
 import { SearchresultsComponent } from './searchresults/searchresults.component';
+import { ImagecropperComponent } from './user/picture/imagecropper/imagecropper.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+
 
 
 @NgModule({
@@ -48,6 +51,7 @@ import { SearchresultsComponent } from './searchresults/searchresults.component'
     SearchbarComponent,
     HeaderComponent,
     SearchresultsComponent,
+    ImagecropperComponent,
 
   ],
   imports: [
@@ -56,7 +60,8 @@ import { SearchresultsComponent } from './searchresults/searchresults.component'
     HttpClientModule,
     ReactiveFormsModule,
     MatIconModule,
-    StoreModule.forRoot({user:userReducer}, {})
+    StoreModule.forRoot({user:userReducer}, {}),
+    ImageCropperModule
   ],
   providers: [Document, provideAnimationsAsync(),
     AppInitialiserService,

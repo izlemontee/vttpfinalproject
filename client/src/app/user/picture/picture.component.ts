@@ -37,8 +37,8 @@ export class PictureComponent implements OnInit{
 
   }
 
-  uploadImage(){
-    this.httpService.uploadUserProfilePicture(this.file, this.username).then(
+  uploadImage(imgBlob:any){
+    this.httpService.uploadUserProfilePicture(imgBlob, this.username).then(
       ()=>{
         this.form.reset()
         this.deactivateImageUploader.next()

@@ -23,6 +23,7 @@
     "@ngrx/component-store": "^17.1.1",
     "@ngrx/store": "^17.1.1",
     "dexie": "^3.2.6",
+    "ngx-image-cropper": "^7.2.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
