@@ -20,8 +20,26 @@ public interface UserNeo4jRepository extends Neo4jRepository<Neo4jUser,String> {
     @Query(Neo4JQueries.NEO4J_DELETE_INSTRUMENT_RELATIONS)
     void deleteUserInstrumentRelations(String username);
 
+    @Query(Neo4JQueries.NEO4J_CHECK_FRIEND_REQUEST_PENDING)
+    List<Object> userFriendRequestPending(String username, String friend);
 
+    @Query(Neo4JQueries.NEO4J_CHECK_FRIEND_STATUS)
+    List<Object> friendStatus(String username, String friend);
 
+    @Query(Neo4JQueries.NEO4J_SEND_FRIEND_REQUEST)
+    void addFriendRequest(String username, String friend);
+
+    @Query(Neo4JQueries.NEO4J_DELETE_FRIEND_REQUEST)
+    void deleteFriendRequest(String username, String friend);
+
+    @Query(Neo4JQueries.NEO4J_ACCEPT_FRIEND_REQUEST)
+    void acceptFriendRequest(String username, String friend);
+
+    @Query(Neo4JQueries.NEO4J_GET_FRIEND_REQUESTS)
+    List<Neo4jUser> getFriendRequests(String username);
+
+    @Query(Neo4JQueries.NEO4J_DELETE_FRIEND)
+    void deleteFriend(String username, String friend);
 
 
 

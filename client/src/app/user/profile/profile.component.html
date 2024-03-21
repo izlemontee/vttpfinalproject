@@ -1,6 +1,24 @@
 <div *ngIf="user">
     <div *ngIf="!isMyProfile">
-        Add friend
+        <div *ngIf="!pendingRequest && !isMyFriend && !addedMe">
+            <button (click)="addFriend()">Add friend</button>
+        </div>
+        <div *ngIf="pendingRequest && !isMyFriend && !addedMe">
+            <p>pending request</p>
+            <button (click)="deleteRequest()">Delete Request</button>
+        </div>
+        <div *ngIf="addedMe && !isMyFriend &&!pendingRequest">
+            <p>
+                {{usernameInProfile}} added you as a friend.
+            </p>
+            <button>
+                Accept
+            </button>
+        </div>
+        <div *ngIf="isMyFriend && !pendingRequest && !addedMe">
+            <p>You are friends</p>
+            <button (click)="deleteFriend()">Remove Friend</button>
+        </div>
     </div>
 <table>
     <tr>

@@ -25,6 +25,15 @@ export class ProfileComponent implements OnInit{
   // checks if this profile is the current user's profile, otherwise have an add option
   isMyProfile: boolean = false
 
+  // check if i have added this person already, pending confirmation
+  pendingRequest: boolean = false
+  // check if this person is my friend
+  isMyFriend: boolean = false
+  // check if this person sent me a request
+  addedMe :boolean = false
+
+  myUsername!: string
+
   constructor(){
 
   }
@@ -59,13 +68,14 @@ export class ProfileComponent implements OnInit{
   checkUsernameWithStore(){
     this.store.select(selectAllUsers).subscribe({
       next:(response)=>{
-        console.log("check username", response)
+        this.myUsername = response.username
         if(response.username==this.usernameInProfile){
           console.log(true)
           this.isMyProfile = true
         }
         else{
           this.isMyProfile = false
+          this.checkFriendStatus()
         }
       }
     })
@@ -75,6 +85,44 @@ export class ProfileComponent implements OnInit{
     this.httpService.getUserProfileGenres(this.usernameInProfile).then(
       (response)=>{
         this.genres = response.genres
+      }
+    )
+  }
+
+  addFriend(){
+    this.httpService.addFriendRequest(this.myUsername, this.usernameInProfile).then(
+      ()=>{
+        this.checkFriendStatus()
+      }
+    )
+  }
+
+  deleteRequest(){
+    this.httpService.deleteFriendRequest(this.myUsername, this.usernameInProfile).then(
+      ()=>{
+        this.checkFriendStatus()
+      }
+    )
+  }
+
+  checkFriendStatus(){
+    this.httpService.checkFriendStatus(this.myUsername,this.usernameInProfile).then(
+      (response)=>{
+        console.log("friend status: ",response)
+        this.pendingRequest = response.pending
+        this.isMyFriend = response.friends
+        this.addedMe = response.addedme
+      }
+    )
+  }
+
+  deleteFriend(){
+    this.httpService.deleteFriend(this.usernameInProfile,this.myUsername).then(
+      (response)=>{
+        console.log("friend status: ",response)
+        this.pendingRequest = false
+        this.isMyFriend = false
+        this.addedMe = false
       }
     )
   }

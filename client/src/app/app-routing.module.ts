@@ -8,6 +8,8 @@ import { ProfilesetupComponent } from './user/profilesetup/profilesetup.componen
 import { ProfileComponent } from './user/profile/profile.component';
 import { isLoggedIn, isLoggedOut } from './guards';
 import { SearchresultsComponent } from './searchresults/searchresults.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { FriendrequestComponent } from './friendrequest/friendrequest.component';
 
 
 const routes: Routes = [
@@ -18,7 +20,9 @@ const routes: Routes = [
   {path:'setup',component:ProfilesetupComponent, canActivate:[isLoggedIn]},
   // {path:'setup',component:ProfilesetupComponent},
   {path:'user/:username', component:ProfileComponent},
-  {path:"search", component:SearchresultsComponent}
+  {path:"search", component:SearchresultsComponent},
+  {path:"notifications", component:NotificationsComponent},
+  {path:"requests",component:FriendrequestComponent}
 
 ];
 

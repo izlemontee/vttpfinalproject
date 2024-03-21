@@ -139,11 +139,11 @@ public class UserSQLRepository {
 
     public long addNewNotification(Notification notification){
         long count = jdbcTemplate.update(Queries.SQL_ADD_NEW_NOTIFICATION,
-                    notification.getId(),
                     notification.getUsername(),
                     notification.getText(),
                     notification.getUrl(),
-                    notification.getType());
+                    notification.getType(),
+                    notification.getTimestamp());
         return count;
 
     }   
@@ -157,9 +157,16 @@ public class UserSQLRepository {
         return rowset;
     }
 
+    public SqlRowSet getNotifications(String username){
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_GET_NOTIFICATIONS, username);
+        return rowset;
+    }
+
     public SqlRowSet searchForUsers(String searchTerm){
         searchTerm = "%"+searchTerm+"%";
         SqlRowSet rowset= jdbcTemplate.queryForRowSet(Queries.SQL_GET_USERNAME_NAME_IMAGE,searchTerm);
         return rowset;
     }
+
+    
 }

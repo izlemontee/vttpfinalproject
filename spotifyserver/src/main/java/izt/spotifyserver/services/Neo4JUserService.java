@@ -86,5 +86,65 @@ public class Neo4JUserService {
     public boolean instrumentExists(String instrument){
         return instrumentNeo4jRepo.findInstrumentByName(instrument).size()>0;
     }
+
+    public boolean friendRequestPending(String username, String friend){
+        List<Object> result = userNeo4jRepo.userFriendRequestPending(username, friend);
+        System.out.println("result size:"+result.size());
+        return (result.size()>0);
+    }
+
+    public boolean isFriends(String username, String friend){
+        List<Object> result = userNeo4jRepo.friendStatus(username, friend);
+        return (result.size()>0);
+    }
+
+    // reverse the order
+    public boolean addedMe(String username, String friend){
+        List<Object> result = userNeo4jRepo.userFriendRequestPending(username, friend);
+        System.out.println("result size:"+result.size());
+        return (result.size()>0);
+    }
+
+    public String checkFriendStatus(String username, String friend){
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("pending", friendRequestPending(username, friend))
+            .add("friends",isFriends(username, friend))
+            .add("addedme",addedMe(friend, username));
+        return JOB.build().toString();
+    }
+
+    public void addFriendRequest(String username, String friend){
+        userNeo4jRepo.addFriendRequest(username, friend);
+    }
+
+    public void deleteFriendRequest(String username, String friend){
+        userNeo4jRepo.deleteFriendRequest(username, friend);
+    }
+
+    public void acceptFriendRequest(String username, String friend){
+        userNeo4jRepo.deleteFriendRequest(username, friend);
+        userNeo4jRepo.acceptFriendRequest(username, friend);
+        userNeo4jRepo.acceptFriendRequest(friend, username);
+    }
+
+    public String getFriendRequests(String username){
+        List<Neo4jUser> users = userNeo4jRepo.getFriendRequests(username);
+        JsonArrayBuilder JAB = Json.createArrayBuilder();
+        if(users.size()>0){
+        for(Neo4jUser u:users){
+                JsonObjectBuilder JOB = Json.createObjectBuilder();
+                JOB.add("username",u.getUsername())
+                .add("firstName",u.getFirstName())
+                .add("lastName",u.getLastName());
+                JAB.add(JOB.build());
+            }
+        }
+        return JAB.build().toString();
+    }
+
+    public void deleteFriend (String username, String friend){
+        userNeo4jRepo.deleteFriend(username,friend);
+        userNeo4jRepo.deleteFriend(friend, username);
+    }
     
 }

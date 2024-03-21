@@ -97,8 +97,8 @@ public class Queries {
                         VALUES(?,?)
                         """;
         public static final String SQL_ADD_NEW_NOTIFICATION="""
-                INSERT INTO notifications (id, username, text, url, type)
-                VALUES(?, ?, ?, ?, ?)
+                INSERT INTO notifications (id, username, text, url, type, timestamp)
+                VALUES(?, ?, ?, ?, ?,?)
                         """;
         public static final String SQL_READ_NOTIFICATION="""
                 UPDATE notifications
@@ -107,7 +107,13 @@ public class Queries {
                 """;
         public static final String SQL_GET_NOTIFICATIONS_GLANCE="""
                 SELECT * FROM notifications
-                WHERE username = ?        
+                WHERE username = ?   
+                LIMIT 5     
+                """;
+
+        public static final String SQL_GET_NOTIFICATIONS="""
+                SELECT * FROM notifications
+                WHERE username = ?     
                 """;
         public static final String SQL_GET_USERNAME_NAME_IMAGE="""
                 SELECT username, firstname, lastname, image

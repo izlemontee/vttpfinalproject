@@ -9,6 +9,7 @@ import { Artist, User, UserCreate, UserSession } from './models';
 export class HttpService {
 
   baseUrl: string = "http://localhost:8080/api"
+  friendBaseUrl: string = "http://localhost:8080/friend"
 
   private httpClient = inject(HttpClient)
 
@@ -122,5 +123,41 @@ export class HttpService {
     const url = this.baseUrl+"/search/user"
     const params = new HttpParams().set("searchTerm", searchTerm)
     return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  checkFriendStatus(username:string, friend:string){
+    const params = new HttpParams().set("username",username).set("friend", friend)
+    const url = this.friendBaseUrl+"/status"
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  addFriendRequest(username:string, friend:string){
+    const params = new HttpParams().set("username",username).set("friend", friend)
+    const url = this.friendBaseUrl+"/add"
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  deleteFriendRequest(username:string, friend:string){
+    const params = new HttpParams().set("username",username).set("friend", friend)
+    const url = this.friendBaseUrl+"/deleterequest"
+    return lastValueFrom(this.httpClient.delete<any>(url,{params:params}))
+  }
+
+  getFriendRequests(username:string){
+    const params = new HttpParams().set("username",username)
+    const url = this.friendBaseUrl+"/requests"
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  acceptFriendRequest(username:string, friend:string){
+    const params = new HttpParams().set("username",username).set("friend",friend)
+    const url = this.friendBaseUrl+"/accept"
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  deleteFriend(username:string, friend:string){
+    const params = new HttpParams().set("username",username).set("friend",friend)
+    const url = this.friendBaseUrl+"/delete"
+    return lastValueFrom(this.httpClient.delete<any>(url,{params:params}))
   }
 }

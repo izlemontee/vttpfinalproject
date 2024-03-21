@@ -3,7 +3,7 @@ package izt.spotifyserver.repositories;
 public class Neo4JQueries {
 
     public static final String NEO4J_CREATE_USER="""
-            
+        CREATE (user:User {username:$username,firstName:$firstName,lastName:$lastName});
             """;
     
 
@@ -44,10 +44,22 @@ public class Neo4JQueries {
             CREATE (user)-[:ADDED]->(friend)
             
             """;
+
+    public static final String NEO4J_CHECK_FRIEND_REQUEST_PENDING="""
+            MATCH(user: User{username:$username})
+            -[request:ADDED]->(friend:User{username:$friend})
+            return request
+
+            """;
     public static final String NEO4J_ACCEPT_FRIEND_REQUEST="""
         MATCH(user: User {username:$username}),(friend: User {username:$friend})
         CREATE (user)-[:FRIENDS_WITH]->(friend)
         
+            """;
+    public static final String NEO4J_CHECK_FRIEND_STATUS="""
+            MATCH(user: User{username:$username})
+            -[friendswith:FRIENDS_WITH]->(friend: User {username:$friend})
+            RETURN friendswith
             """;
     public static final String NEO4J_DELETE_FRIEND_REQUEST="""
         MATCH(user: User {username:$username})
@@ -61,6 +73,12 @@ public class Neo4JQueries {
     -[request:FRIENDS_WITH]->(friend: User {username:$friend})
     DELETE request
     
+            """;
+
+    public static final String NEO4J_GET_FRIEND_REQUESTS="""
+            MATCH(user: User{username:$username})
+            <-[:ADDED]-(friend: User)
+            RETURN friend
             """;
     public static final String NEO4J_FIND_FRIENDS="""
         MATCH(user: User {username:$username})

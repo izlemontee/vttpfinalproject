@@ -30,6 +30,9 @@ import { HeaderComponent } from './header/header.component';
 import { SearchresultsComponent } from './searchresults/searchresults.component';
 import { ImagecropperComponent } from './user/picture/imagecropper/imagecropper.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { NotificationbarComponent } from './notifications/notificationbar/notificationbar.component';
+import { FriendrequestComponent } from './friendrequest/friendrequest.component';
 
 
 
@@ -52,6 +55,9 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     HeaderComponent,
     SearchresultsComponent,
     ImagecropperComponent,
+    NotificationsComponent,
+    NotificationbarComponent,
+    FriendrequestComponent,
 
   ],
   imports: [

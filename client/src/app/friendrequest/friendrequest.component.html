@@ -1,0 +1,20 @@
+<h3>Friend Requests</h3>
+<div *ngIf="users.length>0">
+    <table>
+        <tr *ngFor="let u of users, index as i">
+            <div *ngIf="!u.accepted && !u.rejected">
+                <td><a [routerLink]="['/user',u.username]">{{u.username}}</a></td>
+                <td>{{u.firstName}} {{u.lastName}}</td>
+                <td><img [src]="u.image" alt="" width="100"></td>
+                <td><button (click)="acceptRequest(i)">Accept</button></td>
+                <td><button>Reject</button></td>
+            </div>
+            <div *ngIf="u.accepted">
+                <p>You have accepted the request from {{u.username}}.</p>
+            </div>
+            <div *ngIf="u.rejected">
+                <p>You have rejected the request.</p>
+            </div>
+        </tr>
+    </table>
+</div>

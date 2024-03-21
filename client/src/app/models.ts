@@ -43,3 +43,12 @@ export interface UserSearch{
     lastName:string,
     image:string
 }
+
+export interface Request{
+    username:string, 
+    firstName:string,
+    lastName:string,
+    image:string,
+    accepted: boolean,
+    rejected:boolean
+}
