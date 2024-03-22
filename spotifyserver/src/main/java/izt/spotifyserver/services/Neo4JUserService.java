@@ -89,7 +89,6 @@ public class Neo4JUserService {
 
     public boolean friendRequestPending(String username, String friend){
         List<Object> result = userNeo4jRepo.userFriendRequestPending(username, friend);
-        System.out.println("result size:"+result.size());
         return (result.size()>0);
     }
 
@@ -101,7 +100,6 @@ public class Neo4JUserService {
     // reverse the order
     public boolean addedMe(String username, String friend){
         List<Object> result = userNeo4jRepo.userFriendRequestPending(username, friend);
-        System.out.println("result size:"+result.size());
         return (result.size()>0);
     }
 

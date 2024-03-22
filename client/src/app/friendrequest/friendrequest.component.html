@@ -1,5 +1,5 @@
 <h3>Friend Requests</h3>
-<div *ngIf="users.length>0">
+<div *ngIf="users.length>0 else nofriends">
     <table>
         <tr *ngFor="let u of users, index as i">
             <div *ngIf="!u.accepted && !u.rejected">
@@ -7,7 +7,7 @@
                 <td>{{u.firstName}} {{u.lastName}}</td>
                 <td><img [src]="u.image" alt="" width="100"></td>
                 <td><button (click)="acceptRequest(i)">Accept</button></td>
-                <td><button>Reject</button></td>
+                <td><button (click)="deleteRequest(i)">Reject</button></td>
             </div>
             <div *ngIf="u.accepted">
                 <p>You have accepted the request from {{u.username}}.</p>
@@ -18,3 +18,7 @@
         </tr>
     </table>
 </div>
+
+<ng-template #nofriends>
+    <p>Nobody wants to be your friend :(</p>
+</ng-template>

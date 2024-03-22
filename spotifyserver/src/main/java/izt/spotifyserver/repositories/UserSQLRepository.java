@@ -143,11 +143,11 @@ public class UserSQLRepository {
                     notification.getText(),
                     notification.getUrl(),
                     notification.getType(),
-                    notification.getTimestamp());
+                    notification.getTimestamp().getTime());
         return count;
 
     }   
-    public long readNotification(String id){
+    public long readNotification(int id){
         long count = jdbcTemplate.update(Queries.SQL_READ_NOTIFICATION, id);
         return count;
     }

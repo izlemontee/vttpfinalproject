@@ -1,1 +1,24 @@
-<p>notifications works!</p>
+<div *ngIf="notifications.length>0">
+    <table>
+        <tr *ngFor="let n of notifications">
+            <div (click)="readNotification(n)">
+                <td>
+                    {{n.text}}
+                </td>
+                <td>
+                    {{n.timestamp | date:"dd MMM yyyy, HH:mm"}}
+                </td>
+                <td>
+                    <div *ngIf="n.read else unread">
+                        Read
+                    </div>
+                    <ng-template #unread>
+                        Unread
+                    </ng-template>
+                </td>
+            </div>
+        </tr>
+    </table>
+</div>
+
+

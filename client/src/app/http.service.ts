@@ -10,6 +10,7 @@ export class HttpService {
 
   baseUrl: string = "http://localhost:8080/api"
   friendBaseUrl: string = "http://localhost:8080/friend"
+  notificationBaseUrl: string = "http://localhost:8080/notification"
 
   private httpClient = inject(HttpClient)
 
@@ -159,5 +160,25 @@ export class HttpService {
     const params = new HttpParams().set("username",username).set("friend",friend)
     const url = this.friendBaseUrl+"/delete"
     return lastValueFrom(this.httpClient.delete<any>(url,{params:params}))
+  }
+
+  addNotification(payload:any){
+    const url = this.notificationBaseUrl+"/add"
+    return lastValueFrom(this.httpClient.post<any>(url, payload))
+
+  }
+
+  getNotifications(username:string){
+    const url = this.notificationBaseUrl+"/get"
+    const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
+
+  }
+
+  readNotification(id:number){
+    const params = new HttpParams().set("id",id)
+    const url = this.notificationBaseUrl+"/read"
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+
   }
 }

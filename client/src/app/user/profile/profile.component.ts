@@ -4,6 +4,7 @@ import { HttpService } from '../../http.service';
 import { User } from '../../models';
 import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../state/state.selectors';
+import { NotificationstemplateService } from '../../notificationstemplate.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,7 @@ export class ProfileComponent implements OnInit{
   private activatedRoute = inject(ActivatedRoute)
   private httpService = inject(HttpService)
   private store = inject(Store)
+  private notifTemplate = inject(NotificationstemplateService)
 
   usernameInProfile!:string
 
@@ -50,9 +52,7 @@ export class ProfileComponent implements OnInit{
   getUserProfile(){
     this.httpService.getUserProfile(this.usernameInProfile).then(
       response =>{
-        console.log(response)
         this.user = response as User
-        console.log(this.user)
       }
     )
   }
@@ -70,7 +70,6 @@ export class ProfileComponent implements OnInit{
       next:(response)=>{
         this.myUsername = response.username
         if(response.username==this.usernameInProfile){
-          console.log(true)
           this.isMyProfile = true
         }
         else{
@@ -95,6 +94,8 @@ export class ProfileComponent implements OnInit{
         this.checkFriendStatus()
       }
     )
+    const payload = this.notifTemplate.createAddFriendNotification(this.myUsername, this.usernameInProfile)
+    this.httpService.addNotification(payload)
   }
 
   deleteRequest(){

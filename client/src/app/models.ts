@@ -52,3 +52,13 @@ export interface Request{
     accepted: boolean,
     rejected:boolean
 }
+
+export interface Notification{
+    username:string,
+    text:string,
+    url: string,
+    id:number,
+    type:string,
+    read:boolean,
+    timestamp:number
+}

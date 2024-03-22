@@ -3,6 +3,7 @@ import { HttpService } from '../http.service';
 import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../state/state.selectors';
 import { Request, User } from '../models';
+import { NotificationstemplateService } from '../notificationstemplate.service';
 
 @Component({
   selector: 'app-friendrequest',
@@ -13,6 +14,7 @@ export class FriendrequestComponent implements OnInit{
 
   private httpService = inject(HttpService)
   private store = inject(Store)
+  private notifTemplate = inject(NotificationstemplateService)
 
   username: string=''
   names:string[]=[]
@@ -75,14 +77,28 @@ export class FriendrequestComponent implements OnInit{
     if(username!=''){
       this.httpService.acceptFriendRequest(username, friend).then(
         ()=>{
+          const payload = this.notifTemplate.createRequestAcceptedNotification(friend,username)
+          this.httpService.addNotification(payload)
           this.users[index].accepted = true
         }
       ).catch(
         ()=>{alert("something went wrong.")}
       )
     }
+  }
 
-
+  deleteRequest(index:number){
+    const friend = this.username
+    const username = this.users[index].username
+    if(username!=''){
+      this.httpService.deleteFriendRequest(username, friend).then(
+        ()=>{
+          this.users[index].rejected = true
+        }
+      ).catch(
+        ()=>{alert("something went wrong.")}
+      )
+    }
   }
 
 }

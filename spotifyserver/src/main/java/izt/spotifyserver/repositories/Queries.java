@@ -97,8 +97,8 @@ public class Queries {
                         VALUES(?,?)
                         """;
         public static final String SQL_ADD_NEW_NOTIFICATION="""
-                INSERT INTO notifications (id, username, text, url, type, timestamp)
-                VALUES(?, ?, ?, ?, ?,?)
+                INSERT INTO notifications (username, text, url, type, timestamp)
+                VALUES(?, ?, ?, ?,?)
                         """;
         public static final String SQL_READ_NOTIFICATION="""
                 UPDATE notifications

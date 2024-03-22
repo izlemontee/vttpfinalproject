@@ -1,5 +1,9 @@
 package izt.spotifyserver.models;
 
+
+
+import java.util.Date;
+
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
@@ -12,10 +16,10 @@ public class Notification {
     private boolean notification_read;
     private String url;
     private String type;
-    private long timestamp;
+    private Date timestamp;
 
     public Notification(String username, String text, boolean notification_read, String url, String type,
-            long timestamp) {
+            Date timestamp) {
         this.username = username;
         this.text = text;
         this.notification_read = notification_read;
@@ -25,7 +29,7 @@ public class Notification {
     }
 
     public Notification(int id, String username, String text, boolean notification_read, String url, String type,
-            long timestamp) {
+            Date timestamp) {
         this.id = id;
         this.username = username;
         this.text = text;
@@ -39,10 +43,10 @@ public class Notification {
         
     }
     
-    public long getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
     public int getId() {
@@ -89,7 +93,7 @@ public class Notification {
             .add("text",getText())
             .add("url",getUrl())
             .add("type",getType())
-            .add("timestamp",getTimestamp())
+            .add("timestamp",getTimestamp().getTime())
             .add("read",isNotification_read());
         return JOB.build();
     }

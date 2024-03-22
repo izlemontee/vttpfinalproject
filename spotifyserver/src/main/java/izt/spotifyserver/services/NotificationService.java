@@ -1,5 +1,7 @@
 package izt.spotifyserver.services;
 
+
+
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +29,9 @@ public class NotificationService {
         boolean read = false;
         String url = jsonObject.getString("url");
         String type = jsonObject.getString("type");
-        long timestamp = (new Date()).getTime();
+        Date timestamp = new Date();
         Notification notification = new Notification(username, text, read, url, type, timestamp);
-        
+        userSQLRepository.addNewNotification(notification);
     }
 
     public String processGetNotificationsRequest(SqlRowSet rowSet){
@@ -41,7 +43,8 @@ public class NotificationService {
             String type = rowSet.getString("type");
             boolean notification_read = rowSet.getBoolean("notification_read");
             String url = rowSet.getString("url");
-            long timestamp = rowSet.getLong("timestamp");
+            Date timestamp = new Date(rowSet.getLong("timestamp"));
+
             Notification notification = new Notification(id, notif_username, text, notification_read, url, type, timestamp);
             JsonObject notificationJson = notification.toJsonObject();
             JAB.add(notificationJson);
@@ -60,6 +63,10 @@ public class NotificationService {
         SqlRowSet rowset = userSQLRepository.getNotifications(username);
         String body = processGetNotificationsRequest(rowset);
         return body;
+    }
+
+    public void readNotification(int id){
+        userSQLRepository.readNotification(id);
     }
 
 
