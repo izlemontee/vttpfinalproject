@@ -45,7 +45,7 @@ export class NotificationsComponent implements OnInit{
   }
 
   readNotification(notification:Notification){
-    if(notification.read){
+    if(!notification.read){
       this.httpService.readNotification(notification.id).then(
         ()=>{
           this.router.navigate([notification.url])

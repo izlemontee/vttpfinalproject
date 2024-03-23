@@ -148,6 +148,7 @@ public class UserSQLRepository {
 
     }   
     public long readNotification(int id){
+        System.out.println("read notif");
         long count = jdbcTemplate.update(Queries.SQL_READ_NOTIFICATION, id);
         return count;
     }
