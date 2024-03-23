@@ -1,5 +1,7 @@
 package izt.spotifyserver.controllers;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addNewNotification(@RequestBody String requestBody){
+    public ResponseEntity<String> addNewNotification(@RequestBody String requestBody)throws IOException{
         notificationService.addNewNotification(requestBody);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
                                             .body("{}");
@@ -53,6 +55,14 @@ public class NotificationController {
         notificationService.readNotification(id);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
         .body(("{}"));
+        return response;
+    }
+
+    @GetMapping(path = "/unreadnumber")
+    public ResponseEntity<String> getNumberOfUnreadNotifs(@RequestParam String username){
+        String body = notificationService.getNumberOfUnreadNotifsBody(username);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body(body);
         return response;
     }
 }

@@ -2,6 +2,7 @@ package izt.spotifyserver.services;
 
 
 
+import java.io.IOException;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,13 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 
 import izt.spotifyserver.Utils.Utils;
+import izt.spotifyserver.config.WebSocketHandler;
 import izt.spotifyserver.models.Notification;
 import izt.spotifyserver.repositories.UserSQLRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 @Service
 public class NotificationService {
@@ -21,7 +24,10 @@ public class NotificationService {
     @Autowired
     private UserSQLRepository userSQLRepository;
 
-    public void addNewNotification(String requestBody){
+    @Autowired
+    private WebSocketHandler webSocketHandler;
+
+    public void addNewNotification(String requestBody)throws IOException{
         JsonObject jsonObject = Utils.stringToJson(requestBody);
         // recipient username
         String username = jsonObject.getString("username");
@@ -32,6 +38,8 @@ public class NotificationService {
         Date timestamp = new Date();
         Notification notification = new Notification(username, text, read, url, type, timestamp);
         userSQLRepository.addNewNotification(notification);
+        Integer count = getNumberOfUnreadNotifications(username);
+        webSocketHandler.updateUnreadNotifsCount(username, count);
     }
 
     public String processGetNotificationsRequest(SqlRowSet rowSet){
@@ -69,6 +77,21 @@ public class NotificationService {
         userSQLRepository.readNotification(id);
     }
 
+    public String getNumberOfUnreadNotifsBody(String username){
+        Integer count = getNumberOfUnreadNotifications(username);
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("count",count);
+        return JOB.build().toString();
+    }
+
+    public Integer getNumberOfUnreadNotifications(String username){
+        SqlRowSet rowSet = userSQLRepository.getNumberOfUnreadNotifications(username);
+        int count = 0;
+        if(rowSet.next()){
+            count = rowSet.getInt("COUNT(notification_read)");
+        }
+        return count;
+    }
 
     public void getNotificationType(){
 

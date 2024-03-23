@@ -3,6 +3,7 @@ package izt.spotifyserver.controllers;
 import java.io.StringReader;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,6 +40,9 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 @CrossOrigin
 public class ApiController {
 
+    @Value("${client.domain}")
+    private String CLIENT_DOMAIN;
+
     @Autowired
     private SpotifyApiService spotifyApiService;
 
@@ -67,8 +71,9 @@ public class ApiController {
     @GetMapping(path = "/callback")
     public String redirectAfterAuth(@RequestParam("code") String authKey, HttpServletResponse response)throws Exception{
         String tempId = spotifyApiService.redirectAfterAuth(authKey);
+        String url = CLIENT_DOMAIN+"/redirect?id="+tempId;
         
-        response.sendRedirect("http://localhost:4200/redirect?id="+tempId);
+        response.sendRedirect(url);
         return tempId;
     }
 
@@ -328,4 +333,5 @@ public class ApiController {
         
         return response;
     }
+
 }

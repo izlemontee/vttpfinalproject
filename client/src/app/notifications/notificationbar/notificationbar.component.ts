@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../state/state.selectors';
+import { HttpService } from '../../http.service';
 
 
 export const TYPE_SESSION_USERNAME = "session_username"
@@ -16,9 +17,12 @@ export class NotificationbarComponent implements OnInit{
 
   myUsername!:string
 
+  unreadCount: number = 0
+
   ws!:WebSocket
   private cdr = inject(ChangeDetectorRef)
   private store = inject(Store)
+  private httpService = inject(HttpService)
 
   ngOnInit(): void {
       this.getUsernameFromStore()
@@ -31,6 +35,7 @@ export class NotificationbarComponent implements OnInit{
         if(response.username !=''){
           console.log("connected")
           this.connectToWebsocket()
+          this.getNumberOfUnreadNotifications()
         }else{
           this.disconnectToWebSocket()
         }
@@ -70,8 +75,12 @@ export class NotificationbarComponent implements OnInit{
 
   onReceive(event:MessageEvent<any>){
     try{
-        let receivedMsg = JSON.parse(event.data)
-        this.cdr.detectChanges()
+      console.log("message received")
+      let receivedMsg = JSON.parse(event.data)
+      console.log(receivedMsg)
+      let payload = receivedMsg.payload
+      this.unreadCount = payload
+      this.cdr.detectChanges()
 
 
     }catch(error){
@@ -102,5 +111,13 @@ export class NotificationbarComponent implements OnInit{
     else{
       console.error("failed to send message. might still be connecting")
     }
+  }
+
+  getNumberOfUnreadNotifications(){
+    this.httpService.getNumberOfUnreadNotifications(this.myUsername).then(
+      (response)=>{
+        this.unreadCount = response.count
+      }
+    )
   }
 }

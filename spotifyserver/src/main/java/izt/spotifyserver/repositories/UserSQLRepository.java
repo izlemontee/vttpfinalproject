@@ -168,5 +168,10 @@ public class UserSQLRepository {
         return rowset;
     }
 
+    public SqlRowSet getNumberOfUnreadNotifications(String username){
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_GET_NUMBER_UNREAD_NOTIFS,username);
+        return rowset;
+    }
+
     
 }

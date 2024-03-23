@@ -181,4 +181,10 @@ export class HttpService {
     return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
 
   }
+
+  getNumberOfUnreadNotifications(username:string){
+    const url = this.notificationBaseUrl+"/unreadnumber"
+    const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
 }

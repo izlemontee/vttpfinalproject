@@ -120,4 +120,10 @@ public class Queries {
                 FROM users
                 WHERE username LIKE ?
                         """;
+        public static final String SQL_GET_NUMBER_UNREAD_NOTIFS="""
+                SELECT COUNT(notification_read)
+                FROM notifications
+                WHERE username = ?
+                AND notification_read = false;
+                        """;
 }

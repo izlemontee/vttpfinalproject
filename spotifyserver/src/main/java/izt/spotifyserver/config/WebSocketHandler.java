@@ -1,5 +1,6 @@
 package izt.spotifyserver.config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,8 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import izt.spotifyserver.Utils.Utils;
 import jakarta.json.JsonObject;
@@ -60,5 +63,22 @@ public class WebSocketHandler extends TextWebSocketHandler{
             sessions.put(username, list);
         }
 
+    }
+
+    public void updateUnreadNotifsCount(String username, Integer count)throws IOException{
+        List<WebSocketSession> sessionsList = sessions.get(username);
+        List<WebSocketSession> newList = new ArrayList<>();
+        for(WebSocketSession ws:sessionsList){
+            TextMessage textMessage = new TextMessage(count.toString());
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonString = objectMapper.writeValueAsString(textMessage);
+            try{
+                ws.sendMessage(new TextMessage(jsonString));
+                newList.add(ws);
+            }catch(IllegalStateException ex){
+                ws.close();
+            }
+        }
+        sessions.replace(username, newList);
     }
 }
