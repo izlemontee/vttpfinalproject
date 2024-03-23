@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -262,23 +263,28 @@ public class SpotifyApiService {
         headers.set("Authorization", bearer);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
        
+        try{
         ResponseEntity<String> response = restTemplate.exchange(requestUri,
                                             HttpMethod.GET
                                             ,entity,
                                             String.class
                                             );
-        // if the access key has expired
-        if(response.getStatusCode().value() == 401){
-            refreshUserAccessToken(user);
-            String responseBody = getUserTopArtists(username, duration);
-            return responseBody;
-        }
-        else if(response.getStatusCode().value() == 403){
-            String body = response.getBody();
-            return body;
-        }
         String responseBody = response.getBody();
         return responseBody;
+        }catch(HttpClientErrorException ex){
+            Integer errorCode = ex.getStatusCode().value();
+
+            // 401 is when the status code expires
+            if(errorCode == 401){
+                System.out.println("401 status code expired");
+                refreshUserAccessToken(user);
+                String responseBody = getUserTopArtists(username, duration);
+                return responseBody;
+            }else{
+                String body = ex.getResponseBodyAsString();
+                return body;
+            }
+        }
         
         // if the access key has expired
         // catch(Exception ex){
