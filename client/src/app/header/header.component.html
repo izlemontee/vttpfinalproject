@@ -1,2 +1,54 @@
-<app-searchbar></app-searchbar>
-<app-notificationbar></app-notificationbar>
+<div class="container">
+    <div style="width:12.5%; margin-top:5px;">
+        <a [routerLink]="['/']">
+            <div style="display: flex;">
+                <div>
+                <img src="/assets/icons/legato_icon.png" alt="" width="80" height="80" class="icon">
+                </div>
+                <div class="name">Legato</div>
+            </div>
+        </a>
+    </div>
+
+    <div style="width:85%">
+            <div *ngIf="loggedIn else loggedout" class="container">
+   
+                <div class="searchbar">
+                    <app-searchbar></app-searchbar>
+                </div>
+                <div class="notif">
+                    <app-notificationbar></app-notificationbar>
+                </div>
+                <div class="profile">
+                    <a href="" [routerLink]="['/user',username]">
+                        <div class="container">
+                            <div>
+                                <img [src]="image" alt="" width="50" class="profilepic">
+                            </div>
+                            <div class="username">
+                                {{username}}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div style="float:right; margin-right:20px;" class="logout">
+                    <button mat-flat-button style="background-color: #98D5F1; color: white;" 
+                    (click)="logout()">Logout</button>
+                </div>
+            </div> 
+           
+        <ng-template #loggedout>
+            <div class="container">
+                <div *ngIf="!inLogin" class="loginbutton">
+                    <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                    (click)="login()">Login</button>
+                </div>
+                <div *ngIf="!inCreateUser" class="loginbutton">
+                    <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                    (click)="createUser()">Create User</button>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+
+</div>

@@ -1,1 +1,6 @@
-<h4>You have {{unreadCount}} unread notifications</h4>
+<div style="margin-top:20px; margin-right:15px;">
+    <a href="" [routerLink]="['/notifications']">
+        <mat-icon [matBadge]="unreadCount" [matBadgeColor]="unreadCount > 0 ? 'accent' : undefined">notifications</mat-icon>
+    </a>
+</div>
+

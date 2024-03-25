@@ -1,0 +1,23 @@
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2px 0;
+    background-color: #767C7F;
+    z-index:10;
+
+}
+
+.content{
+    background-color: #AEB8BC;
+    min-height: 100vh;
+    margin-left: 5%;
+    width:90%
+}
+
+.content-container{
+    background-color: #AEB8BC;
+    padding-top:120px;
+    width:100%;
+}

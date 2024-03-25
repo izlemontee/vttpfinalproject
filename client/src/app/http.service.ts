@@ -187,4 +187,10 @@ export class HttpService {
     const params = new HttpParams().set("username",username)
     return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
   }
+
+  getUserImage(username:string){
+    const url = this.baseUrl+'/image'
+    const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
 }

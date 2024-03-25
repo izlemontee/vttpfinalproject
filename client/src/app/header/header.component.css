@@ -1,0 +1,77 @@
+.navbar{
+    position:fixed;
+}
+
+.container{
+    display:flex;
+    height:100px;
+}
+
+.container-child{
+    flex:1;
+}
+
+.profilepic{
+    border-radius: 25px;
+}
+
+.searchbar mat-form-field{
+    width:30px;
+}
+
+.searchbar{
+    margin-top:20px;
+    height:60%;
+    width:70%;
+    /* border-style: dashed; */
+}
+
+.notif{
+    width:4%;
+    margin-top:18px;
+    /* border-style: dashed; */
+}
+
+.profile{
+    width:20%;
+    /* border-style: dashed; */
+    margin-top:22px;
+    
+}
+.logout{
+    width:5%;
+    /* border-style: dashed; */
+    margin-top:30px;
+}
+
+.icon{
+    border-radius: 40px;
+    margin-left:5px;
+    margin-top:5px;
+
+}
+
+.name{
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    font-weight: bold;
+    margin-top:18%;
+    margin-left:5px;
+    height:60%;
+    color:white;
+    text-shadow: 2px 2px black;
+    font-size: 25px;
+}
+
+.username{
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    color:white;
+    text-shadow: 2px 2px black;
+    margin-top:10%;
+    margin-left:5px;
+}
+
+.loginbutton{
+    margin-top:30px;
+    margin-left:15px;
+}
+

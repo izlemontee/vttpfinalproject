@@ -1,19 +1,9 @@
-<div *ngIf="loggedIn else loggedout">
-    <p>Logged in as: {{username}}</p>
-    <button (click)="logout()">Logout</button>
-    <button (click)="setupUser()">Setup Profile</button>
-</div>
-<div>
-    <app-header></app-header>
-</div>
+
+<app-header class="navbar"></app-header>
 
 
-<ng-template #loggedout>
-    <div *ngIf="!inLogin">
-        <button (click)="login()">Login</button>
+<div class="content-container">
+    <div class="content">
+        <router-outlet ></router-outlet>
     </div>
-    <div *ngIf="!inCreateUser">
-        <button (click)="createUser()">Create User</button>
-    </div>
-</ng-template>
-<router-outlet></router-outlet>
+</div>

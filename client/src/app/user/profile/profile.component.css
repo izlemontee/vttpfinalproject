@@ -1,0 +1,12 @@
+.container{
+    height:100%;
+    display: flex;
+}
+
+.profiletext{
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    font-size: 25px;
+    color: white;
+    text-shadow: 2px 2px black;
+    line-height: 24px;
+}

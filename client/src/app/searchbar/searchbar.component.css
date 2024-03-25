@@ -1,0 +1,11 @@
+.searchbar mat-form-field{
+    width:85%;
+}
+
+.button{
+   margin-left:5px;
+}
+
+.mat-searchbutton{
+    background-color: #98D5F1;
+}

@@ -1,55 +1,76 @@
-<div *ngIf="user">
-    <div *ngIf="!isMyProfile">
-        <div *ngIf="!pendingRequest && !isMyFriend && !addedMe">
-            <button (click)="addFriend()">Add friend</button>
-        </div>
-        <div *ngIf="pendingRequest && !isMyFriend && !addedMe">
-            <p>pending request</p>
-            <button (click)="deleteRequest()">Delete Request</button>
-        </div>
-        <div *ngIf="addedMe && !isMyFriend &&!pendingRequest">
-            <p>
-                {{usernameInProfile}} added you as a friend.
-            </p>
-            <button>
-                Accept
-            </button>
-        </div>
-        <div *ngIf="isMyFriend && !pendingRequest && !addedMe">
-            <p>You are friends</p>
-            <button (click)="deleteFriend()">Remove Friend</button>
+
+<div *ngIf="user" class="container">
+    <!-- basic profile info -->
+    <div>
+        <img [src]="user.image" alt="" width="200" height="200" style="border-radius: 100px;">
+        <table class="profiletext" style="margin-bottom: 10px;">
+            <tr>
+                <td>{{user.username}}</td>
+            </tr>
+            <tr>
+                <td>{{user.firstName | titlecase}} {{user.lastName | titlecase}}</td>
+            </tr>
+            <tr>
+                <td style="font-style: italic;">{{user.bio}}</td>
+            </tr>
+        </table>
+
+        <div *ngIf="!isMyProfile else myProfile">
+            <div *ngIf="!pendingRequest && !isMyFriend && !addedMe">
+                <button (click)="addFriend()">Add friend</button>
+            </div>
+            <div *ngIf="pendingRequest && !isMyFriend && !addedMe">
+                <p>pending request</p>
+                <button (click)="deleteRequest()">Delete Request</button>
+            </div>
+            <div *ngIf="addedMe && !isMyFriend &&!pendingRequest">
+                <p>
+                    {{usernameInProfile}} added you as a friend.
+                </p>
+                <button>
+                    Accept
+                </button>
+            </div>
+            <div *ngIf="isMyFriend && !pendingRequest && !addedMe">
+                <p>You are friends</p>
+                <button
+                (click)="deleteFriend()">Remove Friend</button>
+            </div>
         </div>
     </div>
-<table>
-    <tr>
-        <td>{{user.username}}</td>
-    </tr>
-    <tr>
-        <td>{{user.firstName | titlecase}} {{user.lastName | titlecase}}</td>
-    </tr>
-    <tr>
-        <td>{{user.bio}}</td>
-    </tr>
-</table>
-<img [src]="user.image" alt="" width="200">
-<h4>{{user.username}}'s top artists</h4>
-<table>
-    <tr *ngFor="let a of user.artists">
-        <td><a [href]="a.external_url">{{a.name}}</a></td>
-        <td><img [src]="a.image" alt="" height="60"></td>
-    </tr>
-</table>
-</div>
-<div *ngIf="instruments.length>0">
-    <h2>{{usernameInProfile}} plays:</h2>
     <div>
-        <span *ngFor="let i of instruments">{{i}} </span>
+        <!-- top artists -->
+        <h4>{{user.username}}'s top artists</h4>
+        <table>
+            <tr *ngFor="let a of user.artists">
+                <td><a [href]="a.external_url">{{a.name}}</a></td>
+                <td><img [src]="a.image" alt="" height="60" width="60" style="border-radius: 30px;"></td>
+            </tr>
+        </table>
+
+        <!-- top genres -->
+        <div *ngIf="genres.length>0">
+            <h2>{{usernameInProfile}}'s top genres:</h2>
+            <table>
+                <tr *ngFor="let g of genres">
+                    <td>{{g}}</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <div>
+            <!-- instruments -->
+            <div *ngIf="instruments.length>0">
+                <h2>{{usernameInProfile}} plays:</h2>
+                <div>
+                    <span *ngFor="let i of instruments">{{i}} </span>
+                </div>
+            </div>
     </div>
 </div>
 
-<div *ngIf="genres.length>0">
-    <h2>{{usernameInProfile}}'s top genres:</h2>
-    <div>
-        <span *ngFor="let g of genres">{{g}} </span>
-    </div>
-</div>
+<ng-template #myProfile>
+    <button mat-flat-button style="background-color: #98D5F1; color: white;"
+    (click)="setupUser()">Setup Profile</button>
+</ng-template>

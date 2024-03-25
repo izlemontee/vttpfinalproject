@@ -334,4 +334,14 @@ public class ApiController {
         return response;
     }
 
+    @GetMapping(path = "/image")
+    public ResponseEntity<String> getUserImage(@RequestParam String username){
+        String body = spotifyApiService.getUserImage(username);
+        ResponseEntity<String> response = ResponseEntity.status(200)
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .body(body);
+        
+        return response;
+    }
+
 }

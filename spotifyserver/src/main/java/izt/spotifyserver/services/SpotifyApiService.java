@@ -65,6 +65,8 @@ public class SpotifyApiService {
     @Autowired
     private SpotifyApiCalls apiCalls;
 
+    private final String PLACEHOLDER_IMAGE="https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg";
+
    
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -180,7 +182,7 @@ public class SpotifyApiService {
                                                         String.class);
     }
 
-    @Transactional
+    // @Transactional
     public void createUser(String body){
         JsonObject bodyJson = Utils.stringToJson(body);
         User user = new User();
@@ -462,6 +464,20 @@ public class SpotifyApiService {
             JAB.add(JOB.build());
         }
         return JAB.build().toString();
+    }
+
+    public String getUserImage(String username){
+        SqlRowSet rowset = userSqlRepo.getImage(username);
+        String image = "";
+        if(rowset.next()){
+            image = rowset.getString("image");
+        }
+        else{
+            image = PLACEHOLDER_IMAGE;
+        }
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("image",image);
+        return JOB.build().toString();
     }
 
 }

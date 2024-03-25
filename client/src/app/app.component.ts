@@ -32,6 +32,7 @@ export class AppComponent implements OnInit{
   id!:string
   sessionSubscribe!: Observable<UserSession>
   loginButtonSubscribe!: Observable<void>
+  image!:string
 
   // for the initialisation
   loginEnabledSubscribe !:Observable<void>
@@ -76,9 +77,7 @@ export class AppComponent implements OnInit{
     this.inCreateUser = true
     this.router.navigate(['/createuser'])
   }
-  setupUser(){
-    this.router.navigate(['/setup'])
-  }
+
 
   iniitaliseLoginButtonState(){
     this.loginEnabledSubscribe = this.session.enableLoginButton
@@ -107,6 +106,11 @@ export class AppComponent implements OnInit{
             this.username = response.username
             this.id = response.id
             this.loggedIn = true
+            this.httpService.getUserImage(this.username).then(
+              (response)=>{
+                this.image = response.image
+              }
+            )
           }
           else{
             this.loggedIn = false

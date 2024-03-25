@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../../http.service';
 import { User } from '../../models';
 import { Store } from '@ngrx/store';
@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit{
   private httpService = inject(HttpService)
   private store = inject(Store)
   private notifTemplate = inject(NotificationstemplateService)
+  private router = inject(Router)
 
   usernameInProfile!:string
 
@@ -41,11 +42,16 @@ export class ProfileComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      this.usernameInProfile = this.activatedRoute.snapshot.params['username']
-      this.getUserProfile()
-      this.getUserInstruments()
-      this.checkUsernameWithStore()
-      this.getGenres()
+    this.activatedRoute.params.subscribe(
+      (response)=>{
+        this.usernameInProfile = response['username']
+        this.getUserProfile()
+        this.getUserInstruments()
+        this.checkUsernameWithStore()
+        this.getGenres()
+      }
+    )
+
   }
 
 
@@ -126,6 +132,10 @@ export class ProfileComponent implements OnInit{
         this.addedMe = false
       }
     )
+  }
+
+  setupUser(){
+    this.router.navigate(['/setup'])
   }
 
 

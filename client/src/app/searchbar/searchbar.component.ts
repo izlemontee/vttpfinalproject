@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../http.service';
 import { Router } from '@angular/router';
 
@@ -22,14 +22,21 @@ export class SearchbarComponent implements OnInit{
 
   createForm(){
     return this.fb.group({
-      search: this.fb.control<string>('', Validators.required)
+      search: this.fb.control<string>('', [Validators.required])
     })
   }
 
   processForm(){
-    const searchTerm = this.searchForm.value.search
+    const searchTerm = this.searchForm.value.search.trim()
     this.searchForm.reset()
-    this.router.navigate(['/search'], {queryParams:{"searchTerm":searchTerm}})
+    if(searchTerm!=''){
+      this.router.navigate(['/search'], {queryParams:{"searchTerm":searchTerm}})
+    }
+    else{
+      alert("Please enter some text to search.")
+    }
+
   }
+
 
 }

@@ -126,4 +126,9 @@ public class Queries {
                 WHERE username = ?
                 AND notification_read = false;
                         """;
+        public static final String SQL_GET_USER_IMAGE="""
+                SELECT image
+                FROM users
+                WHERE username = ?
+                        """;
 }

@@ -33,6 +33,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationbarComponent } from './notifications/notificationbar/notificationbar.component';
 import { FriendrequestComponent } from './friendrequest/friendrequest.component';
+import { MaterialsModule } from './materials/materials.module';
 
 
 
@@ -67,7 +68,8 @@ import { FriendrequestComponent } from './friendrequest/friendrequest.component'
     ReactiveFormsModule,
     MatIconModule,
     StoreModule.forRoot({user:userReducer}, {}),
-    ImageCropperModule
+    ImageCropperModule,
+    MaterialsModule
   ],
   providers: [Document, provideAnimationsAsync(),
     AppInitialiserService,
