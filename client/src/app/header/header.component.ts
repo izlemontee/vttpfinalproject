@@ -7,6 +7,8 @@ import { Store } from '@ngrx/store';
 import { HttpService } from '../http.service';
 import { SessionService } from '../session.service';
 import { deleteSession } from '../state/state.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +21,8 @@ export class HeaderComponent implements OnInit{
   private router = inject(Router)
   private store = inject(Store)
   private httpService = inject(HttpService)
+
+  private loginDialog = inject(MatDialog)
 
   username!:string
   id!:string
@@ -60,11 +64,13 @@ subscribeToDisableLoginButton(){
     this.store.dispatch(deleteSession())
     // this.username = ""
     // this.id = ""
+    this.router.navigate(['/'])
   }
 
   login(){
     this.inLogin = true
-    this.router.navigate(['/login'])
+    // this.router.navigate(['/login'])
+    this.loginDialog.open(LoginComponent)
   }
   createUser(){
     this.inCreateUser = true

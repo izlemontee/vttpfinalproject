@@ -1,13 +1,26 @@
-<div *ngIf="searchResults.length>0 else noResults">
-    <h3>Search results for: "{{searchTerm}}"</h3>
-    <table>
-        <tr *ngFor="let s of searchResults">
-            <td><a [routerLink]="['/user',s.username]">{{s.username}}</a></td>
-            <td>{{s.firstName}}</td>
-            <td>{{s.lastName}}</td>
-            <td><img [src]="s.image" alt="" height="100" width="100"></td>
-        </tr>
-    </table>
+<div class="container">
+    <div *ngIf="searchResults.length>0 else noResults" >
+        <h3>Search results for: "{{searchTerm}}"</h3>
+        <table  style="width: 100%;">
+            <tr *ngFor="let s of searchResults">
+                <a [routerLink]="['/user',s.username]">
+                    <div class="result">
+                        <div class="name-container">
+                            <div class="username">
+                                {{s.username}}
+                            </div>
+                            <div class="name">
+                                {{s.firstName | titlecase}} {{s.lastName | titlecase}}
+                            </div>
+                        </div>
+                        <div class="picture-container">
+                            <img class="picture" [src]="s.image" alt="" height="100" width="100">
+                        </div>
+                    </div>
+                </a>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <ng-template #noResults>

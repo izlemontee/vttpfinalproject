@@ -1,24 +1,22 @@
-<div *ngIf="notifications.length>0">
-    <table>
-        <tr *ngFor="let n of notifications">
-            <div (click)="readNotification(n)">
-                <td>
-                    {{n.text}}
-                </td>
-                <td>
-                    {{n.timestamp | date:"dd MMM yyyy, HH:mm"}}
-                </td>
-                <td>
-                    <div *ngIf="n.read else unread">
-                        Read
+<div class="container">
+    <h4>Notifications</h4>
+
+    <div *ngIf="notifications.length>0" style="width: 100%; ">
+        <table style="width:100%">
+            <tr *ngFor="let n of notifications" style="width: 100%; ">
+                
+                    <div (click)="readNotification(n)" [ngClass]="n.read ? 'read' : 'unread'" class="notification">
+                        <div class="text">
+                            {{n.text}}
+                        </div>
+                        <div class="timestamp">
+                            {{n.timestamp | date:"dd MMM yyyy, HH:mm"}}
+                        </div>
                     </div>
-                    <ng-template #unread>
-                        Unread
-                    </ng-template>
-                </td>
-            </div>
-        </tr>
-    </table>
+            
+            </tr>
+        </table>
+    </div>
 </div>
 
 

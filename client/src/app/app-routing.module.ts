@@ -14,7 +14,6 @@ import { FriendrequestComponent } from './friendrequest/friendrequest.component'
 
 const routes: Routes = [
   {path:"",component:MainComponent},
-  {path:'login',component:LoginComponent, canActivate:[isLoggedOut]},
   {path:'redirect',component:LoginredirectComponent},
   {path:'createuser',component:UsercreationComponent},
   {path:'setup',component:ProfilesetupComponent, canActivate:[isLoggedIn]},

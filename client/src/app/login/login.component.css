@@ -1,0 +1,39 @@
+.container{
+    background-color: #8eed9d;
+    height:140px;
+    width: 350px;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    font-size: 15px;
+    text-shadow: 1px 1px black;
+    color: white;
+
+}
+
+.cell{
+    margin-top:10px;
+    margin-left:10px;
+    display:flex;
+}
+
+.text{
+    width:35%;
+}
+
+.input{
+    width:65%;
+}
+
+.password{
+    display: flex;
+    width:65%;
+}
+
+.incorrect{
+    background-color: #8eed9d;
+    height: 200px;
+    width: 350px;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    font-size: 15px;
+    text-shadow: 1px 1px black;
+    color: white;
+}

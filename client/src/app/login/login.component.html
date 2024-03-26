@@ -1,25 +1,46 @@
-<form [formGroup]="loginForm">
-    <div *ngIf="!usernamePasswordMatch">
-        Incorrect username or password!
-    </div>
-    <table>
-        <tr>
-            <td>Username: </td>
-            <td><p *ngIf="!usernameExists">Username does not exist</p><input type="text" formControlName="username"></td>
-        </tr>
-        <tr>
-            <td>Password: </td>
-            <td><div><input [type]="passwordHidden ? 'password' : 'text'" formControlName="password">    
-                <mat-icon (click)="togglePasswordVisibility()">
-                    {{ passwordHidden ? 'visibility_off' : 'visibility' }}
-                </mat-icon></div>
-            </td>
-        </tr>
-        <tr>
-            <button type="submit" (click)="login()">Login</button>
-        </tr>
-    </table>
+<div [ngClass]="usernamePasswordMatch ? 'container' : 'incorrect'">
+    <form [formGroup]="loginForm">
+        <div *ngIf="!usernamePasswordMatch">
+            Incorrect username or password!
+        </div>
+        <table>
+            <tr>
+                <div class="cell">
+                    <div class="text">
+                        Username:
+                    </div>
+                    <div class="input">
+                        <p *ngIf="!usernameExists">Username does not exist</p>
+                        <input type="text" formControlName="username">
+                    </div>
+                </div>
+            </tr>
+            <tr>
+                <div class="cell">
+                    <div class="text">
+                        Password:
+                    </div>
+                    <div class="password">
+                        <div>
+                            <input [type]="passwordHidden ? 'password' : 'text'" formControlName="password">  
+                        </div>
+                        <div>
+                            <mat-icon (click)="togglePasswordVisibility()">
+                                {{ passwordHidden ? 'visibility_off' : 'visibility' }}
+                            </mat-icon>
+                        </div>
+                    </div>
+                </div>
+            </tr>
+            <tr>
+                <div class="cell">
+                    <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                    type="submit" (click)="login()" [disabled]="!loginForm.valid">Login</button>
+                </div>
+            </tr>
+        </table>
 
-</form>
+    </form>
+</div>
 
 
