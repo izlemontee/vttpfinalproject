@@ -132,6 +132,12 @@ public class UserSQLRepository {
         SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_FIND_GENRES_BY_USER, username);
         return rowset;
     }
+
+    public long deleteGenres(String username){
+        long count = jdbcTemplate.update(Queries.SQL_DELETE_GENRES, username);
+        return count;
+    }
+
     public long addGenres(String genre, String username){
         long count = jdbcTemplate.update(Queries.SQL_ADD_GENRE_TO_USER, genre, username);
         return count;

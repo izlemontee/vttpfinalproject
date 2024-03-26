@@ -437,12 +437,15 @@ public class SpotifyApiService {
     }
 
     public void addGenres(String requestBody, String username){
+        userSqlRepo.deleteGenres(username);
+        System.out.println("genres deleted");
         JsonArray genresArray = Utils.stringToJsonArray(requestBody);
         long count = 0;
         for(JsonValue v:genresArray){
             String genre = v.toString().replace("\"", "");
             count += userSqlRepo.addGenres(genre, username);
         }
+        System.out.println("genres added");
     }
 
     public String getUserSearchResults(String searchTerm){

@@ -92,6 +92,11 @@ public class Queries {
                         FROM genres
                         WHERE username = ?
                         """;
+
+        public static final String SQL_DELETE_GENRES="""
+                        DELETE from genres
+                        WHERE username=?
+                        """;
         public static final String SQL_ADD_GENRE_TO_USER="""
                         INSERT INTO genres (name, username)
                         VALUES(?,?)

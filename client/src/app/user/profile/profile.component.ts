@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../../http.service';
-import { User } from '../../models';
+import { Instrument, User } from '../../models';
 import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../state/state.selectors';
 import { NotificationstemplateService } from '../../notificationstemplate.service';
@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit{
   usernameInProfile!:string
 
   user!:User
-  instruments: string[] =[]
+  instruments: Instrument[] =[]
   genres: string[]=[]
 
   // checks if this profile is the current user's profile, otherwise have an add option
@@ -66,7 +66,16 @@ export class ProfileComponent implements OnInit{
   getUserInstruments(){
     this.httpService.getUserInstruments(this.usernameInProfile).then(
       response =>{
-        this.instruments = response.instruments
+        for(let i of response.instruments){
+          const imageName = i.replace(' ','_')
+          const image = "https://izlemonteebucket.sgp1.digitaloceanspaces.com/images/"+imageName+".png"
+          const instrument: Instrument= {
+            name:i,
+            image:image,
+            alt:"https://izlemonteebucket.sgp1.digitaloceanspaces.com/images/note.png"
+          }
+          this.instruments.push(instrument)
+        }
       }
     )
   }

@@ -10,3 +10,77 @@
     text-shadow: 2px 2px black;
     line-height: 24px;
 }
+
+h4{
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    font-size: 20px;
+    color: white;
+    text-shadow: 1px 1px black;
+    line-height: 24px;
+}
+
+.artist{
+    background-color: rgba(87, 236, 87, 0.89);
+    border-radius: 10px;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    display: flex;
+    height:66px;
+    margin-top:2px;
+    margin-bottom:2px;
+}
+
+a{
+   color: white; 
+   margin-top:1%;
+}
+
+td{
+    /* border-style: dotted; */
+}
+
+.artist-name{
+    width:180px;
+    margin-top:10%;
+    margin-left:5px;
+}
+
+.artist-picture{
+    width:60px;
+    margin-top:3px;
+    margin-right:3px;
+    /* border-style: dotted; */
+}
+
+.genre{
+    width:100px;
+    background-color: rgba(87, 236, 87, 0.89);
+    color:white;
+    font-size:15px;
+    height:30px;
+    text-align: center;
+    border-radius:10px;
+    margin-top:1px;
+    margin-bottom:1px;
+}
+
+.instrument{
+    background-color: #767C7F;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    color:white;
+    display:flex;
+    height:40px;
+    font-size:15px;
+    width:160px;
+    border-radius:20px;
+    margin-top:1px;
+    margin-bottom:2px;
+}
+
+.instrument-icon{
+    margin-top:5px;
+    margin-left:2px;
+}
+.instrument-name{
+    margin-top:10px;
+    margin-left:4px;
+}

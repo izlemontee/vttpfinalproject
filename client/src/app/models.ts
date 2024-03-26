@@ -62,3 +62,9 @@ export interface Notification{
     read:boolean,
     timestamp:number
 }
+
+export interface Instrument{
+    name:string,
+    image:string,
+    alt:string
+}
