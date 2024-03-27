@@ -4,6 +4,7 @@ package izt.spotifyserver.services;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -73,8 +74,23 @@ public class NotificationService {
         return body;
     }
 
-    public void readNotification(int id){
+    public Optional<String> getSingleNotification(int id){
+        SqlRowSet rowSet = userSQLRepository.getSingleNotification(id);
+
+        if(rowSet.next()){
+            Optional<String> optional = Optional.of(rowSet.getString("username"));
+            return optional;
+        }else{
+            return Optional.empty();
+        }
+    }
+
+    public void readNotification(int id)throws IOException{
         userSQLRepository.readNotification(id);
+        Optional<String> optional = getSingleNotification(id);
+        String username = optional.get();
+        Integer count = getNumberOfUnreadNotifications(username);
+        webSocketHandler.updateUnreadNotifsCount(username, count);
     }
 
     public String getNumberOfUnreadNotifsBody(String username){

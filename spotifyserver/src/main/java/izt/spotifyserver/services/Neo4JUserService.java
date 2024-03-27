@@ -144,5 +144,12 @@ public class Neo4JUserService {
         userNeo4jRepo.deleteFriend(username,friend);
         userNeo4jRepo.deleteFriend(friend, username);
     }
+
+    public String getNumberOfFriends(String username){
+        Integer friendCount = userNeo4jRepo.getNumberOfFriends(username);
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("friends",friendCount);
+        return JOB.build().toString();
+    }
     
 }

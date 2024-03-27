@@ -10,17 +10,18 @@ import { isLoggedIn, isLoggedOut } from './guards';
 import { SearchresultsComponent } from './searchresults/searchresults.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { FriendrequestComponent } from './friendrequest/friendrequest.component';
+import { FriendsComponent } from './user/friends/friends.component';
 
 
 const routes: Routes = [
   {path:"",component:MainComponent},
   {path:'redirect',component:LoginredirectComponent},
-  {path:'setup',component:ProfilesetupComponent, canActivate:[isLoggedIn]},
-  // {path:'setup',component:ProfilesetupComponent},
   {path:'user/:username', component:ProfileComponent},
   {path:"search", component:SearchresultsComponent},
-  {path:"notifications", component:NotificationsComponent},
-  {path:"requests",component:FriendrequestComponent}
+  {path:"notifications", component:NotificationsComponent,canActivate:[isLoggedIn]},
+  // {path:"requests",component:FriendrequestComponent, canActivate:[isLoggedIn]},
+  {path:"requests",component:FriendrequestComponent,},
+  {path:"user/:username/friends",component:FriendsComponent}
 
 ];
 

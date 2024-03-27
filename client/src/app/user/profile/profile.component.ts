@@ -40,6 +40,8 @@ export class ProfileComponent implements OnInit{
 
   myUsername!: string
 
+  numberOfFriends: number = 0
+
   constructor(){
 
   }
@@ -52,6 +54,7 @@ export class ProfileComponent implements OnInit{
         this.getUserInstruments()
         this.checkUsernameWithStore()
         this.getGenres()
+        this.getNumberOfFriends()
       }
     )
 
@@ -150,6 +153,13 @@ export class ProfileComponent implements OnInit{
     this.dialog.open(ProfilesetupComponent)
   }
 
+  getNumberOfFriends(){
+    this.httpService.getNumberOfFriends(this.usernameInProfile).then(
+      (response)=>{
+        this.numberOfFriends = response.friends
+      }
+    )
+  }
 
 
 }

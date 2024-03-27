@@ -193,4 +193,10 @@ export class HttpService {
     const params = new HttpParams().set("username",username)
     return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
   }
+
+  getNumberOfFriends(username:string){
+    const url = this.friendBaseUrl+'/number'
+    const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
 }

@@ -35,6 +35,7 @@ import { NotificationbarComponent } from './notifications/notificationbar/notifi
 import { FriendrequestComponent } from './friendrequest/friendrequest.component';
 import { MaterialsModule } from './materials/materials.module';
 import { UserinfoComponent } from './user/userinfo/userinfo.component';
+import { FriendsComponent } from './user/friends/friends.component';
 
 
 
@@ -61,6 +62,7 @@ import { UserinfoComponent } from './user/userinfo/userinfo.component';
     NotificationbarComponent,
     FriendrequestComponent,
     UserinfoComponent,
+    FriendsComponent,
 
   ],
   imports: [

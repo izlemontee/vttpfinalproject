@@ -1,0 +1,85 @@
+/* .button{
+    background-color: #98D5F1; 
+    color: white;
+    width:80px;
+    margin-left:10px;
+    margin-right:10px;
+} */
+
+.image{
+    width:100px;
+    border-radius: 50px;
+}
+
+.request{
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    margin: auto;
+    color:white;
+    margin-top:10px;
+    margin-bottom:5px;
+    
+    width:100%;
+
+    display:flex;
+}
+h3{
+    margin-left:10%;
+}
+h3, p{
+    color: white;
+    font-size:18px;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+}
+a{
+    color:white;
+    font-weight: bold;
+    font-size: 18px;
+
+}
+
+.request-container{
+    box-shadow: 5px 5px;
+    border-radius: 0px 0px 20px 20px;
+    width:60%;
+    margin-left:10%;
+    height:120px;
+ 
+}
+
+.container{
+    width:100%;
+
+}
+
+.name{
+    font-size:18px;
+    margin-top:30px;
+    width:30%;
+
+    flex-shrink: 0;
+}
+
+.button-container{
+    display:flex;
+    /* width:35%; */
+    margin-top:26px;
+    float: right;
+    margin-left:25%;
+  
+
+}
+
+.button{
+    margin-left: 5px;
+    margin-right:5px;
+}
+.username-container{
+    width:40%;
+    font-size:20px;
+    margin-left:10px;
+    margin-top:30px;
+    flex-shrink: 0;
+}
+.image-container{
+    flex-shrink: 0;
+}

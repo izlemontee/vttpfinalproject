@@ -116,6 +116,11 @@ public class Queries {
                 LIMIT 5     
                 """;
 
+        public static final String SQL_GET_SINGLE_NOTIFICATION="""
+                        SELECT * from notifications
+                        WHERE id = ?
+                        """;
+
         public static final String SQL_GET_NOTIFICATIONS="""
                 SELECT * FROM notifications
                 WHERE username = ?

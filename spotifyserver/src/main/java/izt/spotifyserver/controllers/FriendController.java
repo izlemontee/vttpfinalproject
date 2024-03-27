@@ -68,4 +68,12 @@ public class FriendController {
                                             .body("{}");
         return response;
     }
+
+    @GetMapping(path = "/number")
+    public ResponseEntity<String> getNumberOfFriends(@RequestParam String username){
+        String body = neo4jUserService.getNumberOfFriends(username);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+                                            .body(body);
+        return response;
+    }
 }

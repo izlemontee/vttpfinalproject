@@ -50,7 +50,7 @@ public class NotificationController {
     }
 
     @GetMapping(path = "/read")
-    public ResponseEntity<String> readNotification(@RequestParam(name="id") int id){
+    public ResponseEntity<String> readNotification(@RequestParam(name="id") int id)throws IOException{
         // int id = Integer.parseInt(idString);
         notificationService.readNotification(id);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)

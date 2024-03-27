@@ -185,5 +185,10 @@ public class UserSQLRepository {
         return rowSet;
     }
 
+    public SqlRowSet getSingleNotification(int id){
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(Queries.SQL_GET_SINGLE_NOTIFICATION, id);
+        return rowSet;
+    }
+
     
 }

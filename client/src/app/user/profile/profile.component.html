@@ -17,25 +17,33 @@
 
         <div *ngIf="!isMyProfile else myProfile">
             <div *ngIf="!pendingRequest && !isMyFriend && !addedMe">
-                <button (click)="addFriend()">Add friend</button>
+                <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                (click)="addFriend()">Add friend</button>
             </div>
             <div *ngIf="pendingRequest && !isMyFriend && !addedMe">
                 <p>pending request</p>
-                <button (click)="deleteRequest()">Delete Request</button>
+                <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                (click)="deleteRequest()">Delete Request</button>
             </div>
             <div *ngIf="addedMe && !isMyFriend &&!pendingRequest">
                 <p>
                     {{usernameInProfile}} added you as a friend.
                 </p>
-                <button>
+                <button mat-flat-button style="background-color: #98D5F1; color: white;">
                     Accept
                 </button>
             </div>
             <div *ngIf="isMyFriend && !pendingRequest && !addedMe">
                 <p>You are friends</p>
-                <button
+                <button mat-flat-button style="background-color: #98D5F1; color: white;"
                 (click)="deleteFriend()">Remove Friend</button>
             </div>
+        </div>
+        <div>
+            <a [routerLink]="['friends']"
+            mat-flat-button style="background-color: #98D5F1; color: white;">
+                Friends ({{numberOfFriends}})
+            </a>
         </div>
     </div>
     <div>

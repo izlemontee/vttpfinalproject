@@ -41,6 +41,9 @@ public interface UserNeo4jRepository extends Neo4jRepository<Neo4jUser,String> {
     @Query(Neo4JQueries.NEO4J_DELETE_FRIEND)
     void deleteFriend(String username, String friend);
 
+    @Query(Neo4JQueries.NEO4J_FIND_NUMBER_OF_FRIENDS)
+    Integer getNumberOfFriends(String username);
+
 
 
 } 

@@ -85,4 +85,9 @@ public class Neo4JQueries {
         -[:FRIENDS_WITH]->(friend: User)
         RETURN friend
             """;
+        public static final String NEO4J_FIND_NUMBER_OF_FRIENDS="""
+                MATCH(user: User {username:$username})
+                -[:FRIENDS_WITH]->(friend: User)
+                RETURN count(friend)
+                        """;
 }
