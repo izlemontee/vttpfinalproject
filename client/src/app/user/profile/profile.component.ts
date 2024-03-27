@@ -5,6 +5,8 @@ import { Instrument, User } from '../../models';
 import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../state/state.selectors';
 import { NotificationstemplateService } from '../../notificationstemplate.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ProfilesetupComponent } from '../profilesetup/profilesetup.component';
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +20,7 @@ export class ProfileComponent implements OnInit{
   private store = inject(Store)
   private notifTemplate = inject(NotificationstemplateService)
   private router = inject(Router)
+  private dialog = inject(MatDialog)
 
   usernameInProfile!:string
 
@@ -144,7 +147,7 @@ export class ProfileComponent implements OnInit{
   }
 
   setupUser(){
-    this.router.navigate(['/setup'])
+    this.dialog.open(ProfilesetupComponent)
   }
 
 

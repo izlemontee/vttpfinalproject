@@ -1,0 +1,35 @@
+.button{
+    background-color: #98D5F1; 
+    color: white;
+    width:80px;
+    margin-top:10px;
+    margin-left:5px;
+}
+
+.instrument{
+    background-color: #767C7F;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    color:white;
+    display:flex;
+    height:40px;
+    font-size:15px;
+    width:160px;
+    border-radius:20px;
+    margin-top:1px;
+    margin-bottom:2px;
+}
+
+.name{
+    margin-top: 10px;
+    margin-left:10px;
+    width:70%;
+}
+
+.close{
+    margin-top:8px;
+}
+
+.instrument-container{
+    display: inline-block;
+    width:90%;
+}

@@ -65,7 +65,7 @@ export class InstrumentsComponent implements OnInit{
       }
     ).catch(
       ()=>{
-        alert("error")
+        alert("Update Error. Try again.")
       }
     )
   }

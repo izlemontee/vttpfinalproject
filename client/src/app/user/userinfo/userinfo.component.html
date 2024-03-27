@@ -1,0 +1,32 @@
+<div class="container">
+    <form [formGroup]="profileForm">
+        <table>
+            <tr>
+                <td>First Name</td>
+                <td><input type="text" formControlName="firstName"></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input type="text" formControlName="lastName"></td>
+            </tr>
+            <tr>
+                <td>Bio</td>
+                <td><input type="text" formControlName="bio"></td>
+            </tr>
+        </table>
+        <div style="display: flex; margin-top:15px;">
+            <div>
+                <button 
+                mat-flat-button class="button"
+                (click)="processForm()">Save</button>
+            </div>
+            <div>
+                <button mat-flat-button class="button"
+                (click)="deactivate()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>

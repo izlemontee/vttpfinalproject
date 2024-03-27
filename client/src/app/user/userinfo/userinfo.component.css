@@ -3,5 +3,10 @@
     color: white;
     width:80px;
     margin-left:10px;
-    margin-bottom:30px;
+    margin-right:10px;
+}
+
+.container{
+    width:100%;
+    margin-top:10px;
 }

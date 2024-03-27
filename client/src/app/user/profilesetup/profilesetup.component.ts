@@ -1,22 +1,25 @@
-import { AfterContentInit, Component, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { AfterContentInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges, inject } from '@angular/core';
 import { HttpService } from '../../http.service';
 import { SessionService } from '../../session.service';
 import { Artist, User } from '../../models';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { first, last } from 'rxjs';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectAllUsers } from '../../state/state.selectors';
 
 @Component({
   selector: 'app-profilesetup',
   templateUrl: './profilesetup.component.html',
   styleUrl: './profilesetup.component.css'
 })
-export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges{
+export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges, OnDestroy{
 
   private httpService = inject(HttpService)
   private session = inject(SessionService)
   private fb = inject(FormBuilder)
   private router = inject(Router)
+  private store = inject(Store)
   
 
   username!:string
@@ -35,20 +38,16 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   artistSelection: boolean = false
   instrumentSelection: boolean = false
   profilePictureUpload : boolean = false
+  userInfoSetup : boolean = false
+
+  allComponentsDeactivated: boolean = true
 
   ngOnInit(): void {
-    console.log("here")
-    this.session.getSession().then(
-      response =>{
-        console.log("response", response)
-        if(response.length>0){
-          this.username = response[0].username
-          console.log("username",this.username)
-          this.setupInit(this.username)
-         
-        }
+    this.store.select(selectAllUsers).subscribe({
+      next:(response)=>{
+        this.username = response.username
       }
-    )
+    })
     
   }
   ngAfterContentInit(): void {
@@ -58,6 +57,10 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
 
   ngOnChanges(changes: SimpleChanges): void {
       this.profileForm = this.createForm()
+  }
+
+  ngOnDestroy(): void {
+      location.reload()
   }
 
   createForm(){
@@ -98,27 +101,58 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
     )
   }
 
+  activateUserSetup(){
+    this.userInfoSetup = true
+    this.artistSelection = false
+    this.instrumentSelection = false
+    this.profilePictureUpload = false
+
+    this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
+  }
+
+  deactivateUserSetup(){
+    this.userInfoSetup = false
+    this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
+  }
 
   getTopArtists(){
     this.artistSelection = true
+    this.userInfoSetup = false
+    this.instrumentSelection = false;
+    this.profilePictureUpload = false
+
+    this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
   deactivateArtistSelection(){
     this.artistSelection = false
+    this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
 
   addInstruments(){
     this.instrumentSelection = true
+    this.userInfoSetup = false
+    this.artistSelection = false;
+    this.profilePictureUpload = false
+
+    this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
   deactivateInstrumentAdd(){
     this.instrumentSelection = false
+    this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
 
   uploadProfilePicture(){
     this.profilePictureUpload = true
+    this.userInfoSetup = false
+    this.artistSelection = false
+    this.instrumentSelection = false
+
+    this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
 
   deactivatePictureUpload(){
     this.profilePictureUpload = false
+    this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
 
   getUsername(){
@@ -129,26 +163,18 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
     )
   }
 
-  setupInit(username:string){
-    console.log("setupinit username", username)
-    this.httpService.initUserSetup(username).then(
-      response=>{
-        
-        const user: User={
-          firstName: response.firstName,
-          lastName: response.lastName,
-          bio: response.bio
-        }
-        this.spotify_linked = response.spotify_linked
-        this.user = user
-        this.profileForm.patchValue({
-          firstName: this.user.firstName,
-          lastName: this.user.lastName,
-          bio: this.user.bio
-        })
 
-      }
-    )
+
+  checkAllComponentsDeactivated():boolean{
+    const userinfoSetupDeactivated:boolean = this.userInfoSetup == false
+    const artistSelectionDeactivated :boolean = this.artistSelection == false
+    const profilePictureUploadDeactivated: boolean = this.profilePictureUpload ==false
+    const instrumentSelectionDeactivated: boolean = this.instrumentSelection == false
+    console.log(userinfoSetupDeactivated)
+    console.log(artistSelectionDeactivated)
+    console.log(profilePictureUploadDeactivated)
+    console.log(instrumentSelectionDeactivated)
+    return (userinfoSetupDeactivated && artistSelectionDeactivated 
+            && profilePictureUploadDeactivated && instrumentSelectionDeactivated)
   }
-
 }

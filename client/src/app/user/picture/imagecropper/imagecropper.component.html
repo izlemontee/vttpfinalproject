@@ -1,9 +1,7 @@
-
-<h3 >Angular Image Crop Example</h3>
 <div >
   <input type="file" (change)="onFileChange($event)" />
 </div>
-<div >
+<div *ngIf="imgChangeEvt">
   <image-cropper 
     [imageChangedEvent]="imgChangeEvt" 
     [maintainAspectRatio]="true" 
@@ -16,9 +14,9 @@
     (loadImageFailed)="imgFailed()">
   </image-cropper>
 </div>
-<div >
+<div *ngIf="cropImgPreview">
   <h6>Image Preview</h6>
-  <img [src]="cropImgPreview" />
-  <button (click)="uploadImage()">Ok</button>
-  <!-- <img [src]="objectUrl" /> -->
+  <img [src]="cropImgPreview" style="border-radius: 125px;"/>
+  <button mat-flat-button class="button" 
+  (click)="uploadImage()">Upload</button>
 </div>

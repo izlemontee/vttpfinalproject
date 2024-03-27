@@ -1,35 +1,59 @@
-<button (click)="loginToSpotify()">Setup spotify</button>
-<button *ngIf="spotify_linked" (click)="getTopArtists()">Get top artists</button>
-<button (click)="addInstruments()">Add instruments</button>
-<button (click)="uploadProfilePicture()">Upload Profile Picture</button>
-
-<form [formGroup]="profileForm">
-    <table>
-        <tr>
-            <td>First Name</td>
-            <td><input type="text" formControlName="firstName"></td>
-        </tr>
-        <tr>
-            <td>Last Name</td>
-            <td><input type="text" formControlName="lastName"></td>
-        </tr>
-        <tr>
-            <td>Bio</td>
-            <td><input type="text" formControlName="bio"></td>
-        </tr>
-    </table>
-    <button (click)="processForm()">Save</button>
-</form>
-
-<div *ngIf="artistSelection">
-    <app-artists [username]="username" (deactivateArtistSelection)="deactivateArtistSelection()"></app-artists>
+<div class="container default"
+[ngClass]="{'artist':artistSelection,'instrument':instrumentSelection, 'profilepic':profilePictureUpload}">
+    <div>
+        <div class="button-container">
+            <button mat-flat-button class="button"
+            (click)="loginToSpotify()">
+            <div style="display: flex;">
+                <div class="setupspotify">
+                    Setup spotify
+                </div>
+                <div class="spotifylogo">
+                    <img src="/assets/icons/Spotify-Logo-PNG.png" alt="" width="30px">
+                </div>
+            </div>
+        </button>
+        </div>
+        <div class="button-container">
+            <button mat-flat-button class="button"
+            (click)="activateUserSetup()">Update User Info</button>
+        </div>
+        <div class="button-container">
+            <button mat-flat-button class="button"
+            *ngIf="spotify_linked" (click)="getTopArtists()">Get top artists</button>
+        </div>
+        <div class="button-container">
+            <button mat-flat-button class="button"
+            (click)="addInstruments()">Add instruments</button>
+        </div>
+        <div class="button-container">
+            <button mat-flat-button class="button"
+            (click)="uploadProfilePicture()">Upload Profile Picture</button>
+        </div>
+    </div>
+    <div class="components">
+        <div *ngIf="userInfoSetup">
+            <app-userinfo [username]="username" (deactivateUserSetup)="deactivateUserSetup()"></app-userinfo>
+        </div>
+        
+        <div *ngIf="artistSelection">
+            <app-artists [username]="username" (deactivateArtistSelection)="deactivateArtistSelection()"></app-artists>
+        </div>
+        
+        <div *ngIf="instrumentSelection">
+            <app-instruments [username]="username" (deactivateInstrumentSelection)="deactivateInstrumentAdd()"></app-instruments>
+        </div>
+        
+        <div *ngIf="profilePictureUpload">
+            <app-picture [username]="username" (deactivateImageUploader)="deactivatePictureUpload()"></app-picture>
+        </div>
+        
+        <div *ngIf="allComponentsDeactivated">
+            <p>Select a profile component to customise</p>
+        </div>
+    </div>
 </div>
 
-<div *ngIf="instrumentSelection">
-    <app-instruments [username]="username" (deactivateInstrumentSelection)="deactivateInstrumentAdd()"></app-instruments>
-</div>
 
-<div *ngIf="profilePictureUpload">
-    <app-picture [username]="username" (deactivateImageUploader)="deactivatePictureUpload()"></app-picture>
-</div>
+
 

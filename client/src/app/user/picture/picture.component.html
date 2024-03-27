@@ -1,5 +1,6 @@
 <h3>Upload Profile Picture</h3>
 <form [formGroup]="form">
     <app-imagecropper (croppedImageUpload)="uploadImage($event)"></app-imagecropper>
-    <button (click)="deactivate()">Cancel</button>
+    <button (click)="deactivate()" mat-flat-button class="button"
+    class="button">Cancel</button>
 </form>

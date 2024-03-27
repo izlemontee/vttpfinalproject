@@ -26,9 +26,12 @@ export class ArtistsComponent {
   artists: Artist[] = []
   genres: string[]=[]
 
+  term!:string
+
 
   getArtists(term:string){
     this.artists = []
+    this.changeTerm(term)
     this.httpService.getTopArtists(this.username,term).then(
       response=>{
         for(let a of response.items){
@@ -73,13 +76,28 @@ export class ArtistsComponent {
   submitGenres(){
     this.httpService.submitGenres(this.genres, this.username).then(
       ()=>{
-
+        alert("Success!")
       }
     ).catch(
       ()=>{
         alert("Something went wrong. Please try again.")
       }
     )
+  }
+
+  changeTerm(term:string){
+    switch(term){
+      case "short_term":{
+        this.term = "Short Term"
+        break;}
+      case "medium_term":{
+        this.term = "Medium Term"
+        break;}
+      case "long_term":{
+        this.term = "Long Term"
+        break;}
+    }
+
   }
 
 }

@@ -12,10 +12,10 @@ export class ImagecropperComponent {
 
   private sanitizer = inject(DomSanitizer)
 
-  imgChangeEvt: any = '';
+  imgChangeEvt!: any ;
 
   
-  cropImgPreview: any = '';
+  cropImgPreview!: any;
   blob!:any
 
   @Output()

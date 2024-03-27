@@ -440,6 +440,7 @@ public class SpotifyApiService {
         userSqlRepo.deleteGenres(username);
         System.out.println("genres deleted");
         JsonArray genresArray = Utils.stringToJsonArray(requestBody);
+        System.out.println(requestBody);
         long count = 0;
         for(JsonValue v:genresArray){
             String genre = v.toString().replace("\"", "");

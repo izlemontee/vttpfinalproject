@@ -1,0 +1,54 @@
+.container{
+    /* background-color: #8eed9d; */
+    width: 650px;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    font-size: 15px;
+    text-shadow: 1px 1px black;
+    color: white;
+    display:flex;
+}
+
+.default{
+    height:300px;
+    background-color: #8eed9d;
+}
+
+.artist{
+    height:700px;
+    overflow-y: auto;
+
+}
+
+.setupspotify{
+    margin-top:10px;
+}
+
+.spotifylogo{
+    margin-top:5px;
+    margin-left:15px;
+}
+.instrument{
+    overflow-y :auto;
+}
+.profilepic{
+    height:700px;
+    width:1000px;
+    overflow-y :auto;
+    overflow-x: auto;
+}
+
+.button{
+    background-color: #98D5F1; 
+    color: white;
+    width:200px;
+}
+
+.button-container{
+    margin-top:10px;
+    margin-left: 10px;
+}
+
+.components{
+    margin-left:10px;
+    margin-top:10px;
+}

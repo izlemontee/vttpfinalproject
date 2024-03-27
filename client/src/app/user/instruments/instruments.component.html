@@ -1,13 +1,21 @@
 <p>Instruments that you play:</p>
 <div *ngIf="instruments.length>0">
-    <span *ngFor="let i of instruments; index as index">{{i}} 
-        <button (click)="deleteInstrument(index)">Delete</button>
-    
-    </span>
+    <div class="instrument-container">
+        <div *ngFor="let i of instruments; index as index">
+            <div class="instrument">
+                <div class="name">
+                    {{i |titlecase}}
+                </div>
+                <div class="close">
+                    <mat-icon (click)="deleteInstrument(index)">close</mat-icon>
+                </div>
+            </div> 
+        </div>
+    </div>
 </div>
 <form [formGroup]="form">
     <input type="text" formControlName="instrument">
-    <button type="submit" [disabled]="form.invalid" (click)="processForm()">Add</button>
-    <button (click)="submitInstruments()">Update Profile!</button>
+    <button type="submit" [disabled]="form.invalid" (click)="processForm()" mat-flat-button class="button">Add</button>
+    <button (click)="submitInstruments()" mat-flat-button class="button">Update Profile</button>
 </form>
-<button (click)="deactivate()">Cancel</button>
+<button (click)="deactivate()" mat-flat-button class="button">Cancel</button>

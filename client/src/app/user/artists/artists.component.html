@@ -1,43 +1,65 @@
-<p>Select time range for your top artists</p>
-<span (click)="getArtists('short_term')">
-    <button>Short Term</button>
-</span>
-<span (click)="getArtists('medium_term')">
-    <button>Medium Term</button>
-</span>
-<span (click)="getArtists('long_term')">
-    <button>Long Term</button>
-</span>
-
-<div *ngIf="artists.length>0">
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Icon</th>
-                <th>Genres</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let a of artists">
-                <td>{{a.name}}</td>
-                <td><img [src]="a.image" alt="" height="100px"></td>
-                <td>{{a.genres}}</td>
-                <td><a [href]="a.external_url">Link</a></td>
-            </tr>
-        </tbody>
-    </table>
-    <button (click)="submitArtists()">Update Artists</button>
-
-</div>
-<div *ngIf="genres.length>0">
-    <h3>Top genres</h3>
-    <div>
-        <span *ngFor="let g of genres">{{g}}, </span>
+<div class="container">
+    <p>Select time range for your top artists</p>
+    <div class="button-container">
+        <div>
+            <button mat-flat-button class="button" (click)="getArtists('short_term')"
+            >Short Term</button>
+        </div>
+        <div>
+            <button mat-flat-button class="button" (click)="getArtists('medium_term')"
+            >Medium Term</button>
+        </div>
+        <div>
+            <button mat-flat-button class="button" (click)="getArtists('long_term')"
+            >Long Term</button>
+        </div>
+        <div>
+            <button mat-flat-button class="button" (click)="cancel()">Cancel</button>
+        </div>
     </div>
-</div>
-<button (click)="cancel()">Cancel</button>
-
     
-
+    
+    
+    <div *ngIf="artists.length>0">
+        <div class="artist-header">
+            <div>
+                Your top artists: {{term}}
+            </div>
+            <div *ngIf="artists.length>0" >
+                <button (click)="submitArtists()" mat-flat-button class="button">Update Artists</button>
+            </div>
+        </div>
+    
+        <table>
+            <tbody>
+                <tr *ngFor="let a of artists">
+                    <a [href]="a.external_url" target="_blank">
+                        <div class="artist">
+                            <div class="artist-name">
+                                {{a.name}}
+                            </div>
+                            <div class="image-container">
+                                <img [src]="a.image" alt="" class="image">
+                            </div>
+                        </div>
+                    </a>
+                </tr>
+            </tbody>
+        </table>
+    
+    
+    </div>
+    <div *ngIf="genres.length>0">
+        <h3>Top genres</h3>
+        <table>
+            <tr *ngFor="let g of genres">
+                <td class="genre">{{g | titlecase}}</td>
+            </tr>
+        </table>
+    </div>
+    
+    
+        
+    
+    
+</div>
