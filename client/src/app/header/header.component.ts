@@ -9,6 +9,7 @@ import { SessionService } from '../session.service';
 import { deleteSession } from '../state/state.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
+import { UsercreationComponent } from '../user/usercreation/usercreation.component';
 
 @Component({
   selector: 'app-header',
@@ -73,8 +74,9 @@ subscribeToDisableLoginButton(){
     this.loginDialog.open(LoginComponent)
   }
   createUser(){
-    this.inCreateUser = true
-    this.router.navigate(['/createuser'])
+    this.inLogin = true
+    // this.router.navigate(['/createuser'])
+    this.loginDialog.open(UsercreationComponent)
   }
 
   iniitaliseLoginButtonState(){

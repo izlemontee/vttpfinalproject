@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserCreate } from '../../models';
 import {MatIconModule} from '@angular/material/icon';
 import { HttpService } from '../../http.service';
@@ -34,11 +34,11 @@ export class UsercreationComponent implements OnInit, OnDestroy{
 
   createForm(){
     return this.fb.group({
-      username: this.fb.control<string>(''),
-      password: this.fb.control<string>(''),
-      email: this.fb.control<string>(''),
-      firstName : this.fb.control<string>(''),
-      lastName : this.fb.control<string>('')
+      username: this.fb.control<string>('',[Validators.required]),
+      password: this.fb.control<string>('',[Validators.required]),
+      email: this.fb.control<string>('', [Validators.required]),
+      firstName : this.fb.control<string>('' , [Validators.required]),
+      lastName : this.fb.control<string>('', [Validators.required])
     })
   }
 

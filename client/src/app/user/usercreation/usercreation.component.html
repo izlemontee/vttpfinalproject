@@ -1,36 +1,74 @@
+<div class="container" [ngClass]="usernameExists ? 'incorrect' : 'default'">
+    <form [formGroup]="creationForm">
+        <table>
+            <tbody>
+                <tr>
+                    <div class="cell">
+                        <div class="text">
+                            Username:
+                        </div>
+                        <div class="input">
+                            <p *ngIf="usernameExists">Username already exists!</p> 
+                            <input type="text" formControlName="username">
+                        </div>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="cell">
+                        <div class="text">
+                            Password:
+                        </div>
+                        <div class="password">
+                            <div>
+                                <input [type]="passwordHidden ? 'text' : 'password'" formControlName="password">    
+                            </div>
+                            <div>
+                                <mat-icon (click)="togglePasswordVisibility()">
+                                    {{ passwordHidden ? 'visibility' : 'visibility_off' }}
+                                </mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
 
-<form [formGroup]="creationForm">
-    <table>
-        <tbody>
-            <tr>
-                <td>Username: </td>
-                <td><p *ngIf="usernameExists">Username already exists!</p> 
-                    <input type="text" formControlName="username"></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><div><input [type]="passwordHidden ? 'text' : 'password'" formControlName="password">    
-                    <mat-icon (click)="togglePasswordVisibility()">
-                        {{ passwordHidden ? 'visibility' : 'visibility_off' }}
-                    </mat-icon></div></td>
-            </tr>
+                <tr>
+                    <div class="cell">
+                        <div class="text">
+                            Email:
+                        </div>
+                        <div class="input">
+                            <input type="text" formControlName="email">
+                        </div>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="cell">
+                        <div class="text">
+                            First Name: 
+                        </div>
+                        <div class="input">
+                            <input type="text" formControlName="firstName">
+                        </div>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="cell">
+                        <div class="text">
+                            Last Name:
+                        </div>
+                        <div class="input">
+                            <input type="text" formControlName="lastName">
+                        </div>
+                    </div>
+                </tr>
+            </tbody>
 
-            <tr>
-                <td>Email: </td>
-                <td> <input type="text" formControlName="email"></td>
-            </tr>
-            <tr>
-                <td>First Name: </td>
-                <td> <input type="text" formControlName="firstName"></td>
-            </tr>
-            <tr>
-                <td>Last Name: </td>
-                <td> <input type="text" formControlName="lastName"></td>
-            </tr>
-        </tbody>
+        </table>
+    <button mat-flat-button style="background-color: #98D5F1; color: white;"
+    type="submit"  [disabled]="!creationForm.valid" type="submit" (click)="processForm()"
+    class="button">Register</button>
+    </form>
 
-    </table>
-   <button type="submit" (click)="processForm()">Proceed</button>
-</form>
+</div>
 
 <!-- <p>{{creationForm.value['firstName'] | titlecase}}</p> -->

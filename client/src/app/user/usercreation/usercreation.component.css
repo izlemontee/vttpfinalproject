@@ -1,0 +1,41 @@
+.container{
+    background-color: #8eed9d;
+    width: 310px;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    font-size: 15px;
+    text-shadow: 1px 1px black;
+    color: white;
+}
+
+.default{
+    height:240px; 
+}
+
+.incorrect{
+    height: 200px;
+
+}
+
+.cell{
+    margin-top:10px;
+    margin-left:10px;
+    display:flex;
+}
+
+.text{
+    width:35%;
+}
+
+.input{
+    width:65%;
+}
+
+.password{
+    display: flex;
+    width:65%;
+}
+
+.button{
+    margin-left:10px;
+    margin-top:10px;
+}

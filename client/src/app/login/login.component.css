@@ -1,12 +1,14 @@
 .container{
     background-color: #8eed9d;
-    height:140px;
     width: 350px;
     font-family: Futura, "Trebuchet MS", Arial, sans-serif;
     font-size: 15px;
     text-shadow: 1px 1px black;
     color: white;
+}
 
+.default{
+    height:140px; 
 }
 
 .cell{
@@ -29,11 +31,6 @@
 }
 
 .incorrect{
-    background-color: #8eed9d;
     height: 200px;
-    width: 350px;
-    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
-    font-size: 15px;
-    text-shadow: 1px 1px black;
-    color: white;
+
 }

@@ -1,4 +1,4 @@
-<div [ngClass]="usernamePasswordMatch ? 'container' : 'incorrect'">
+<div class="container" [ngClass]="usernamePasswordMatch ? 'default' : 'incorrect'">
     <form [formGroup]="loginForm">
         <div *ngIf="!usernamePasswordMatch">
             Incorrect username or password!

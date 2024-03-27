@@ -15,7 +15,6 @@ import { FriendrequestComponent } from './friendrequest/friendrequest.component'
 const routes: Routes = [
   {path:"",component:MainComponent},
   {path:'redirect',component:LoginredirectComponent},
-  {path:'createuser',component:UsercreationComponent},
   {path:'setup',component:ProfilesetupComponent, canActivate:[isLoggedIn]},
   // {path:'setup',component:ProfilesetupComponent},
   {path:'user/:username', component:ProfileComponent},
