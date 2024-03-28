@@ -68,8 +68,8 @@ public class NotificationService {
         return body;
     }
     
-    public String getNotifications(String username){
-        SqlRowSet rowset = userSQLRepository.getNotifications(username);
+    public String getNotifications(String username, int offset){
+        SqlRowSet rowset = userSQLRepository.getNotifications(username, offset);
         String body = processGetNotificationsRequest(rowset);
         return body;
     }

@@ -36,6 +36,7 @@ import { FriendrequestComponent } from './friendrequest/friendrequest.component'
 import { MaterialsModule } from './materials/materials.module';
 import { UserinfoComponent } from './user/userinfo/userinfo.component';
 import { FriendsComponent } from './user/friends/friends.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 
@@ -73,7 +74,8 @@ import { FriendsComponent } from './user/friends/friends.component';
     MatIconModule,
     StoreModule.forRoot({user:userReducer}, {}),
     ImageCropperModule,
-    MaterialsModule
+    MaterialsModule,
+    InfiniteScrollModule
   ],
   providers: [Document, provideAnimationsAsync(),
     AppInitialiserService,

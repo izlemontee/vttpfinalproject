@@ -124,7 +124,9 @@ public class Queries {
         public static final String SQL_GET_NOTIFICATIONS="""
                 SELECT * FROM notifications
                 WHERE username = ?
-                ORDER BY timestamp DESC;     
+                ORDER BY timestamp DESC
+                LIMIT 5
+                OFFSET ?;     
                 """;
         public static final String SQL_GET_USERNAME_NAME_IMAGE="""
                 SELECT username, firstname, lastname, image

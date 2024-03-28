@@ -164,8 +164,8 @@ public class UserSQLRepository {
         return rowset;
     }
 
-    public SqlRowSet getNotifications(String username){
-        SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_GET_NOTIFICATIONS, username);
+    public SqlRowSet getNotifications(String username, int offset){
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_GET_NOTIFICATIONS, username, offset);
         return rowset;
     }
 

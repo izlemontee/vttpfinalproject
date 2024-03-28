@@ -42,8 +42,8 @@ public class NotificationController {
     }
 
     @GetMapping(path = "/get")
-    public ResponseEntity<String> getNotifications(@RequestParam String username){
-        String body = notificationService.getNotifications(username);
+    public ResponseEntity<String> getNotifications(@RequestParam String username, @RequestParam int offset){
+        String body = notificationService.getNotifications(username, offset);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
         .body(body);
         return response;

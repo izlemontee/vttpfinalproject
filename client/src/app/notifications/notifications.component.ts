@@ -19,6 +19,8 @@ export class NotificationsComponent implements OnInit{
 
   notifications : Notification[]=[]
 
+  notificationOffset:number = 0
+
   ngOnInit(): void {
       this.getUsernameFromStore()
   }
@@ -35,10 +37,15 @@ export class NotificationsComponent implements OnInit{
   }
 
   getNotifications(){
-    this.httpService.getNotifications(this.username).then(
+    this.httpService.getNotifications(this.username, this.notificationOffset).then(
       (response)=>{
         console.log(response)
-        this.notifications  = response as Notification[]
+        for (let r of response){
+          r = r as Notification
+          this.notifications.push(r)
+          this.notificationOffset++
+        }
+        // this.notifications  = response as Notification[]
 
       }
     )
@@ -58,6 +65,10 @@ export class NotificationsComponent implements OnInit{
       this.router.navigate([notification.url])
     }
   
+  }
+
+  onScroll(){
+    this.getNotifications()
   }
 
 

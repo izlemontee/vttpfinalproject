@@ -1,7 +1,11 @@
 <div class="container">
     <h4>Notifications</h4>
 
-    <div *ngIf="notifications.length>0" style="width: 100%; ">
+    <div *ngIf="notifications.length>0" style="width: 100%; "
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        (scrolled)="onScroll()"
+        >
         <table style="width:100%">
             <tr *ngFor="let n of notifications" style="width: 100%; ">
                 

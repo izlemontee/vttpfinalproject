@@ -168,9 +168,9 @@ export class HttpService {
 
   }
 
-  getNotifications(username:string){
+  getNotifications(username:string, offset:number){
     const url = this.notificationBaseUrl+"/get"
-    const params = new HttpParams().set("username",username)
+    const params = new HttpParams().set("username",username).set("offset",offset)
     return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
 
   }
