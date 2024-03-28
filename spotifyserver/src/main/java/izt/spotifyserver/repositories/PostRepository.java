@@ -2,6 +2,7 @@ package izt.spotifyserver.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import izt.spotifyserver.models.Post;
@@ -31,5 +32,17 @@ public class PostRepository {
         );
         return count;
     }
+
+    public SqlRowSet getPostById(String id){
+        SqlRowSet rowset  = jdbcTemplate.queryForRowSet(Queries.SQL_GET_POST_BY_ID, id);
+        return rowset;
+    }
+
+    public SqlRowSet getComments(String id){
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(Queries.SQL_GET_COMMENTS, id);
+        return rowSet;
+    }
+
+
     
 }

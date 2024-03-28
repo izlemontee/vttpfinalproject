@@ -144,4 +144,13 @@ public class Queries {
                 FROM users
                 WHERE username = ?
                         """;
+
+        public static final String SQL_GET_COMMENTS="""
+                select * from comments
+                where post_id = ?;
+                        """;
+        public static final String SQL_GET_POST_BY_ID="""
+                        SELECT * from posts
+                        WHERE id = ?
+                        """;
 }

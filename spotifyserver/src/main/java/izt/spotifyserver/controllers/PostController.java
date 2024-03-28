@@ -32,9 +32,9 @@ public class PostController {
 
     @GetMapping(path = "/feed")
     ResponseEntity<String>getPostsForFeed(@RequestParam String username, @RequestParam int skip){
-        postService.getPostsForFeed(username, skip);
+        String body = postService.getPostsForFeed(username, skip);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
-        .body("{}");
+        .body(body);
         return response;
     }
     
