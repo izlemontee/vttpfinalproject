@@ -90,4 +90,32 @@ public class Neo4JQueries {
                 -[:FRIENDS_WITH]->(friend: User)
                 RETURN count(friend)
                         """;
+
+        public static final String NEO4J_CREATE_POST_RELATION="""
+                        
+        MATCH (user:User {username:$username}),(post:Post {id:$id})
+        CREATE (user)-[:POSTED]->(post)
+                        """;
+
+        public static final String NEO4J_GET_POST_BY_ID="""
+        MATCH(post:Post {id:$id})
+        RETURN post
+                        """;
+
+        public static final String NEO4J_GET_POSTS_FOR_FEED="""
+        CALL{
+                MATCH(user:User)-[:POSTED]->(post:Post)WHERE(user.username = $username)
+                RETURN post AS post
+                
+                UNION
+                
+                MATCH(user)-[:FRIENDS_WITH]->(friend:User)-[:POSTED]->(friendPost:Post)
+                RETURN friendPost AS post
+        }
+                    
+        RETURN post.id
+        ORDER BY post.timestamp DESC
+        SKIP $skip
+        LIMIT 5
+        """;
 }
