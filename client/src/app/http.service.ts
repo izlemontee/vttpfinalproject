@@ -2,15 +2,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { last, lastValueFrom } from 'rxjs';
 import { Artist, User, UserCreate, UserSession } from './models';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  baseUrl: string = "http://localhost:8080/api"
-  friendBaseUrl: string = "http://localhost:8080/friend"
-  notificationBaseUrl: string = "http://localhost:8080/notification"
+  baseUrl: string = environment.server_url+"/api"
+  friendBaseUrl: string = environment.server_url+"/friend"
+  notificationBaseUrl: string = environment.server_url+"/notification"
 
   private httpClient = inject(HttpClient)
 

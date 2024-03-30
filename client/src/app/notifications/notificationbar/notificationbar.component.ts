@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../state/state.selectors';
 import { HttpService } from '../../http.service';
+import { environment } from '../../../environments/environment';
 
 
 export const TYPE_SESSION_USERNAME = "session_username"
@@ -13,7 +14,10 @@ export const TYPE_SESSION_USERNAME = "session_username"
 })
 export class NotificationbarComponent implements OnInit{
 
-  webSocketUrl: string = "ws://localhost:8080/notif-websocket"
+  // webSocketUrl: string = "ws://localhost:8080/notif-websocket"
+  // webSocketUrl : string="ws://prime-rate-production.up.railway.app/notif-websocket"
+  webSocketUrl : string=environment.websocket_url
+
 
   myUsername!:string
 
@@ -60,6 +64,7 @@ export class NotificationbarComponent implements OnInit{
   // using the native websocket library
   onWebSocketOpen(){
     console.log("websocket connected in app component")
+    console.log(this.webSocketUrl)
     this.sendUsernameToServer()
 
   }
