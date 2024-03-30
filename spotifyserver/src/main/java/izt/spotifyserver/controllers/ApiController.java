@@ -98,6 +98,7 @@ public class ApiController {
     public ResponseEntity<String> createUser(@RequestBody String body){
         try{
             spotifyApiService.createUser(body);
+            neo4JService.saveNewUser(body);
             ResponseEntity<String> response = ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON)
                                                 .body("{}");
             return response;

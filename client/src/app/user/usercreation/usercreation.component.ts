@@ -5,6 +5,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { HttpService } from '../../http.service';
 import { SessionService } from '../../session.service';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usercreation',
@@ -16,6 +17,7 @@ export class UsercreationComponent implements OnInit, OnDestroy{
   private fb = inject(FormBuilder)
   private httpService = inject(HttpService)
   private session = inject(SessionService)
+  private router = inject(Router)
 
   creationForm !: FormGroup
   passwordHidden!: boolean
@@ -59,18 +61,19 @@ export class UsercreationComponent implements OnInit, OnDestroy{
     }
     this.httpService.checkUserExists(username).then(
       ()=>{
-        this.usernameExists =true
-        console.log('thrn')
+        this.usernameExists =true 
       }
     ).catch(
       ()=>{
         this.usernameExists = false
-        console.log('catch')
+
         this.httpService.createUser(userCreate).then(
-        ()=>{
-          console.log("ok")
+        ()=>{     
           this.session.disableLoginButton()
+          this.router.navigate(['/'])
       }
+      ).catch(
+        ()=>alert("User creation failed. Please try again.")
       )
     }
     )
