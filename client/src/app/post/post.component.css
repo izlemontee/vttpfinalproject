@@ -1,0 +1,17 @@
+.textarea{
+    width:100%;
+    max-width: 100%;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+
+}
+
+.button{
+    background-color: #98D5F1; 
+    color: white;
+    width:100px;
+    margin-left:88%;
+}
+
+textarea{
+    height:2em;
+}

@@ -1,1 +1,9 @@
-<p>post works!</p>
+<form [formGroup]="postInput">
+
+    <mat-form-field class="textarea">
+        <mat-label>What would you like to share?</mat-label>
+        <textarea matInput placeholder="Share some thoughts" col="50" rows="5" formControlName="content"
+       style="resize: none;"></textarea>
+    </mat-form-field>
+    <button  mat-flat-button class="button" (click)="processForm()" [disabled]="postInput.invalid">Post</button>
+</form>
