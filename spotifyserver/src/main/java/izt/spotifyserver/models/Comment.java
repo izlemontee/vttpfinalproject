@@ -12,6 +12,13 @@ public class Comment {
     private String content;
     private long timestamp;
     private String post_id;
+    private String profile_picture;
+    public String getProfile_picture() {
+        return profile_picture;
+    }
+    public void setProfile_picture(String profile_picture) {
+        this.profile_picture = profile_picture;
+    }
     public Comment(int id, String username, String content, long timestamp, String post_id) {
         this.id = id;
         this.username = username;
@@ -62,7 +69,8 @@ public class Comment {
             .add("username",getUsername())
             .add("timestamp",getTimestamp())
             .add("content",getContent())
-            .add("post_id",getPost_id());
+            .add("post_id",getPost_id())
+            .add("profile_picture", getProfile_picture());
         return JOB.build();
     }
     

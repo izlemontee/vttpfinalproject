@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../../http.service';
-import { Instrument, User } from '../../models';
+import { Instrument, Post, User } from '../../models';
 import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../state/state.selectors';
 import { NotificationstemplateService } from '../../notificationstemplate.service';
@@ -42,6 +42,10 @@ export class ProfileComponent implements OnInit{
 
   numberOfFriends: number = 0
 
+  skip:number=0
+
+  posts:Post[]=[]
+
   constructor(){
 
   }
@@ -55,6 +59,8 @@ export class ProfileComponent implements OnInit{
         this.checkUsernameWithStore()
         this.getGenres()
         this.getNumberOfFriends()
+        this.skip = 0
+        this.getPosts()
       }
     )
 
@@ -157,6 +163,15 @@ export class ProfileComponent implements OnInit{
     this.httpService.getNumberOfFriends(this.usernameInProfile).then(
       (response)=>{
         this.numberOfFriends = response.friends
+      }
+    )
+  }
+
+  getPosts(){
+    this.httpService.getPostsByUser(this.usernameInProfile, this.skip).then(
+      (response)=>{
+        console.log("posts from user:", response)
+        this.posts = response as Post[]
       }
     )
   }

@@ -11,6 +11,7 @@ import { SearchresultsComponent } from './searchresults/searchresults.component'
 import { NotificationsComponent } from './notifications/notifications.component';
 import { FriendrequestComponent } from './friendrequest/friendrequest.component';
 import { FriendsComponent } from './user/friends/friends.component';
+import { PostdisplayComponent } from './postdisplay/postdisplay.component';
 
 
 const routes: Routes = [
@@ -21,7 +22,8 @@ const routes: Routes = [
   {path:"notifications", component:NotificationsComponent,canActivate:[isLoggedIn]},
   // {path:"requests",component:FriendrequestComponent, canActivate:[isLoggedIn]},
   {path:"requests",component:FriendrequestComponent,},
-  {path:"user/:username/friends",component:FriendsComponent}
+  {path:"user/:username/friends",component:FriendsComponent},
+  {path:"post/:id", component:PostdisplayComponent}
 
 ];
 

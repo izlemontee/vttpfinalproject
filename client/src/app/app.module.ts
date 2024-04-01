@@ -38,6 +38,7 @@ import { UserinfoComponent } from './user/userinfo/userinfo.component';
 import { FriendsComponent } from './user/friends/friends.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PostComponent } from './post/post.component';
+import { PostdisplayComponent } from './postdisplay/postdisplay.component';
 
 
 
@@ -66,6 +67,7 @@ import { PostComponent } from './post/post.component';
     UserinfoComponent,
     FriendsComponent,
     PostComponent,
+    PostdisplayComponent,
 
   ],
   imports: [

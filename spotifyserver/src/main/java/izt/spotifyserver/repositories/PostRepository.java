@@ -16,10 +16,12 @@ public class PostRepository {
     public long addNewPost(Post post){
         long count = jdbcTemplate.update(SqlPostQueries.SQL_ADD_NEW_POST
                         ,post.getId()
-                        ,post.getUsername()
+                        ,post.getUsername(),
+                        post.getContent()
                         ,post.getTimestamp()
-                        ,true,
-                        post.getImage_url());
+                        ,post.isHas_picture(),
+                        post.getImage_url(),
+                        post.getProfile_picture());
         return count;
     }
 
@@ -42,6 +44,13 @@ public class PostRepository {
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(Queries.SQL_GET_COMMENTS, id);
         return rowSet;
     }
+
+    public SqlRowSet getPostsOfUser(String username, int offset){
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet(SqlPostQueries.SQL_GET_POSTS_BY_USER, username, offset);
+        return rowset;
+    }
+
+
 
 
     

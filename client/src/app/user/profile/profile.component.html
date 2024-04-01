@@ -45,6 +45,55 @@
                 Friends ({{numberOfFriends}})
             </a>
         </div>
+        <div>
+            <!-- instruments -->
+            <div *ngIf="instruments.length>0">
+                <h4>{{usernameInProfile}} plays:</h4>
+                <table>
+                    <tr *ngFor="let i of instruments">
+                        <div class="instrument">
+                            <div class="instrument-icon">
+                                <img [src]="i.image" 
+                                onerror="this.src='https://izlemonteebucket.sgp1.digitaloceanspaces.com/images/note.png'"
+                                width="30px" height="30px" style="border-radius: 15px;">
+                            </div>
+                            <div class="instrument-name">
+                                {{i.name | titlecase}}
+                            </div>
+                        </div>
+
+                    </tr>
+                </table>
+            </div>
+    </div>
+    </div>
+    <!-- posts and feed -->
+    <div class="feed">
+        <div *ngIf="isMyProfile">
+            <app-post></app-post>
+        </div>
+        <div *ngIf="posts.length>0 && (isMyFriend || isMyProfile)">
+            <div *ngFor="let p of posts" class="post">
+                <div class="profile-info">
+                    <div class="username">
+                        <a [routerLink]="['/user',p.username]">{{p.username}}</a>
+                        
+                    </div>
+                    <div>
+                        <img [src]="p.profile_picture" alt="" class="profile-pic">
+                    </div>
+                </div>
+                <div class="content">
+                    {{p.content}}
+                </div>
+                <div class="timestamp">
+                    <a [routerLink]="['/post',p.id]" style="margin-bottom: 20px;">
+                    {{p.timestamp | date:"dd MMM yyyy, HH:mm"}}
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
     <div>
         <!-- top artists -->
@@ -75,27 +124,7 @@
         </div>
 
     </div>
-    <div>
-            <!-- instruments -->
-            <div *ngIf="instruments.length>0">
-                <h4>{{usernameInProfile}} plays:</h4>
-                <table>
-                    <tr *ngFor="let i of instruments">
-                        <div class="instrument">
-                            <div class="instrument-icon">
-                                <img [src]="i.image" 
-                                onerror="this.src='https://izlemonteebucket.sgp1.digitaloceanspaces.com/images/note.png'"
-                                width="30px" height="30px" style="border-radius: 15px;">
-                            </div>
-                            <div class="instrument-name">
-                                {{i.name | titlecase}}
-                            </div>
-                        </div>
 
-                    </tr>
-                </table>
-            </div>
-    </div>
 </div>
 
 <ng-template #myProfile>

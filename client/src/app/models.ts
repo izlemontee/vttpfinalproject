@@ -68,3 +68,24 @@ export interface Instrument{
     image:string,
     alt:string
 }
+
+
+export interface Comment{
+    id?:string,
+    username:string,
+    content:string,
+    timestamp?:number,
+    post_id:string,
+    profile_picture?:string
+}
+
+export interface Post{
+    id?:string,
+    username:string,
+    content:string,
+    timestamp?:number,
+    has_picture:boolean,
+    image_url?:string,
+    profile_picture?:string,
+    comments?:Comment[]
+}

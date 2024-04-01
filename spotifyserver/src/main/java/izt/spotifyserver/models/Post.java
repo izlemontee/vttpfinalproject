@@ -19,6 +19,15 @@ public class Post {
     private String content;
     private long timestamp;
     private boolean has_picture;
+    private String profile_picture;
+
+    public String getProfile_picture() {
+        return profile_picture;
+    }
+
+    public void setProfile_picture(String profile_picture) {
+        this.profile_picture = profile_picture;
+    }
 
     public void generateId(){
         String id = UUID.randomUUID().toString().substring(0, 8);
@@ -123,13 +132,15 @@ public class Post {
             .add("username",getUsername())
             .add("content",getContent())
             .add("timestamp",getTimestamp())
-            .add("has_picture",isHas_picture());
+            .add("has_picture",isHas_picture())
+            .add("profile_picture",getProfile_picture());
         if(isHas_picture()){
             JOB.add("image_url",getImage_url());
         }
         else{
             JOB.add("image_url","");
         }
+        
 
         return JOB;
     }

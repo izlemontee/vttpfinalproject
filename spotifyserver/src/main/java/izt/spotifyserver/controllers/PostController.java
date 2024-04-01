@@ -37,5 +37,13 @@ public class PostController {
         .body(body);
         return response;
     }
+
+    @GetMapping(path = "/posts")
+    ResponseEntity<String>getPostsByUser(@RequestParam String username, @RequestParam int skip){
+        String body = postService.getPostsByUser(username, skip);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body(body);
+        return response;
+    }
     
 }

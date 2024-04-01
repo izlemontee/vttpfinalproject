@@ -2,4 +2,25 @@
     <div class="post-container">
         <app-post></app-post>
     </div>
+    <div *ngIf="posts.length>0">
+        <div *ngFor="let p of posts" class="post">
+            <div class="profile-info">
+                <div class="username">
+                    <a [routerLink]="['/user',p.username]">{{p.username}}</a>
+                    
+                </div>
+                <div>
+                    <img [src]="p.profile_picture" alt="" class="profile-pic">
+                </div>
+            </div>
+            <div class="content">
+                {{p.content}}
+            </div>
+            <div class="timestamp">
+                <a [routerLink]="['/post',p.id]" style="margin-bottom: 20px;">
+                {{p.timestamp | date:"dd MMM yyyy, HH:mm"}}
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { last, lastValueFrom } from 'rxjs';
-import { Artist, User, UserCreate, UserSession } from './models';
+import { Artist, Post, User, UserCreate, UserSession } from './models';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -12,6 +12,7 @@ export class HttpService {
   baseUrl: string = environment.server_url+"/api"
   friendBaseUrl: string = environment.server_url+"/friend"
   notificationBaseUrl: string = environment.server_url+"/notification"
+  postBaseUrl: string = environment.server_url+"/post"
 
   private httpClient = inject(HttpClient)
 
@@ -198,6 +199,24 @@ export class HttpService {
   getNumberOfFriends(username:string){
     const url = this.friendBaseUrl+'/number'
     const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  addNewPost(post:Post){
+    const url = this.postBaseUrl+"/new"
+    return lastValueFrom(this.httpClient.post<any>(url, post))
+  }
+
+  getFeed(username:string, skip:number){
+    const url = this.postBaseUrl+"/feed"
+    const params = new HttpParams().set("username",username).set("skip", skip)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+
+  }
+  
+  getPostsByUser(username:string, skip:number){
+    const url = this.postBaseUrl+"/posts"
+    const params = new HttpParams().set("username",username).set("skip", skip)
     return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
   }
 }
