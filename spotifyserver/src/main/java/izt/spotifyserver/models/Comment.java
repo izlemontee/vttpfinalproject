@@ -13,6 +13,13 @@ public class Comment {
     private long timestamp;
     private String post_id;
     private String profile_picture;
+    public Comment(String username, String content, long timestamp, String post_id, String profile_picture) {
+        this.username = username;
+        this.content = content;
+        this.timestamp = timestamp;
+        this.post_id = post_id;
+        this.profile_picture = profile_picture;
+    }
     public String getProfile_picture() {
         return profile_picture;
     }
@@ -63,10 +70,20 @@ public class Comment {
         this.post_id = post_id;
     }
 
-    public JsonObject toJson(){
+    public JsonObject toJsonWithId(){
         JsonObjectBuilder JOB = Json.createObjectBuilder();
         JOB.add("id",getId())
             .add("username",getUsername())
+            .add("timestamp",getTimestamp())
+            .add("content",getContent())
+            .add("post_id",getPost_id())
+            .add("profile_picture", getProfile_picture());
+        return JOB.build();
+    }
+
+    public JsonObject toJson(){
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("username",getUsername())
             .add("timestamp",getTimestamp())
             .add("content",getContent())
             .add("post_id",getPost_id())

@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import izt.spotifyserver.models.Comment;
 import izt.spotifyserver.models.Post;
 
 @Repository
@@ -48,6 +49,23 @@ public class PostRepository {
     public SqlRowSet getPostsOfUser(String username, int offset){
         SqlRowSet rowset = jdbcTemplate.queryForRowSet(SqlPostQueries.SQL_GET_POSTS_BY_USER, username, offset);
         return rowset;
+    }
+
+    public SqlRowSet getCommentsOfPost(String post_id, int limit, int offset){
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet(SqlPostQueries.SQL_GET_COMMENTS_FOR_POST,
+                            post_id,
+                            limit,
+                            offset);
+        return rowset;
+    }
+
+    public long addComment(Comment comment){
+        long count = jdbcTemplate.update(SqlPostQueries.SQL_ADD_COMMENT,
+                        comment.getUsername()
+                        , comment.getContent()
+                        , comment.getTimestamp()
+                        , comment.getPost_id());
+        return count;
     }
 
 

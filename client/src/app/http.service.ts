@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { last, lastValueFrom } from 'rxjs';
-import { Artist, Post, User, UserCreate, UserSession } from './models';
+import { Artist, Comment, Post, User, UserCreate, UserSession } from './models';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -217,6 +217,23 @@ export class HttpService {
   getPostsByUser(username:string, skip:number){
     const url = this.postBaseUrl+"/posts"
     const params = new HttpParams().set("username",username).set("skip", skip)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  addNewComment(comment:Comment){
+    const url = this.postBaseUrl+"/comment"
+    return lastValueFrom(this.httpClient.post<Comment>(url,comment))
+  }
+
+  getPostById(id:string){
+    const url = this.postBaseUrl+"/get"
+    const params = new HttpParams().set("id",id)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  getCommentsByPostId(id:string, skip:number){
+    const url = this.postBaseUrl+"/comments"
+    const params = new HttpParams().set("skip", skip).set("id",id)
     return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
   }
 }

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import izt.spotifyserver.exceptions.SQLFailedException;
 import izt.spotifyserver.services.PostService;
+import jakarta.json.JsonArray;
 
 @RestController
 @RequestMapping(path = "/post")
@@ -41,6 +43,41 @@ public class PostController {
     @GetMapping(path = "/posts")
     ResponseEntity<String>getPostsByUser(@RequestParam String username, @RequestParam int skip){
         String body = postService.getPostsByUser(username, skip);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body(body);
+        return response;
+    }
+
+    @PostMapping(path ="/comment")
+    ResponseEntity<String>AddComment(@RequestBody String requestBody){
+        String body = "{}";
+        try{
+            body = postService.addNewComment(requestBody);
+            ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+            .body(body);
+            return response;
+        }catch(SQLFailedException ex){
+            ResponseEntity<String> response = ResponseEntity.status(500).contentType(MediaType.APPLICATION_JSON)
+            .body(ex.getMessage());
+            return response;
+
+        }
+        
+
+    }
+
+    @GetMapping(path="/get")
+    ResponseEntity<String> getPostById(@RequestParam String id){
+        String body = postService.getPostById(id);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body(body);
+        return response;
+    }
+
+    @GetMapping(path = "/comments")
+    public ResponseEntity<String> getComments(@RequestParam String id, int skip){
+        JsonArray commentsArray = postService.getCommentsOfPost(id, 5, skip);
+        String body = commentsArray.toString();
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
         .body(body);
         return response;

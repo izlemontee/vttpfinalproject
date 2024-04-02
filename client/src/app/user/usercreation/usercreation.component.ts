@@ -6,6 +6,7 @@ import { HttpService } from '../../http.service';
 import { SessionService } from '../../session.service';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-usercreation',
@@ -18,9 +19,11 @@ export class UsercreationComponent implements OnInit, OnDestroy{
   private httpService = inject(HttpService)
   private session = inject(SessionService)
   private router = inject(Router)
+  private dialog = inject(MatDialog)
 
   creationForm !: FormGroup
   passwordHidden!: boolean
+
 
   usernameExists: boolean = false
   emailExists : boolean = false
@@ -71,6 +74,7 @@ export class UsercreationComponent implements OnInit, OnDestroy{
         ()=>{     
           this.session.disableLoginButton()
           this.router.navigate(['/'])
+          this.dialog.closeAll()
       }
       ).catch(
         ()=>alert("User creation failed. Please try again.")

@@ -17,6 +17,17 @@ public class SqlPostQueries {
             LIMIT 5
             OFFSET ?;   
             """;
+    public static final String SQL_GET_COMMENTS_FOR_POST="""
+            SELECT * FROM comments
+            WHERE post_id=?
+            ORDER BY timestamp DESC
+            LIMIT ?
+            OFFSET ?
+            """;
+    public static final String SQL_ADD_COMMENT="""
+            INSERT INTO comments(username, content, timestamp, post_id)
+            VALUES(?, ?, ?, ?)
+            """;
     
     
 

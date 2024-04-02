@@ -109,7 +109,7 @@ public class Neo4JQueries {
                 
                 UNION
                 
-                MATCH(user)-[:FRIENDS_WITH]->(friend:User)-[:POSTED]->(friendPost:Post)
+                MATCH(user:User {username:$username})-[:FRIENDS_WITH]->(friend:User)-[:POSTED]->(friendPost:Post)
                 RETURN friendPost AS post
         }
                     

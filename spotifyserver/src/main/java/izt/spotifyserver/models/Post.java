@@ -126,6 +126,17 @@ public class Post {
         return JOB.build();
     }
 
+    public JsonObject toJsonNoImage(){
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("id",getId())
+            .add("username",getUsername())
+            .add("content",getContent())
+            .add("timestamp",getTimestamp())
+            .add("profile_picture",getProfile_picture());
+
+        return JOB.build();
+    }
+
     public JsonObjectBuilder toJsonObjectBuilder(){
         JsonObjectBuilder JOB = Json.createObjectBuilder();
         JOB.add("id",getId())

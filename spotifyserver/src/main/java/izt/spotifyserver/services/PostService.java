@@ -119,7 +119,7 @@ public class PostService {
         JsonArrayBuilder JAB = Json.createArrayBuilder();
         // get the post, then the comments tied to the post id from sql
         for(Post p: posts){
-            SqlRowSet rowset = postRepo.getComments(p.getId());
+            SqlRowSet rowset = postRepo.getCommentsOfPost(p.getId(), 3, 0);
             JsonArray comments = processComments(rowset);
             JsonObjectBuilder builder = p.toJsonObjectBuilder();
             builder.add("comments", comments);
@@ -135,8 +135,7 @@ public class PostService {
         JsonArrayBuilder JAB = Json.createArrayBuilder();
         // get the post, then the comments tied to the post id from sql
         for(Post p: posts){
-            SqlRowSet rowsetComments = postRepo.getComments(p.getId());
-            JsonArray comments = processComments(rowsetComments);
+            JsonArray comments = getCommentsOfPost(p.getId(),3,0);
             JsonObjectBuilder builder = p.toJsonObjectBuilder();
             builder.add("comments", comments);
             JAB.add(builder.build());
@@ -152,7 +151,9 @@ public class PostService {
             String content = rowset.getString("content");
             long timestamp = rowset.getLong("timestamp");
             String post_id = rowset.getString("post_id");
+            String profile_picture = getImage(username);
             Comment comment = new Comment(id, username, content, timestamp, post_id);
+            comment.setProfile_picture(profile_picture);
             JAB.add(comment.toJson());
         }
         return JAB.build();
@@ -167,6 +168,76 @@ public class PostService {
             }
         }
 
+        return image;
+    }
+
+    public JsonArray getCommentsOfPost(String post_id, int limit, int offset){
+        JsonArrayBuilder JAB = Json.createArrayBuilder();
+        SqlRowSet rowset = postRepo.getCommentsOfPost(post_id, limit, offset);
+        while(rowset.next()){
+            String username = rowset.getString("username");
+            String content = rowset.getString("content");
+            long timestamp = rowset.getLong("timestamp");
+            String image = getProfilePicture(username);
+            Comment comment = new Comment(username, content, timestamp, post_id, image);
+            JAB.add(comment.toJson());
+        }
+        return JAB.build();
+
+    }
+
+    @Transactional("transactionManager")
+    public String addNewComment(String requestBody){
+        JsonObject commentJson = Utils.stringToJson(requestBody);
+        String username = commentJson.getString("username");
+        String content = commentJson.getString("content");
+        String post_id = commentJson.getString("post_id");
+        long timestamp = new Date().getTime();
+        Comment comment = new Comment(username, content, timestamp, post_id);
+        long count = postRepo.addComment(comment);
+        if(count<0){
+            throw new SQLFailedException();
+        }
+        else{
+            SqlRowSet imagerowset = userSqlRepo.getImage(username);
+            String image = PLACEHOLDER_IMAGE;
+            if(imagerowset.next()){
+                if(imagerowset.getString("image") != null){
+                    image = imagerowset.getString("image");
+                }
+            }
+            comment.setProfile_picture(image);
+            JsonObject commentJsonReturn = comment.toJson();
+            return commentJsonReturn.toString();
+        }
+
+    }
+
+    public String getPostById(String id){
+        SqlRowSet rowset = postRepo.getPostById(id);
+        if(rowset.next()){
+            String username = rowset.getString("username");
+            String content = rowset.getString("content");
+            long timestamp = rowset.getLong("timestamp");
+            String profile_picture = getImage(username);
+            Post post = new Post(id, username, content, timestamp);
+            post.setProfile_picture(profile_picture);
+            JsonObject postJson = post.toJsonNoImage();
+            return postJson.toString();
+        }
+        else{
+            return "{}";
+        }
+    }
+
+    public String getImage(String username){
+        SqlRowSet rowset = userSqlRepo.getImage(username);
+        String image = PLACEHOLDER_IMAGE;
+        if(rowset.next()){
+            if(rowset.getString("image")!=null){
+                image = rowset.getString("image");
+            }
+        }
         return image;
     }
 }

@@ -6,6 +6,7 @@
 .container{
     width:70%;
     margin-left:15%;
+    margin-bottom:50px;
 }
 
 .profile-pic{
@@ -55,4 +56,32 @@ a:hover{
     margin-top:10px;
     margin-left:80%;
     
+}
+
+.commentpost{
+    width:80%;
+    margin-left:1;
+}
+
+.comments-container{
+    padding-top:10px;
+    width:60%;
+}
+
+.comment-content{
+    padding-left:30px;
+    font-size:15px;
+}
+.comment-timestamp{
+    font-size:12px;
+    margin-top:10px;
+    margin-left:70%;
+}
+
+.comment{
+    background-color: #AEB8BC;
+    margin-left:20px;
+    margin-top:10px;
+    margin-bottom:10px;
+    border-radius:20px;
 }

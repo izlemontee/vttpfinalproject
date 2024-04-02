@@ -170,8 +170,18 @@ export class ProfileComponent implements OnInit{
   getPosts(){
     this.httpService.getPostsByUser(this.usernameInProfile, this.skip).then(
       (response)=>{
-        console.log("posts from user:", response)
         this.posts = response as Post[]
+      }
+    )
+  }
+
+  onScroll(){
+    this.skip = this.posts.length
+    this.httpService.getPostsByUser(this.usernameInProfile, this.skip).then(
+      (response)=>{
+        for(let r of response){
+          this.posts.push(r)
+        }
       }
     )
   }

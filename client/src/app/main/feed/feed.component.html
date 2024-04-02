@@ -2,8 +2,12 @@
     <div class="post-container">
         <app-post></app-post>
     </div>
-    <div *ngIf="posts.length>0">
-        <div *ngFor="let p of posts" class="post">
+    <div *ngIf="posts.length>0"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        (scrolled)="onScroll()"
+        style="margin-bottom:50px;">
+        <div *ngFor="let p of posts, index as i" class="post">
             <div class="profile-info">
                 <div class="username">
                     <a [routerLink]="['/user',p.username]">{{p.username}}</a>
@@ -20,6 +24,28 @@
                 <a [routerLink]="['/post',p.id]" style="margin-bottom: 20px;">
                 {{p.timestamp | date:"dd MMM yyyy, HH:mm"}}
                 </a>
+            </div>
+            <div class="comments-container">
+                <div *ngFor="let c of p.comments" class="comment">
+                    <div class="profile-info">
+                        <div  class="username">
+                            <a [routerLink]="['user',c.username]">{{c.username}}</a>
+                            
+                        </div>
+                        <div>
+                            <img [src]="c.profile_picture" alt="" class="profile-pic">
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        {{c.content}}
+                    </div>
+                    <div class="comment-timestamp">
+                        {{c.timestamp | date:"dd MMM yyyy, HH:mm"}}
+                    </div>
+                </div>
+            </div>
+            <div class="commentpost">
+                <app-comment [post_id]="p.id!" (commentOutput)="addComment($event, i)"></app-comment>
             </div>
         </div>
     </div>

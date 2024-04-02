@@ -1,5 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpService } from '../http.service';
+import { Comment, Post } from '../models';
 
 @Component({
   selector: 'app-postdisplay',
@@ -9,12 +11,41 @@ import { ActivatedRoute } from '@angular/router';
 export class PostdisplayComponent implements OnInit{
 
   private activatedRoute = inject(ActivatedRoute)
+  private httpService = inject(HttpService)
   postId!:string
+  skip:number=0
+
+  comments: Comment[]=[]
+  post!: Post
 
   ngOnInit(): void {
-    console.log( this.activatedRoute.snapshot.params['id'])
     this.postId =  this.activatedRoute.snapshot.params['id']
+    this.getPostById()
      
+  }
+
+  getPostById(){
+    this.httpService.getPostById(this.postId).then(
+      (response)=>{
+        this.post = response as Post
+        this.getComments()
+      }
+    )
+  }
+
+  getComments(){
+    this.httpService.getCommentsByPostId(this.postId, this.skip).then(
+      (response)=>{
+        for(let r of response){
+          this.comments.push(r)
+        }
+      }
+    )
+
+  }
+
+  addComment(event:any){
+
   }
 
 }

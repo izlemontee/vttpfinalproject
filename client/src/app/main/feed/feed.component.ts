@@ -43,4 +43,23 @@ export class FeedComponent implements OnInit{
     })
   }
 
+  onScroll(){
+    this.skip = this.posts.length
+    this.httpService.getFeed(this.username, this.skip).then(
+      (response)=>{
+        for(let r of response){
+          this.posts.push(r)
+        }
+      }
+    )
+  }
+
+  addComment(event:any, index:number){
+    console.log("event: ",event)
+    console.log("index: ", index)
+    var comments = this.posts[index].comments
+    comments?.push(event)
+
+  }
+
 }

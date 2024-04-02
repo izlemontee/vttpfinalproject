@@ -1,1 +1,46 @@
-<p>postdisplay works!</p>
+<div *ngIf="post" class="container">
+    <div class="post">
+        <div class="profile-info">
+            <div class="username">
+                <a [routerLink]="['user',post.username]">
+                    {{post.username}}
+                </a>
+                
+            </div>
+            <div>
+                <img [src]="post.profile_picture" alt="" class="profile-pic">
+            </div>
+        </div>
+        <div class="content">
+            {{post.content}}
+        </div>
+        <div class="timestamp">
+            {{post.timestamp | date:"dd MMM yyyy, HH:mm"}}
+        </div>
+    
+        <div class="comments-container">
+            <div *ngFor="let c of comments" class="comment">
+                <div class="profile-info">
+                    <div class="username">
+                        <a [routerLink]="['user',c.username]">{{c.username}}</a>
+                        
+                    </div>
+                    <div>
+                        <img [src]="c.profile_picture" alt="" class="profile-pic">
+                    </div>
+                </div>
+                <div class="comment-content">
+                    {{c.content}}
+                </div>
+                <div class="comment-timestamp">
+                    {{c.timestamp | date:"dd MMM yyyy, HH:mm"}}
+                </div>
+            </div>
+        </div>
+
+        <div class="commentpost">
+            <app-comment [post_id]="postId" (commentOutput)="addComment($event)"></app-comment>
+        </div>
+    </div>
+
+</div>
