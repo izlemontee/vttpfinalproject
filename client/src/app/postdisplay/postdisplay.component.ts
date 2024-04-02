@@ -16,7 +16,12 @@ export class PostdisplayComponent implements OnInit{
   skip:number=0
 
   comments: Comment[]=[]
-  post!: Post
+  post: Post={
+    username:'',
+    content:'',
+    has_picture:false,
+    number_of_comments:0
+  }
 
   ngOnInit(): void {
     this.postId =  this.activatedRoute.snapshot.params['id']
@@ -39,12 +44,15 @@ export class PostdisplayComponent implements OnInit{
         for(let r of response){
           this.comments.push(r)
         }
+        this.skip=this.comments.length
       }
     )
 
   }
 
   addComment(event:any){
+    this.comments.push(event)
+    this.skip = this.comments.length
 
   }
 

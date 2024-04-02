@@ -16,7 +16,7 @@ import { createUserSession, deleteSession, loadUserSession } from './state/state
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
-  title = 'client';
+  title = 'Legato';
 
   private session = inject(SessionService)
   private httpService = inject(HttpService)

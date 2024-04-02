@@ -5,6 +5,7 @@ import { selectAllUsers } from '../state/state.selectors';
 import { HttpService } from '../http.service';
 import { Comment } from '../models';
 import { Subject } from 'rxjs';
+import { NotificationstemplateService } from '../notificationstemplate.service';
 
 @Component({
   selector: 'app-comment',
@@ -16,6 +17,7 @@ export class CommentComponent implements OnInit{
   private store = inject(Store)
   private fb = inject(FormBuilder)
   private httpService = inject(HttpService)
+  private notificationTemplates = inject(NotificationstemplateService)
 
   username!:string
   image!:string
@@ -23,6 +25,9 @@ export class CommentComponent implements OnInit{
 
   @Input()
   post_id:string=''
+
+  @Input()
+  post_author:string=''
 
   @Output()
   commentOutput = new Subject<Comment>
@@ -59,6 +64,10 @@ export class CommentComponent implements OnInit{
           alert("Comment couldn't be posted. Try again later.")
         }
       )
+      if(this.username != this.post_author){
+        this.sendNotification(content)
+      }
+
     }
   }
 
@@ -86,6 +95,23 @@ export class CommentComponent implements OnInit{
     const idEmpty: boolean = (id.trim().length==0)
     return usernameEmpty || idEmpty
 
+  }
+
+  sendNotification(content:string){
+    const payload = this.notificationTemplates.
+    createCommentNotification(content,this.post_author,this.username,this.post_id)
+
+    this.httpService.addNotification(payload).then(
+      ()=>{
+        console.log("notification success")
+      }
+    ).catch(
+      ()=>{
+        alert("Notification failed.")
+      }
+    )
+
+  
   }
 
 }

@@ -28,6 +28,10 @@ public class SqlPostQueries {
             INSERT INTO comments(username, content, timestamp, post_id)
             VALUES(?, ?, ?, ?)
             """;
+    public static final String SQL_GET_NUMBER_OF_COMMENTS="""
+            SELECT COUNT(*) FROM comments
+            WHERE post_id = ?
+            """;
     
     
 

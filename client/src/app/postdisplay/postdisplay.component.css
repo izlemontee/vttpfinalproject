@@ -80,3 +80,17 @@ a{
 a:hover{
     color:blue;
 }
+
+.number-of-comments{
+    margin-left:20px;
+    font-size:14px;
+}
+
+.button{
+    background-color: #98D5F1; 
+    color: white;
+    width:100px;
+    margin-left:85%;
+    margin-bottom:15px;
+    font-size:10px;
+}

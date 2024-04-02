@@ -19,6 +19,9 @@
         </div>
     
         <div class="comments-container">
+            <div class="number-of-comments">
+                {{post.number_of_comments}} comments
+            </div>
             <div *ngFor="let c of comments" class="comment">
                 <div class="profile-info">
                     <div class="username">
@@ -36,10 +39,15 @@
                     {{c.timestamp | date:"dd MMM yyyy, HH:mm"}}
                 </div>
             </div>
+            <div>
+                <button mat-flat-button class="button" (click)="getComments()" [disabled]="comments.length == post.number_of_comments">
+                    Load more comments
+                </button>
+            </div>
         </div>
 
         <div class="commentpost">
-            <app-comment [post_id]="postId" (commentOutput)="addComment($event)"></app-comment>
+            <app-comment [post_id]="postId" [post_author]="post.username" (commentOutput)="addComment($event)"></app-comment>
         </div>
     </div>
 

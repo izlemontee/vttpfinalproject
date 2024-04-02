@@ -26,6 +26,9 @@
                 </a>
             </div>
             <div class="comments-container">
+                <div class="number-of-comments">
+                    {{p.number_of_comments}} comments
+                </div>
                 <div *ngFor="let c of p.comments" class="comment">
                     <div class="profile-info">
                         <div  class="username">
@@ -45,7 +48,7 @@
                 </div>
             </div>
             <div class="commentpost">
-                <app-comment [post_id]="p.id!" (commentOutput)="addComment($event, i)"></app-comment>
+                <app-comment [post_id]="p.id!" [post_author]="p.username" (commentOutput)="addComment($event, i)"></app-comment>
             </div>
         </div>
     </div>

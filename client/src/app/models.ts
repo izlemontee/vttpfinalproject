@@ -87,5 +87,6 @@ export interface Post{
     has_picture:boolean,
     image_url?:string,
     profile_picture?:string,
-    comments?:Comment[]
+    comments?:Comment[],
+    number_of_comments?:number
 }

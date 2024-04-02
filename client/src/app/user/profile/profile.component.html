@@ -94,6 +94,12 @@
                     {{p.timestamp | date:"dd MMM yyyy, HH:mm"}}
                     </a>
                 </div>
+                <div class="number-of-comments">
+                    <a [routerLink]="['/post',p.id]">
+                        {{p.number_of_comments}} comments
+                    </a>
+                  
+                </div>
             </div>
         </div>
 

@@ -40,7 +40,12 @@ public class NotificationService {
         Notification notification = new Notification(username, text, read, url, type, timestamp);
         userSQLRepository.addNewNotification(notification);
         Integer count = getNumberOfUnreadNotifications(username);
-        webSocketHandler.updateUnreadNotifsCount(username, count);
+        try{
+            webSocketHandler.updateUnreadNotifsCount(username, count);
+        }catch(Exception ex){
+            System.out.println("User not connected");
+        }
+     
     }
 
     public String processGetNotificationsRequest(SqlRowSet rowSet){

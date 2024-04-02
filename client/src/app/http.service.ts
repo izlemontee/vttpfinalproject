@@ -236,4 +236,5 @@ export class HttpService {
     const params = new HttpParams().set("skip", skip).set("id",id)
     return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
   }
+
 }

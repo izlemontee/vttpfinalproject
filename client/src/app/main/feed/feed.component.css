@@ -85,3 +85,8 @@ a:hover{
     margin-bottom:10px;
     border-radius:20px;
 }
+
+.number-of-comments{
+    margin-left:20px;
+    font-size:14px;
+}

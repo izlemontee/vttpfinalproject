@@ -40,4 +40,17 @@ export class NotificationstemplateService {
     return payload
   }
 
+  createCommentNotification(content:string, to:string, from:string, id:string){
+    const text:string = from+" commented on your post:\n"+content
+    const endpoint = "/post/"+id
+    const payload={
+      username:to,
+      text:text,
+      url:endpoint,
+      type:POST_COMMENT
+    }
+    return payload
+
+  }
+
 }

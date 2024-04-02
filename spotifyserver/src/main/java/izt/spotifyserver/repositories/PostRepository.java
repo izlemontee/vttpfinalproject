@@ -68,7 +68,10 @@ public class PostRepository {
         return count;
     }
 
-
+    public SqlRowSet getNumberOfComments(String post_id){
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(SqlPostQueries.SQL_GET_NUMBER_OF_COMMENTS, post_id);
+        return rowSet;
+    }
 
 
     

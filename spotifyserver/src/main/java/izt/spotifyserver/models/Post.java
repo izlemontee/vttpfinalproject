@@ -137,6 +137,18 @@ public class Post {
         return JOB.build();
     }
 
+    public JsonObject toJsonWithNumberOfComments(int number){
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("id",getId())
+            .add("username",getUsername())
+            .add("content",getContent())
+            .add("timestamp",getTimestamp())
+            .add("profile_picture",getProfile_picture())
+            .add("number_of_comments",number);
+
+        return JOB.build();
+    }
+
     public JsonObjectBuilder toJsonObjectBuilder(){
         JsonObjectBuilder JOB = Json.createObjectBuilder();
         JOB.add("id",getId())

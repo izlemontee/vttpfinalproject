@@ -123,6 +123,8 @@ public class PostService {
             JsonArray comments = processComments(rowset);
             JsonObjectBuilder builder = p.toJsonObjectBuilder();
             builder.add("comments", comments);
+            int numberOfComments = getNumberOfComments(p.getId());
+            builder.add("number_of_comments", numberOfComments);
             JAB.add(builder.build());
         }
         return JAB.build().toString();
@@ -138,6 +140,8 @@ public class PostService {
             JsonArray comments = getCommentsOfPost(p.getId(),3,0);
             JsonObjectBuilder builder = p.toJsonObjectBuilder();
             builder.add("comments", comments);
+            int numberOfComments = getNumberOfComments(p.getId());
+            builder.add("number_of_comments", numberOfComments);
             JAB.add(builder.build());
         }
         return JAB.build().toString();
@@ -222,7 +226,8 @@ public class PostService {
             String profile_picture = getImage(username);
             Post post = new Post(id, username, content, timestamp);
             post.setProfile_picture(profile_picture);
-            JsonObject postJson = post.toJsonNoImage();
+            int numberOfComments = getNumberOfComments(id);
+            JsonObject postJson = post.toJsonWithNumberOfComments(numberOfComments);
             return postJson.toString();
         }
         else{
@@ -239,5 +244,13 @@ public class PostService {
             }
         }
         return image;
+    }
+
+
+    public int getNumberOfComments(String post_id){
+        SqlRowSet rowSet = postRepo.getNumberOfComments(post_id);
+        rowSet.next();
+        int count = rowSet.getInt("count(*)");
+        return count;
     }
 }
