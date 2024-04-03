@@ -44,6 +44,9 @@ public interface UserNeo4jRepository extends Neo4jRepository<Neo4jUser,String> {
     @Query(Neo4JQueries.NEO4J_FIND_NUMBER_OF_FRIENDS)
     Integer getNumberOfFriends(String username);
 
+    @Query(Neo4JQueries.NEO4J_FIND_FRIENDS)
+    List<String> findFriendUsernames(String username, int skip);
+
 
 
 } 

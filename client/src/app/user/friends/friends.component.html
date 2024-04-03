@@ -1,1 +1,23 @@
-<p>friends works!</p>
+<div class="container">
+    <div *ngIf="friends.length>0">
+        <div *ngFor="let f of friends" >
+            <a [routerLink]="['/user',f.username]">
+                <div class="result">
+                    <div class="name-container">
+                        <div class="username">
+                            {{f.username}}
+                        </div>
+                        <div  class="name">
+                            {{f.firstName | titlecase}} {{f.lastName |titlecase}}
+                        </div>
+                    </div>
+                    <div class="picture-container">
+                        <img class="picture" [src]="f.image" alt="">
+                    </div>
+                </div>
+            </a>
+
+
+        </div>
+    </div>
+</div>

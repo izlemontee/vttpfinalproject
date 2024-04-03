@@ -1,5 +1,6 @@
 package izt.spotifyserver.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.neo4j.driver.exceptions.Neo4jException;
@@ -150,6 +151,14 @@ public class Neo4JUserService {
         JsonObjectBuilder JOB = Json.createObjectBuilder();
         JOB.add("friends",friendCount);
         return JOB.build().toString();
+    }
+
+    public List<String> findFriends(String username, int skip){
+        List<String> usernames = userNeo4jRepo.findFriendUsernames(username, skip);
+        if(usernames == null){
+            usernames = new ArrayList<>();
+        }
+        return usernames;
     }
     
 }

@@ -237,4 +237,10 @@ export class HttpService {
     return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
   }
 
+  getFriends(username:string, skip:number){
+    const url = this.friendBaseUrl+"/myfriends"
+    const params = new HttpParams().set("username", username).set("skip",skip)
+    return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
+  }
+
 }

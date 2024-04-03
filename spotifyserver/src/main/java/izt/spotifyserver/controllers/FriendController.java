@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import izt.spotifyserver.services.Neo4JUserService;
+import izt.spotifyserver.services.UserService;
 
 @RestController
 @RequestMapping(path = "/friend")
@@ -20,6 +21,9 @@ public class FriendController {
 
     @Autowired
     private Neo4JUserService neo4jUserService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping(path = "/status")
     public ResponseEntity<String> checkFriendStatus(@RequestParam String username, @RequestParam String friend){
@@ -74,6 +78,14 @@ public class FriendController {
         String body = neo4jUserService.getNumberOfFriends(username);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
                                             .body(body);
+        return response;
+    }
+
+    @GetMapping(path ="/myfriends")
+    public ResponseEntity<String> getFriends(@RequestParam String username, @RequestParam int skip){
+        String body = userService.getFriends(username, skip);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body(body);
         return response;
     }
 }

@@ -190,5 +190,10 @@ public class UserSQLRepository {
         return rowSet;
     }
 
+    public SqlRowSet getUsernameNameImagebyUsername(String username){
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_GET_USERNAME_NAME_IMAGE_EXACT, username);
+        return rowset;
+    }
+
     
 }

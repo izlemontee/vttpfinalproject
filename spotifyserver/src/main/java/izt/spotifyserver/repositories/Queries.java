@@ -153,4 +153,9 @@ public class Queries {
                         SELECT * from posts
                         WHERE id = ?
                         """;
+        public static final String SQL_GET_USERNAME_NAME_IMAGE_EXACT="""
+                SELECT username, firstname, lastname, image
+                FROM users
+                WHERE username = ?
+                        """;
 }

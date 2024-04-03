@@ -83,7 +83,10 @@ public class Neo4JQueries {
     public static final String NEO4J_FIND_FRIENDS="""
         MATCH(user: User {username:$username})
         -[:FRIENDS_WITH]->(friend: User)
-        RETURN friend
+        RETURN friend.username
+        ORDER BY friend.username
+        SKIP $skip
+        LIMIT 5
             """;
         public static final String NEO4J_FIND_NUMBER_OF_FRIENDS="""
                 MATCH(user: User {username:$username})
