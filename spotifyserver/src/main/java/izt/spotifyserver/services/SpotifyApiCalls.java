@@ -19,6 +19,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -29,6 +30,8 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonValue;
 import se.michaelthelin.spotify.SpotifyApi;
 
 @Service
@@ -48,6 +51,8 @@ public class SpotifyApiCalls {
 
     @Autowired
     private UserSQLRepository userSqlRepo;
+
+    private String ACCESS_TOKEN="";
 
    
     private RestTemplate restTemplate = new RestTemplate();
@@ -125,7 +130,6 @@ public class SpotifyApiCalls {
         Map<String,Integer> genresAsMap = new HashMap<>();
         JsonArrayBuilder JAB = Json.createArrayBuilder();
         if(items.size()>0){
-            // System.out.println(items.getJsonObject(0).get("genres").getClass());
             for(int i=0; i<items.size();i++){
                 JsonObject item = items.getJsonObject(i);
                 JsonArray genres = item.getJsonArray("genres");
@@ -198,4 +202,122 @@ public class SpotifyApiCalls {
         user.setAccessKey(accessKey);
         userSqlRepo.updateUserAccessKey(user);
     }
+
+    // use this for generic API calls
+    public String getGenericAccessToken(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+    
+        // Set up the request body with client credentials and grant type
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("grant_type", "client_credentials");
+        requestBody.add("client_id", clientId);
+        requestBody.add("client_secret", clientSecret);
+        HttpEntity<MultiValueMap<String,String>> entity = new HttpEntity<>(requestBody,headers);
+    
+        // call API and get response
+        ResponseEntity<String> response = restTemplate.exchange("https://accounts.spotify.com/api/token",
+                                                        HttpMethod.POST,
+                                                        entity,
+                                                        String.class);
+    
+        JsonObject jsonResponse = Utils.stringToJson(response.getBody());
+        System.out.println("body:"+ response.getBody());
+        String accessToken = jsonResponse.getString("access_token");
+        ACCESS_TOKEN = accessToken;
+        System.out.println(accessToken);
+        return accessToken;
+    }
+
+    public String searchForArtistsUsingUrl(String requestBody){
+        JsonObject bodyJson = Utils.stringToJson(requestBody);
+        String url = bodyJson.getString("url");
+        System.out.println("url: "+url);
+        String body = searchForArtists(url);
+        return body;
+    }
+
+    public String searchForArtistsByName(String name, int offset){
+        String endpoint = "https://api.spotify.com/v1/search";
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(endpoint)
+                                                    .queryParam("limit", 10)
+                                                    .queryParam("q",name)
+                                                    .queryParam("type", "artist")
+                                                    .queryParam("market","SG")
+                                                    .queryParam("offset", offset);
+        String requestUri = uriComponentsBuilder.toUriString();
+        String body = searchForArtists(requestUri);
+        return body;
+    }
+
+    public String searchForArtists(String requestUri){
+        HttpHeaders headers = new HttpHeaders();
+        if(ACCESS_TOKEN==""){
+            getGenericAccessToken();
+        }
+        String bearer = "Bearer "+ ACCESS_TOKEN;
+        headers.set("Authorization", bearer);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        try{
+            ResponseEntity<String> response = restTemplate.exchange(requestUri,
+            HttpMethod.GET
+            ,entity,
+            String.class
+            );
+            JsonArrayBuilder JAB = Json.createArrayBuilder();
+            JsonObjectBuilder responseBuilder = Json.createObjectBuilder();
+            JsonObject responseJson = Utils.stringToJson(response.getBody());
+            // System.out.println(responseJson.get("artists").getClass());
+            JsonObject parentJson = responseJson.getJsonObject("artists");
+            String next = "";
+            String prev = "";
+            if(parentJson.get("next")!=null){
+                next = parentJson.get("next").toString();
+            }
+            if(parentJson.get("previous")!=null){
+ 
+                prev = parentJson.get("previous").toString();
+            }
+            JsonArray artistsJsonArray = parentJson.getJsonArray("items");
+            if(artistsJsonArray.size()>0){
+                for(JsonValue j:artistsJsonArray){
+                    JsonObject artistJson = j.asJsonObject();
+                    String url = artistJson.getJsonObject("external_urls").getString("spotify");
+                    String artistName = artistJson.getString("name");
+                    String image = "";
+                    if(artistJson.get("images")!=null){
+                        if(artistJson.getJsonArray("images").size()>0){
+                            image = artistJson.getJsonArray("images").getJsonObject(0).getString("url");
+                        }
+                    }
+                    JsonArray genres = artistJson.getJsonArray("genres");
+                    String id = artistJson.getString("id");
+                    JsonObjectBuilder JOB = Json.createObjectBuilder();
+                    JOB.add("external_url", url)
+                        .add("image",image)
+                        .add("name",artistName)
+                        .add("genres", genres)
+                        .add("id", id);
+                    JAB.add(JOB.build());
+                }
+            }
+            responseBuilder.add("next",next)
+                            .add("prev",prev)
+                            .add("artists", JAB.build());
+            return responseBuilder.build().toString();
+            // return response.getBody();
+        }catch(HttpClientErrorException ex){
+            Integer errorCode = ex.getStatusCode().value();
+            if(errorCode == 401){
+                getGenericAccessToken();
+                String body = searchForArtists(requestUri);
+                return body;
+            }else{
+                String response = ex.getResponseBodyAsString();
+                return response;
+            }
+        }
+    }
+
 }

@@ -39,6 +39,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   instrumentSelection: boolean = false
   profilePictureUpload : boolean = false
   userInfoSetup : boolean = false
+  manualArtistSelection: boolean = false
 
   allComponentsDeactivated: boolean = true
 
@@ -106,6 +107,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
     this.artistSelection = false
     this.instrumentSelection = false
     this.profilePictureUpload = false
+    this.manualArtistSelection = false
 
     this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
@@ -120,6 +122,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
     this.userInfoSetup = false
     this.instrumentSelection = false;
     this.profilePictureUpload = false
+    this.manualArtistSelection = false
 
     this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
@@ -128,11 +131,27 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
     this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
 
+  manuallySelectArtists(){
+    this.manualArtistSelection = true
+    this.instrumentSelection = false
+    this.userInfoSetup = false
+    this.artistSelection = false;
+    this.profilePictureUpload = false
+
+    this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
+  }
+
+  deactivateManualArtistSelection(){
+    this.manualArtistSelection = false
+    this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
+  }
+
   addInstruments(){
     this.instrumentSelection = true
     this.userInfoSetup = false
     this.artistSelection = false;
     this.profilePictureUpload = false
+    this.manualArtistSelection = false
 
     this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
@@ -146,6 +165,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
     this.userInfoSetup = false
     this.artistSelection = false
     this.instrumentSelection = false
+    this.manualArtistSelection = false
 
     this.allComponentsDeactivated = this.checkAllComponentsDeactivated()
   }
@@ -170,11 +190,10 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
     const artistSelectionDeactivated :boolean = this.artistSelection == false
     const profilePictureUploadDeactivated: boolean = this.profilePictureUpload ==false
     const instrumentSelectionDeactivated: boolean = this.instrumentSelection == false
-    console.log(userinfoSetupDeactivated)
-    console.log(artistSelectionDeactivated)
-    console.log(profilePictureUploadDeactivated)
-    console.log(instrumentSelectionDeactivated)
+    const manualArtistSelectionDeactivated : boolean = this.manualArtistSelection == false
+
     return (userinfoSetupDeactivated && artistSelectionDeactivated 
-            && profilePictureUploadDeactivated && instrumentSelectionDeactivated)
+            && profilePictureUploadDeactivated && instrumentSelectionDeactivated
+            && manualArtistSelectionDeactivated)
   }
 }

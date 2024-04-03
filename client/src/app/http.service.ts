@@ -243,4 +243,34 @@ export class HttpService {
     return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
   }
 
+  searchArtistsByName(name:string, offset:number){
+    const url = this.baseUrl +"/searchartists"
+    const params = new HttpParams().set("name",name).set("offset",offset)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  searchArtistsUsingUrl(apiUrl:string){
+
+    apiUrl = apiUrl.replaceAll('"','')
+
+    const payload = {
+      url:apiUrl
+    }
+    console.log(payload)
+    const url = this.baseUrl +"/searchartists"
+    return lastValueFrom(this.httpClient.post<any>(url,payload))
+  }
+
+  updateArtistsManually(artists:Artist[], username:string){
+    const payload={
+      username:username,
+      artists:artists
+    }
+    const url = this.baseUrl+"/artistupdate"
+    return lastValueFrom(this.httpClient.post<any>(url,payload))
+
+  }
+
+  
+
 }

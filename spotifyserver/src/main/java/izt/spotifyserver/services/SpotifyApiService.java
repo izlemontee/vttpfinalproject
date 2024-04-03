@@ -288,12 +288,6 @@ public class SpotifyApiService {
             }
         }
         
-        // if the access key has expired
-        // catch(Exception ex){
-        //     refreshUserAccessToken(user);
-        //     String responseBody = getUserTopArtists(username, duration);
-        //     return responseBody;
-        // }
     }
 
     public String getUserNameAndBio(String username){

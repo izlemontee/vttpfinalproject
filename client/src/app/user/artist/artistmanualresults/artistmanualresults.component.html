@@ -1,0 +1,34 @@
+<div>
+    <div *ngIf="results.length>0">
+        <div *ngFor="let r of results" class="result-container">
+            <div>
+                <a [href]="r.external_url" target="_blank">
+                    <div class="artist">
+                        <div class="artist-name">
+                            {{r.name}}
+                        </div>
+                        <div class="artist-picture">
+                            <img [src]="r.image" alt="">
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="plus-icon-container">
+                <mat-icon class="plus-icon" (click)="addArtist(r)">add</mat-icon>
+            </div>
+
+        </div>
+        <div class="arrow-container">
+            <div *ngIf="prev && prev!='null'">
+                <mat-icon class="arrow-icon" (click)="prevPage()">keyboard_arrow_left</mat-icon>
+            </div>
+            <div *ngIf="next && next!=''">
+                <mat-icon class="arrow-icon" (click)="nextPage()">keyboard_arrow_right</mat-icon>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

@@ -18,6 +18,12 @@
     overflow-y: auto;
 
 }
+.artist-manual{
+    height:700px;
+    overflow-y: auto;
+
+}
+
 
 .setupspotify{
     margin-top:10px;

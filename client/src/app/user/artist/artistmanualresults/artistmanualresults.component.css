@@ -1,0 +1,75 @@
+a{
+    color:white;
+}
+
+a:hover{
+    color:blue;
+}
+
+.artist-name{
+    width:180px;
+    margin-top:10%;
+    margin-left:5px;
+}
+
+.artist-picture{
+    width:60px;
+    margin-top:3px;
+    margin-right:3px;
+    /* border-style: dotted; */
+}
+
+.artist{
+    background-color: rgba(87, 236, 87, 0.89);
+    border-radius: 10px;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    display: flex;
+    height:66px;
+    margin-top:2px;
+    margin-bottom:2px;
+}
+
+img{
+    height:60px;
+    width: 60px;
+    border-radius: 30px;
+}
+
+.arrow-icon {
+    font-size: 20px; /* Adjust size as needed */
+    color: white; /* Adjust color as needed */
+}
+
+.arrow-icon:hover{
+    cursor: pointer;
+}
+
+.arrow-container{
+    display:flex
+}
+
+.button{
+    background-color: #98D5F1; 
+    color: white;
+    width:200px;
+}
+
+.result-container{
+    display: flex;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.plus-icon-container{
+    padding-top:20px;
+    margin-left:5px;
+}
+
+.plus-icon {
+    font-size: 24px; /* Adjust size as needed */
+    color: white; /* Adjust color as needed */
+}
+
+.plus-icon:hover{
+    cursor: pointer;
+}

@@ -25,6 +25,7 @@ import izt.spotifyserver.services.ImageService;
 import izt.spotifyserver.services.Neo4JUserService;
 import izt.spotifyserver.services.SpotifyApiCalls;
 import izt.spotifyserver.services.SpotifyApiService;
+import izt.spotifyserver.services.UserService;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
@@ -54,6 +55,9 @@ public class ApiController {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping(path="/authenticate")
     public ResponseEntity<String> getLoginUri(){
@@ -342,6 +346,42 @@ public class ApiController {
                                             .contentType(MediaType.APPLICATION_JSON)
                                             .body(body);
         
+        return response;
+    }
+
+    @GetMapping(path="/token")
+    public ResponseEntity<String> getAccessToken(){
+        spotifyApiCalls.getGenericAccessToken();
+        ResponseEntity<String> response = ResponseEntity.status(200)
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .body("{}");
+        return response;
+    }
+
+    @GetMapping(path="/searchartists")
+    public ResponseEntity<String> searchForArtists(String name, int offset){
+        String body = spotifyApiCalls.searchForArtistsByName(name, offset);
+        ResponseEntity<String> response = ResponseEntity.status(200)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(body);
+        return response;
+    }
+
+    @PostMapping(path = "/searchartists")
+    public ResponseEntity<String> searchForArtistsUsingUrl(@RequestBody String requestBody){
+        String body = spotifyApiCalls.searchForArtistsUsingUrl(requestBody);
+        ResponseEntity<String> response = ResponseEntity.status(200)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(body);
+        return response;
+    }
+
+    @PostMapping(path = "/artistupdate")
+    public ResponseEntity<String> updateArtistsManually(@RequestBody String requestBody){
+        userService.updateUserArtistsManually(requestBody);
+        ResponseEntity<String> response = ResponseEntity.status(200)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body("{}");
         return response;
     }
 

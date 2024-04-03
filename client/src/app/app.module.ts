@@ -40,6 +40,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PostComponent } from './post/post.component';
 import { PostdisplayComponent } from './postdisplay/postdisplay.component';
 import { CommentComponent } from './comment/comment.component';
+import { ArtistmanualComponent } from './user/artist/artistmanual/artistmanual.component';
+import { ArtistmanualresultsComponent } from './user/artist/artistmanualresults/artistmanualresults.component';
 
 
 
@@ -70,6 +72,8 @@ import { CommentComponent } from './comment/comment.component';
     PostComponent,
     PostdisplayComponent,
     CommentComponent,
+    ArtistmanualComponent,
+    ArtistmanualresultsComponent,
 
   ],
   imports: [

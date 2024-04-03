@@ -1,0 +1,42 @@
+
+
+<div style="display:flex;">
+    <p>
+        Manually select your artists
+    </p>
+    <button type="submit" 
+    mat-flat-button class="button" (click)="updateArtists()">Update Artists</button>
+</div>
+<div *ngIf="artists.length>0" class="artist-container">
+    <p>Your artists:</p>
+    <div *ngFor="let a of artists, index as i" class="result-container">
+            <div>
+                <a [href]="a.external_url" target="_blank">
+                    <div class="artist">
+                        <div class="artist-name">
+                            {{a.name}}
+                        </div>
+                        <div class="artist-picture">
+                            <img [src]="a.image" alt="">
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="plus-icon-container">
+                <mat-icon class="plus-icon" (click)="deleteArtist(i)">delete</mat-icon>
+            </div>
+    </div>
+</div>
+
+<div *ngIf="artists.length<10">
+    <form [formGroup]="artistForm">
+        <input type="text" formControlName="name" placeholder="Search for artists">
+        <button type="submit" [disabled]="artistForm.invalid" (click)="processForm()" 
+        mat-flat-button class="button">Search</button>
+        
+    </form>
+    <div>
+        <app-artistmanualresults [artistName]="name"
+        (artistSelection)="newArtist($event)"></app-artistmanualresults>
+    </div>
+</div>

@@ -1,5 +1,8 @@
 <div class="container">
-    <div *ngIf="friends.length>0">
+    <div *ngIf="friends.length>0"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        (scrolled)="getFriends()">
         <div *ngFor="let f of friends" >
             <a [routerLink]="['/user',f.username]">
                 <div class="result">
