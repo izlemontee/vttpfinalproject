@@ -23,6 +23,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "@angular/common"
+            ],
             "outputPath": "dist/client",
             "index": "src/index.html",
             "browser": "src/main.ts",
