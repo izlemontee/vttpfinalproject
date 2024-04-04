@@ -19,6 +19,8 @@ export class FeedComponent implements OnInit{
   id!:string
   posts:Post[] =[]
 
+  feedError: boolean = false
+
   ngOnInit(): void {
     this.getUsername()
       
@@ -32,10 +34,12 @@ export class FeedComponent implements OnInit{
           this.id = response.id
           this.httpService.getFeed(this.username, this.skip).then(
             (response)=>{
-             
+             this.feedError = false
               this.posts = response as Post[]
-              console.log(this.posts)
+              
             }
+          ).then(
+            ()=>this.feedError = true
           )
           
         }

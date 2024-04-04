@@ -158,4 +158,9 @@ public class Queries {
                 FROM users
                 WHERE username = ?
                         """;
+        public static final String SQL_GET_USERS_FROM_LIST="""
+                SELECT username, firstname, lastname, image
+                FROM users
+                WHERE username IN (?)
+                        """;
 }

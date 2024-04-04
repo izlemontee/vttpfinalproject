@@ -1,0 +1,29 @@
+<form [formGroup]="form">
+    <p>
+        Search by instrument:
+    </p>
+    <input type="text" formControlName="instrument">
+    <button (click)="processForm()">Search</button>
+</form>
+
+<div *ngIf="users.length>0">
+    <div *ngFor="let u of users">
+        <div>
+            <a [routerLink]="['/user',u.username]">
+                <div class="result">
+                    <div class="name-container">
+                        <div class="username">
+                            {{u.username}}
+                        </div>
+                        <div class="name">
+                            {{u.firstName | titlecase}} {{u.lastName | titlecase}}
+                        </div>
+                    </div>
+                    <div class="picture-container">
+                        <img class="picture" [src]="u.image" alt="" height="100" width="100">
+                    </div>
+                </div>
+            </a> 
+        </div>
+    </div>
+</div>

@@ -42,6 +42,7 @@ import { PostdisplayComponent } from './postdisplay/postdisplay.component';
 import { CommentComponent } from './comment/comment.component';
 import { ArtistmanualComponent } from './user/artist/artistmanual/artistmanual.component';
 import { ArtistmanualresultsComponent } from './user/artist/artistmanualresults/artistmanualresults.component';
+import { MusiciansearchComponent } from './musician/musiciansearch/musiciansearch.component';
 
 
 
@@ -74,6 +75,7 @@ import { ArtistmanualresultsComponent } from './user/artist/artistmanualresults/
     CommentComponent,
     ArtistmanualComponent,
     ArtistmanualresultsComponent,
+    MusiciansearchComponent,
 
   ],
   imports: [

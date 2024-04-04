@@ -271,6 +271,12 @@ export class HttpService {
 
   }
 
+  searchForMusiciansByInstrument(instrument:string){
+    const url = this.baseUrl + "/musiciansearch"
+    const params = new HttpParams().set("instrument",instrument)
+    return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
+  }
+
   
 
 }

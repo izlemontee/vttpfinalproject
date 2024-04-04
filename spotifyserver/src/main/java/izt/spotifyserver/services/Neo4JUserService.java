@@ -13,9 +13,11 @@ import izt.spotifyserver.models.Neo4jUser;
 import izt.spotifyserver.repositories.InstrumentNeo4JRepository;
 import izt.spotifyserver.repositories.UserNeo4jRepository;
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonValue;
 
 @Service
 public class Neo4JUserService {
@@ -158,6 +160,11 @@ public class Neo4JUserService {
         if(usernames == null){
             usernames = new ArrayList<>();
         }
+        return usernames;
+    }
+
+    public List<String> findUsersByInstruments(String instrument){
+        List<String> usernames = userNeo4jRepo.findUsersByInstruments(instrument);
         return usernames;
     }
     

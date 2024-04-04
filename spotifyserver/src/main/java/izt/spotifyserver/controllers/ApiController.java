@@ -1,6 +1,7 @@
 package izt.spotifyserver.controllers;
 
 import java.io.StringReader;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -382,6 +383,16 @@ public class ApiController {
         ResponseEntity<String> response = ResponseEntity.status(200)
         .contentType(MediaType.APPLICATION_JSON)
         .body("{}");
+        return response;
+    }
+
+    @GetMapping(path = "/musiciansearch")
+    public ResponseEntity<String> searchForMusiciansByInstrument(@RequestParam String instrument){
+        List<String> usernames = neo4JService.findUsersByInstruments(instrument);
+        String body = userService.getUsersFromList(usernames);
+        ResponseEntity<String> response = ResponseEntity.status(200)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(body);
         return response;
     }
 

@@ -121,4 +121,10 @@ public class Neo4JQueries {
         SKIP $skip
         LIMIT 5
         """;
+
+        public static final String NEO4J_FIND_USERS_BY_INSTRUMENTS="""
+        MATCH(user:User)-[:PLAYS]->(instrument:Instrument)
+        WHERE  instrument.name =~ ('.*'+$name+'.*')
+        RETURN DISTINCT user.username
+                        """;
 }

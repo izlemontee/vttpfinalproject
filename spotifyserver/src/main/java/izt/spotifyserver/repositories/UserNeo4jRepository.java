@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.ReactiveNeo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import izt.spotifyserver.models.Neo4jUser;
@@ -46,6 +47,9 @@ public interface UserNeo4jRepository extends Neo4jRepository<Neo4jUser,String> {
 
     @Query(Neo4JQueries.NEO4J_FIND_FRIENDS)
     List<String> findFriendUsernames(String username, int skip);
+
+    @Query(Neo4JQueries.NEO4J_FIND_USERS_BY_INSTRUMENTS)
+    List<String> findUsersByInstruments(String name);
 
 
 

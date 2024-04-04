@@ -2,7 +2,7 @@
     <div class="post-container">
         <app-post></app-post>
     </div>
-    <div *ngIf="posts.length>0"
+    <div *ngIf="posts.length>0 else noposts"
         infiniteScroll
         [infiniteScrollDistance]="2"
         (scrolled)="onScroll()"
@@ -52,4 +52,13 @@
             </div>
         </div>
     </div>
+
+    <ng-template #noposts>
+        <div *ngIf="!feedError">
+            <p>Loading...</p>
+        </div>
+        <div *ngIf="feedError">
+            <p>Server error. Try again later.</p>
+        </div>
+    </ng-template>
 </div>

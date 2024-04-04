@@ -147,5 +147,30 @@ public class UserService {
 
             
     }
+
+    public String getUsersFromList(List<String> usernames){
+        JsonArrayBuilder JAB = Json.createArrayBuilder();
+        for(String s: usernames){
+            SqlRowSet rowset = userSqlRepo.getUsernameNameImagebyUsername(s);
+            while(rowset.next()){
+                String username = rowset.getString("username");
+                String firstName = rowset.getString("firstname");
+                String lastName = rowset.getString("lastname");
+                String image = PLACEHOLDER_IMAGE;
+                if(rowset.getString("image")!=null){
+                    image = rowset.getString("image");
+                }
+            
+                JsonObjectBuilder JOB = Json.createObjectBuilder();
+                JOB.add("username",username)
+                    .add("firstName", firstName)
+                    .add("lastName",lastName)
+                    .add("image",image);
+                JAB.add(JOB.build());
+            }
+        }
+        return JAB.build().toString();
+
+    }
     
 }

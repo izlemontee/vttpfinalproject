@@ -32,6 +32,8 @@ public class SqlPostQueries {
             SELECT COUNT(*) FROM comments
             WHERE post_id = ?
             """;
+
+
     
     
 

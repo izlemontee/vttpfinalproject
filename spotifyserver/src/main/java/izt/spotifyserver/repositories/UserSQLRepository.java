@@ -1,5 +1,8 @@
 package izt.spotifyserver.repositories;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -192,6 +195,16 @@ public class UserSQLRepository {
 
     public SqlRowSet getUsernameNameImagebyUsername(String username){
         SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_GET_USERNAME_NAME_IMAGE_EXACT, username);
+        return rowset;
+    }
+
+    public SqlRowSet getUsersFromList(List<String> usernames){
+        String usernameList = usernames.stream()
+                                    //    .map(username -> "'" + username + "'")
+                                       .collect(Collectors.joining(","));
+        System.out.println(usernameList);
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet(Queries.SQL_GET_USERS_FROM_LIST, usernameList);
+        
         return rowset;
     }
 
