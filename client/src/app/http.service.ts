@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { last, lastValueFrom } from 'rxjs';
-import { Artist, Comment, Post, User, UserCreate, UserSession } from './models';
+import { last, lastValueFrom, of } from 'rxjs';
+import { Artist, Comment, Message, Post, User, UserCreate, UserSession } from './models';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class HttpService {
   friendBaseUrl: string = environment.server_url+"/friend"
   notificationBaseUrl: string = environment.server_url+"/notification"
   postBaseUrl: string = environment.server_url+"/post"
+  messageBaseUrl: string = environment.server_url+"/message"
 
   private httpClient = inject(HttpClient)
 
@@ -277,6 +278,41 @@ export class HttpService {
     return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
   }
 
-  
+  getChats(username:string, offset:number){
+    const params = new HttpParams().set("username", username).set("offset",offset)
+    const url = this.messageBaseUrl+"/chats"
+    return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
+  }
+
+  // returns chat id
+  openChat(user1:string, user2:string){
+    const params = new HttpParams().set("user1", user1).set("user2",user2)
+    const url = this.messageBaseUrl + "/startchat"
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  getMessages(id:string, offset:number){
+    const params = new HttpParams().set("id", id).set("offset",offset)
+    const url = this.messageBaseUrl + "/messages"
+    return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
+
+  }
+
+  sendMessage(message: Message){
+    const url = this.messageBaseUrl + "/send"
+    return lastValueFrom(this.httpClient.post<any>(url, message))
+  }
+
+  readChat(username:string, id:string){
+    const url = this.messageBaseUrl + "/read"
+    const params = new HttpParams().set("username",username).set("id",id)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
+
+  unreadChat(username:string, id:string){
+    const url = this.messageBaseUrl + "/unread"
+    const params = new HttpParams().set("username",username).set("id",id)
+    return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
+  }
 
 }

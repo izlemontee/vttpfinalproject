@@ -66,7 +66,8 @@ export class UserinfoComponent implements OnInit, OnChanges{
     }
     this.httpService.updateUserProfile(user, this.username).then(
       ()=>{
-        this.router.navigate(['/user',this.username])
+        this.profileForm.reset()
+        this.deactivate()
       }
     ).catch(
       ()=>{

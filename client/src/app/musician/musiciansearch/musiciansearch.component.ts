@@ -17,6 +17,8 @@ export class MusiciansearchComponent implements OnInit{
   form !: FormGroup
 
   users: UserSearch[]=[]
+  searchFinished : boolean = false
+  searchTerm!:string
 
   ngOnInit(): void {
       this.form = this.createForm()
@@ -30,10 +32,13 @@ export class MusiciansearchComponent implements OnInit{
 
 
   processForm(){
+    this.searchFinished = false
     const instrument = this.form.value['instrument'].toLowerCase()
+    this.searchTerm = instrument
     this.httpService.searchForMusiciansByInstrument(instrument).then(
       (response)=>{
         this.users = response as UserSearch[]
+        this.searchFinished = true
       }
     ).catch(
       ()=>{

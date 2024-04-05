@@ -1,142 +1,153 @@
 
-<div *ngIf="user" class="container">
-    <!-- basic profile info -->
-    <div>
-        <img [src]="user.image" alt="" width="200" height="200" style="border-radius: 100px;">
-        <table class="profiletext" style="margin-bottom: 10px;">
-            <tr>
-                <td>{{user.username}}</td>
-            </tr>
-            <tr>
-                <td>{{user.firstName | titlecase}} {{user.lastName | titlecase}}</td>
-            </tr>
-            <tr>
-                <td style="font-style: italic;">{{user.bio}}</td>
-            </tr>
-        </table>
+<div *ngIf="user else loading">
+    <div *ngIf="!isLoading else loading" class="container">
+        <!-- basic profile info -->
+        <div>
+            <img [src]="user.image" alt="" width="200" height="200" style="border-radius: 100px;">
+            <table class="profiletext" style="margin-bottom: 10px;">
+                <tr>
+                    <td>{{user.username}}</td>
+                </tr>
+                <tr>
+                    <td>{{user.firstName | titlecase}} {{user.lastName | titlecase}}</td>
+                </tr>
+                <tr>
+                    <td style="font-style: italic;">{{user.bio}}</td>
+                </tr>
+            </table>
 
-        <div *ngIf="!isMyProfile else myProfile">
-            <div *ngIf="!pendingRequest && !isMyFriend && !addedMe">
-                <button mat-flat-button style="background-color: #98D5F1; color: white;"
-                (click)="addFriend()">Add friend</button>
+            <div *ngIf="!isMyProfile else myProfile">
+                <div *ngIf="!pendingRequest && !isMyFriend && !addedMe">
+                    <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                    (click)="addFriend()">Add friend</button>
+                </div>
+                <div *ngIf="pendingRequest && !isMyFriend && !addedMe">
+                    <p>pending request</p>
+                    <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                    (click)="deleteRequest()">Delete Request</button>
+                </div>
+                <div *ngIf="addedMe && !isMyFriend &&!pendingRequest">
+                    <p>
+                        {{usernameInProfile}} added you as a friend.
+                    </p>
+                    <button mat-flat-button style="background-color: #98D5F1; color: white;">
+                        Accept
+                    </button>
+                </div>
+                <div *ngIf="isMyFriend && !pendingRequest && !addedMe">
+                    <p>You are friends</p>
+                    <div>
+                        <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                        (click)="deleteFriend()">Remove Friend</button>
+                    </div>
+                    <div>
+                        <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                        (click)="openChat()">Message</button>
+                    </div>
+                </div>
             </div>
-            <div *ngIf="pendingRequest && !isMyFriend && !addedMe">
-                <p>pending request</p>
-                <button mat-flat-button style="background-color: #98D5F1; color: white;"
-                (click)="deleteRequest()">Delete Request</button>
+            <div>
+                <a [routerLink]="['/user',usernameInProfile,'friends']"
+                mat-flat-button style="background-color: #98D5F1; color: white;">
+                    Friends ({{numberOfFriends}})
+                </a>
             </div>
-            <div *ngIf="addedMe && !isMyFriend &&!pendingRequest">
-                <p>
-                    {{usernameInProfile}} added you as a friend.
-                </p>
-                <button mat-flat-button style="background-color: #98D5F1; color: white;">
-                    Accept
-                </button>
-            </div>
-            <div *ngIf="isMyFriend && !pendingRequest && !addedMe">
-                <p>You are friends</p>
-                <button mat-flat-button style="background-color: #98D5F1; color: white;"
-                (click)="deleteFriend()">Remove Friend</button>
-            </div>
-        </div>
-        <div>
-            <a [routerLink]="['/user',usernameInProfile,'friends']"
-            mat-flat-button style="background-color: #98D5F1; color: white;">
-                Friends ({{numberOfFriends}})
-            </a>
-        </div>
-        <div>
-            <!-- instruments -->
-            <div *ngIf="instruments.length>0">
-                <h4>{{usernameInProfile}} plays:</h4>
-                <table>
-                    <tr *ngFor="let i of instruments">
-                        <div class="instrument">
-                            <div class="instrument-icon">
-                                <img [src]="i.image" 
-                                onerror="this.src='https://izlemonteebucket.sgp1.digitaloceanspaces.com/images/note.png'"
-                                width="30px" height="30px" style="border-radius: 15px;">
+            <div>
+                <!-- instruments -->
+                <div *ngIf="instruments.length>0">
+                    <h4>{{usernameInProfile}} plays:</h4>
+                    <table>
+                        <tr *ngFor="let i of instruments">
+                            <div class="instrument">
+                                <div class="instrument-icon">
+                                    <img [src]="i.image" 
+                                    onerror="this.src='https://izlemonteebucket.sgp1.digitaloceanspaces.com/images/note.png'"
+                                    width="30px" height="30px" style="border-radius: 15px;">
+                                </div>
+                                <div class="instrument-name">
+                                    {{i.name | titlecase}}
+                                </div>
                             </div>
-                            <div class="instrument-name">
-                                {{i.name | titlecase}}
+
+                        </tr>
+                    </table>
+                </div>
+        </div>
+        </div>
+        <!-- posts and feed -->
+        <div class="feed">
+            <div *ngIf="isMyProfile">
+                <app-post></app-post>
+            </div>
+            <div *ngIf="posts.length>0 && (isMyFriend || isMyProfile)"
+                infiniteScroll
+            [infiniteScrollDistance]="2"
+            (scrolled)="getPosts()">
+                <div *ngFor="let p of posts" class="post">
+                    <div class="profile-info">
+                        <div class="username">
+                            <a [routerLink]="['/user',p.username]">{{p.username}}</a>
+                            
+                        </div>
+                        <div>
+                            <img [src]="p.profile_picture" alt="" class="profile-pic">
+                        </div>
+                    </div>
+                    <div class="content">
+                        {{p.content}}
+                    </div>
+                    <div class="timestamp">
+                        <a [routerLink]="['/post',p.id]" style="margin-bottom: 20px;">
+                        {{p.timestamp | date:"dd MMM yyyy, HH:mm"}}
+                        </a>
+                    </div>
+                    <div class="number-of-comments">
+                        <a [routerLink]="['/post',p.id]">
+                            {{p.number_of_comments}} comments
+                        </a>
+                    
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <!-- top artists -->
+            <h4>{{user.username}}'s top artists</h4>
+            <table >
+                <tr *ngFor="let a of user.artists" >
+                    <a [href]="a.external_url" target="_blank" >
+                        <div class="artist" >
+                            <div class="artist-name">
+                                {{a.name}}
+                            </div>
+                            <div class="artist-picture">
+                                <img [src]="a.image" alt="" height="60" width="60" style="border-radius: 30px;">
                             </div>
                         </div>
+                    </a>
+                </tr>
+            </table>
 
+            <!-- top genres -->
+            <div *ngIf="genres.length>0">
+                <h4>Top genres:</h4>
+                <table>
+                    <tr *ngFor="let g of genres">
+                        <td class="genre">{{g | titlecase}}</td>
                     </tr>
                 </table>
             </div>
-    </div>
-    </div>
-    <!-- posts and feed -->
-    <div class="feed">
-        <div *ngIf="isMyProfile">
-            <app-post></app-post>
         </div>
-        <div *ngIf="posts.length>0 && (isMyFriend || isMyProfile)"
-            infiniteScroll
-        [infiniteScrollDistance]="2"
-        (scrolled)="onScroll()">
-            <div *ngFor="let p of posts" class="post">
-                <div class="profile-info">
-                    <div class="username">
-                        <a [routerLink]="['/user',p.username]">{{p.username}}</a>
-                        
-                    </div>
-                    <div>
-                        <img [src]="p.profile_picture" alt="" class="profile-pic">
-                    </div>
-                </div>
-                <div class="content">
-                    {{p.content}}
-                </div>
-                <div class="timestamp">
-                    <a [routerLink]="['/post',p.id]" style="margin-bottom: 20px;">
-                    {{p.timestamp | date:"dd MMM yyyy, HH:mm"}}
-                    </a>
-                </div>
-                <div class="number-of-comments">
-                    <a [routerLink]="['/post',p.id]">
-                        {{p.number_of_comments}} comments
-                    </a>
-                  
-                </div>
-            </div>
-        </div>
-
     </div>
-    <div>
-        <!-- top artists -->
-        <h4>{{user.username}}'s top artists</h4>
-        <table >
-            <tr *ngFor="let a of user.artists" >
-                <a [href]="a.external_url" target="_blank" >
-                    <div class="artist" >
-                        <div class="artist-name">
-                            {{a.name}}
-                        </div>
-                        <div class="artist-picture">
-                            <img [src]="a.image" alt="" height="60" width="60" style="border-radius: 30px;">
-                        </div>
-                    </div>
-                </a>
-            </tr>
-        </table>
-
-        <!-- top genres -->
-        <div *ngIf="genres.length>0">
-            <h4>Top genres:</h4>
-            <table>
-                <tr *ngFor="let g of genres">
-                    <td class="genre">{{g | titlecase}}</td>
-                </tr>
-            </table>
-        </div>
-
-    </div>
-
 </div>
+
 
 <ng-template #myProfile>
     <button mat-flat-button style="background-color: #98D5F1; color: white;"
     (click)="setupUser()">Setup Profile</button>
+</ng-template>
+
+<ng-template #loading>
+    <p>Loading...</p>
 </ng-template>

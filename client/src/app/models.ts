@@ -91,3 +91,18 @@ export interface Post{
     comments?:Comment[],
     number_of_comments?:number
 }
+
+export interface Chat{
+    id:string,
+    user1:string,
+    user2:string,
+    last_updated:number
+}
+
+export interface Message{
+    sender:string,
+    recipient:string,
+    content:string,
+    chat_id:string,
+    timestamp?:number
+}

@@ -46,6 +46,8 @@ export class ProfileComponent implements OnInit{
 
   posts:Post[]=[]
 
+  isLoading: boolean = true
+
   constructor(){
 
   }
@@ -53,6 +55,7 @@ export class ProfileComponent implements OnInit{
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
       (response)=>{
+        this.resetPage()
         this.usernameInProfile = response['username']
         this.getUserProfile()
         this.getUserInstruments()
@@ -61,9 +64,25 @@ export class ProfileComponent implements OnInit{
         this.getNumberOfFriends()
         this.skip = 0
         this.getPosts()
+        this.isLoading = false
       }
     )
 
+  }
+  
+  // resets the page when browsing another profile
+  resetPage(){
+    this.isLoading = true
+    this.posts = []
+    this.instruments = []
+    this.user = {
+      username:'',
+      firstName:'',
+      lastName:'',
+      bio:'',
+      image:''
+    }
+    
   }
 
 
@@ -168,23 +187,28 @@ export class ProfileComponent implements OnInit{
   }
 
   getPosts(){
-    this.httpService.getPostsByUser(this.usernameInProfile, this.skip).then(
-      (response)=>{
-        this.posts = response as Post[]
-      }
-    )
-  }
-
-  onScroll(){
     this.skip = this.posts.length
     this.httpService.getPostsByUser(this.usernameInProfile, this.skip).then(
       (response)=>{
         for(let r of response){
-          this.posts.push(r)
+          this.posts.push(r as Post)
         }
       }
     )
   }
 
+  openChat(){
+    this.httpService.openChat(this.myUsername, this.usernameInProfile).then(
+      (response)=>{
+        const chatId = response.id
+        this.router.navigate(['/chats',chatId])
+      }
+    ).catch(
+      ()=>{
+        alert("Server error.")
+      }
+    )
 
+    
+  }
 }

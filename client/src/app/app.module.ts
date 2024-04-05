@@ -43,6 +43,8 @@ import { CommentComponent } from './comment/comment.component';
 import { ArtistmanualComponent } from './user/artist/artistmanual/artistmanual.component';
 import { ArtistmanualresultsComponent } from './user/artist/artistmanualresults/artistmanualresults.component';
 import { MusiciansearchComponent } from './musician/musiciansearch/musiciansearch.component';
+import { ChatsComponent } from './message/chats/chats.component';
+import { MessagingComponent } from './message/messaging/messaging.component';
 
 
 
@@ -76,6 +78,8 @@ import { MusiciansearchComponent } from './musician/musiciansearch/musiciansearc
     ArtistmanualComponent,
     ArtistmanualresultsComponent,
     MusiciansearchComponent,
+    ChatsComponent,
+    MessagingComponent,
 
   ],
   imports: [

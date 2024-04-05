@@ -13,6 +13,7 @@ import { FriendrequestComponent } from './friendrequest/friendrequest.component'
 import { FriendsComponent } from './user/friends/friends.component';
 import { PostdisplayComponent } from './postdisplay/postdisplay.component';
 import { MusiciansearchComponent } from './musician/musiciansearch/musiciansearch.component';
+import { ChatsComponent } from './message/chats/chats.component';
 
 
 const routes: Routes = [
@@ -25,7 +26,9 @@ const routes: Routes = [
   {path:"requests",component:FriendrequestComponent,},
   {path:"user/:username/friends",component:FriendsComponent},
   {path:"post/:id", component:PostdisplayComponent},
-  {path:"musicians/search", component:MusiciansearchComponent}
+  {path:"musicians/search", component:MusiciansearchComponent},
+  {path:"chats", component:ChatsComponent},
+  {path:"chats/:id", component:ChatsComponent}
 
 ];
 
