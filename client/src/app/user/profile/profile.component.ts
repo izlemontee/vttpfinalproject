@@ -208,7 +208,6 @@ export class ProfileComponent implements OnInit{
         alert("Server error.")
       }
     )
-
-    
   }
+
 }

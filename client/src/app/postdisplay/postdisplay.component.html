@@ -25,7 +25,7 @@
             <div *ngFor="let c of comments" class="comment">
                 <div class="profile-info">
                     <div class="username">
-                        <a [routerLink]="['user',c.username]">{{c.username}}</a>
+                        <a [routerLink]="['/user',c.username]">{{c.username}}</a>
                         
                     </div>
                     <div>

@@ -47,9 +47,9 @@ public class MessagingController {
 
     @PostMapping(path = "/send")
     public ResponseEntity<String> sendMessage(@RequestBody String requestBody){
-        messagingService.sendMessage(requestBody);
+        String body = messagingService.sendMessage(requestBody);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
-                                            .body("{}");
+                                            .body(body);
         return response; 
     }
 
@@ -66,6 +66,14 @@ public class MessagingController {
         messagingService.unreadChat(username, id);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
                                             .body("{}");
+        return response; 
+    }
+
+    @GetMapping(path = "/chatinfo")
+    public ResponseEntity<String> getChatInfo(@RequestParam String username, @RequestParam String id){
+        String body = messagingService.getChatInfo(username, id);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+                                            .body(body);
         return response; 
     }
 }

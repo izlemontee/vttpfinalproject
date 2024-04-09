@@ -1,0 +1,17 @@
+.profile-pic{
+    width:40px;
+    height:40px;
+    border-radius: 20px;
+}
+
+.profile-info{
+    display: flex;
+}
+
+.container{
+    display: flex;
+}
+
+.messages{
+    vertical-align: bottom;
+}

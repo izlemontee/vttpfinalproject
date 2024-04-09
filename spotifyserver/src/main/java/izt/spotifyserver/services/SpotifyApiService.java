@@ -477,4 +477,15 @@ public class SpotifyApiService {
         return JOB.build().toString();
     }
 
+    public String getUserImageString(String username){
+        SqlRowSet rowset = userSqlRepo.getImage(username);
+        String image = Utils.PLACEHOLDER_IMAGE;
+        if(rowset.next()){
+            if(rowset.getString("image") != null){
+                image = rowset.getString("image");
+            }
+        }
+        return image;
+    }
+
 }

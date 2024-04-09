@@ -28,6 +28,7 @@ h4{
 
 .notification:hover{
     filter: brightness(115%);
+    cursor: pointer;
 }
 
 .container{

@@ -1,1 +1,24 @@
-<p>chats works!</p>
+
+<div class="container">
+    <div *ngIf="chats.length>0">
+        <div *ngFor="let c of chats" (click)="goToChat(c.id)">
+            
+            <div class="profile-info">
+                <div>
+                    <img [src]="c.image" alt="" class="profile-pic">
+                </div>
+                <div>
+                    {{c.username_display}}
+                </div>
+            </div>
+            <div>
+                Last Message: {{c.last_updated | date:"dd MMM yyyy, HH:mm"}}
+            </div>
+        </div>
+    </div>
+    <div *ngIf="chatId" >
+        <app-messaging [chatId]="chatId"  class="messages"></app-messaging>
+    </div>
+    
+</div>
+

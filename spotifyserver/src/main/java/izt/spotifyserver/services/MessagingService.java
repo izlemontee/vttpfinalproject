@@ -28,6 +28,9 @@ public class MessagingService {
     @Autowired
     private MessagingNeo4JRepo messagingNeo4jRepo;
 
+    @Autowired
+    private SpotifyApiService spotifyApiService;
+
     public String openChat(String user1, String user2){
         String id = "";
         if(!chatExists(user1, user2)){
@@ -82,6 +85,7 @@ public class MessagingService {
 
     public String getMessages(String id, int offset){
         SqlRowSet rowset = messagingRepo.getMessages(id, offset);
+        
         JsonArrayBuilder JAB = Json.createArrayBuilder();
         while(rowset.next()){
             String sender = rowset.getString("sender");
@@ -92,11 +96,12 @@ public class MessagingService {
             JsonObject messageJson = message.toJsonWithoutChatId();
             JAB.add(messageJson);
         }
+        
         return JAB.build().toString();
     }
 
-    @Transactional("transactionManager")
-    public void sendMessage(String requestBody){
+  
+    public String sendMessage(String requestBody){
         JsonObject messageJson = Utils.stringToJson(requestBody);
         String sender = messageJson.getString("sender");
         String recipient = messageJson.getString("recipient");
@@ -105,22 +110,56 @@ public class MessagingService {
         long timestamp = new Date().getTime();
         Message message = new Message(sender, recipient, content, timestamp);
         message.setChat_id(chat_id);
+        try{
+            sendMessageToSql(message);
+            unreadChat(recipient, chat_id);
+            String body = message.toJsonWithoutChatId().toString();
+            return body;
+        }catch(SQLFailedException ex){
+            throw ex;
+        }
+
+        
+    }
+
+    @Transactional("transactionManager")
+    public void sendMessageToSql(Message message){
         long count = messagingRepo.sendMessage(message);
-        long timestampcount = messagingRepo.updateChatTimestamp(timestamp, chat_id);
+        long timestampcount = messagingRepo.updateChatTimestamp(message.getTimestamp(), message.getChat_id());
         if(count < 1 || timestampcount < 1){
             throw new SQLFailedException();
         }
-        
     }
 
     public void readChat(String username, String id){
         messagingNeo4jRepo.deleteUnreadStatus(username, id);
+        messagingNeo4jRepo.deleteReadStatus(username, id);
         messagingNeo4jRepo.readChat(username, id);
     }
 
     public void unreadChat(String username, String id){
         messagingNeo4jRepo.deleteReadStatus(username, id);
+        messagingNeo4jRepo.deleteUnreadStatus(username, id);
         messagingNeo4jRepo.unreadChat(username, id);
+    }
+
+    public String getChatInfo(String username, String id){
+        SqlRowSet rowset = messagingRepo.getChatInfo(id);
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JsonObject chatJson = JOB.build();
+        while(rowset.next()){
+            String user1 = rowset.getString("user1");
+            String user2 = rowset.getString("user2");
+            long last_updated = rowset.getLong("last_updated");
+            Chat chat = new Chat();
+            chat.setId(id);
+            chat.setUser1(user1);
+            chat.setUser2(user2);
+            chat.setLast_updated(last_updated);
+            chatJson = chatToJsonForUser(username, chat);
+        }
+        return chatJson.toString();
+
     }
 
     public String getChats(String username, int offset){
@@ -145,7 +184,7 @@ public class MessagingService {
     public JsonObject chatToJsonForUser(String username, Chat chat){
         JsonObjectBuilder JOB = Json.createObjectBuilder();
         String usernameDisplay = "";
-        if(username != chat.getUser1()){
+        if(!username.equals(chat.getUser1())){
             usernameDisplay = chat.getUser1();
         }else{
             usernameDisplay = chat.getUser2();
@@ -156,6 +195,7 @@ public class MessagingService {
             .add("user2", chat.getUser2())
             .add("last_updated", chat.getLast_updated())
             .add("username_display", usernameDisplay)
+            .add("image", spotifyApiService.getUserImageString(usernameDisplay))
             .add("read", read);
 
         return JOB.build();

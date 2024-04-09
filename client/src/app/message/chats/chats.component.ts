@@ -3,7 +3,7 @@ import { HttpService } from '../../http.service';
 import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../state/state.selectors';
 import { Chat } from '../../models';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-chats',
@@ -15,16 +15,18 @@ export class ChatsComponent implements OnInit{
   private httpService = inject(HttpService)
   private store = inject(Store)
   private activatedRoute = inject(ActivatedRoute)
+  private router = inject(Router)
 
   username!:string
   id!:string
   chats: Chat[]=[]
 
+  recipient!:string
+
 
   chatId!:string
   ngOnInit(): void {
       this.getUsername()
-      this.getChatById()
   }
 
   getUsername(){
@@ -35,6 +37,7 @@ export class ChatsComponent implements OnInit{
             this.username = response.username
             this.id = response.id
             this.getChats()
+            this.getChatById()
           }
         }
       }
@@ -44,7 +47,12 @@ export class ChatsComponent implements OnInit{
   getChatById(){
     this.activatedRoute.params.subscribe(
       (response)=>{
-        console.log("id: ",response['id'])
+        this.chatId = response['id']
+        console.log("username and chat id", this.username, this.chatId)
+        if(!this.userNameOrChatIdEmpty()){
+          this.readChat()
+          this.getChatInfo()
+        }
       }
     )
   }
@@ -56,10 +64,42 @@ export class ChatsComponent implements OnInit{
 
   }
 
+  userNameOrChatIdEmpty(){
+    const chatIdEmpty = !this.chatId || this.chatId.trim().length==0
+    const usernameEmpty = !this.username || this.username.trim().length==0
+    return chatIdEmpty || usernameEmpty
+  }
+
   getChats(){
     this.httpService.getChats(this.username, this.chats.length).then(
       (response)=>{
-        console.log("chats: ", response)
+        for(let r of response){
+          this.chats.push(r)
+        }
+      }
+    )
+  }
+
+  readChat(){
+    this.httpService.readChat(this.username, this.chatId).then(
+      ()=>{
+      }
+    ).catch(
+      ()=>{
+        alert("Server error reading chat. Try again later.")
+      }
+    )
+  }
+
+  goToChat(id:string){
+    this.router.navigate(['/chats',id])
+  }
+
+  getChatInfo(){
+    this.httpService.getChatInfo(this.username, this.chatId).then(
+      (response)=>{
+        console.log("getChatInfo: ", response)
+        this.recipient = response.username_display
       }
     )
   }

@@ -96,7 +96,9 @@ export interface Chat{
     id:string,
     user1:string,
     user2:string,
-    last_updated:number
+    last_updated:number,
+    image?:string,
+    username_display?:string
 }
 
 export interface Message{

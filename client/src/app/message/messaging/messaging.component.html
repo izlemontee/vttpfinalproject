@@ -1,1 +1,24 @@
-<p>messaging works!</p>
+<div class="messages" id="message-scroller"
+(scroll)="scrollUp($event)"
+    >
+    <div *ngFor="let m of messages">
+        <div>
+            {{m.sender}}
+        </div>
+        <div>
+            {{m.content}}
+        </div>
+        <div>
+            {{m.timestamp | date : "dd MMM yyyy, HH:mm"}}
+        </div>
+    </div>
+</div>
+
+<div>
+    <form [formGroup]="contentForm">
+        <textarea formControlName="content" name="" id="" cols="30" rows="10" (keydown.enter)="sendMessage($event)" 
+        ></textarea>
+        <button >Send</button>
+    </form>
+
+</div>
