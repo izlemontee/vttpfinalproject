@@ -1,5 +1,6 @@
 package izt.spotifyserver.services;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import izt.spotifyserver.Utils.Utils;
+import izt.spotifyserver.config.WebSocketHandler;
 import izt.spotifyserver.exceptions.SQLFailedException;
 import izt.spotifyserver.models.Chat;
 import izt.spotifyserver.models.Message;
@@ -30,6 +32,9 @@ public class MessagingService {
 
     @Autowired
     private SpotifyApiService spotifyApiService;
+
+    @Autowired
+    private WebSocketHandler webSocketHandler;
 
     public String openChat(String user1, String user2){
         String id = "";
@@ -135,12 +140,14 @@ public class MessagingService {
         messagingNeo4jRepo.deleteUnreadStatus(username, id);
         messagingNeo4jRepo.deleteReadStatus(username, id);
         messagingNeo4jRepo.readChat(username, id);
+        updateNumberOfUnreadChats(username);
     }
 
     public void unreadChat(String username, String id){
         messagingNeo4jRepo.deleteReadStatus(username, id);
         messagingNeo4jRepo.deleteUnreadStatus(username, id);
         messagingNeo4jRepo.unreadChat(username, id);
+        updateNumberOfUnreadChats(username);
     }
 
     public String getChatInfo(String username, String id){
@@ -200,6 +207,24 @@ public class MessagingService {
 
         return JOB.build();
         
+    }
+
+    public String getNumberOfUnreadChats(String username){
+        Integer count = messagingNeo4jRepo.getNumberOfUnreadChats(username);
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("unread",count);
+        return JOB.build().toString();
+    }
+
+    public void updateNumberOfUnreadChats(String username){
+        try{
+            int count = messagingNeo4jRepo.getNumberOfUnreadChats(username);
+            webSocketHandler.updateUnreadChatsCount(username, count);
+        }
+        catch(IOException ex){
+
+        }
+
     }
     
 }

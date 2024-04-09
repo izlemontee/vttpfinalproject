@@ -17,6 +17,7 @@ export class MessagingComponent implements OnInit,OnChanges{
 
   @Input()
   recipient!:string
+  recipientImage!:string
 
 
   username!:string
@@ -55,6 +56,7 @@ export class MessagingComponent implements OnInit,OnChanges{
           this.username = response.username
           if(this.chatIdNotEmpty()){
             this.getMessages()
+            this.getChatInfo()
           }
         }
       }
@@ -62,14 +64,15 @@ export class MessagingComponent implements OnInit,OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("changes",changes['chatId'].firstChange)
-  
-    if(changes['chatId'].currentValue.firstChange){
+
       if(this.chatIdNotEmpty()){
-        console.log("not empty")
+        this.recipient = ''
+        this.recipientImage=''
+        this.messages = []
+        this.getChatInfo()
         this.getMessages()
       }
-    }
+ 
  
   
       
@@ -96,6 +99,7 @@ export class MessagingComponent implements OnInit,OnChanges{
       event.preventDefault()
     }
     const content = this.contentForm.value['content'].trim()
+
     const payload: Message = {
       sender: this.username,
       recipient: this.recipient,
@@ -103,9 +107,9 @@ export class MessagingComponent implements OnInit,OnChanges{
       chat_id: this.chatId
     }
     this.httpService.sendMessage(payload).then(
-      ()=>{
+      (response)=>{
         this.contentForm.reset()
-        this.messages.unshift(payload)
+        this.messages.unshift(response as Message)
         this.messageDisplay = this.messages.slice().reverse()
       }
 
@@ -123,9 +127,18 @@ export class MessagingComponent implements OnInit,OnChanges{
     var scrollTop = event.target.scrollTop
     var scrollHeight = event.target.scrollHeight
     var scrollValue = scrollTop+(scrollHeight-this.scrollHeight)
-    if(scrollValue<=-50){
+    if(scrollValue<=50){
       this.getMessages()
     }
+  }
+
+  getChatInfo(){
+    this.httpService.getChatInfo(this.username, this.chatId).then(
+      (response)=>{
+        this.recipient = response.username_display
+        this.recipientImage = response.image
+      }
+    )
   }
 
 

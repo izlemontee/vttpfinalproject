@@ -74,6 +74,7 @@ export class ChatsComponent implements OnInit{
     this.httpService.getChats(this.username, this.chats.length).then(
       (response)=>{
         for(let r of response){
+          // has "read" as a boolean
           this.chats.push(r)
         }
       }
@@ -98,7 +99,6 @@ export class ChatsComponent implements OnInit{
   getChatInfo(){
     this.httpService.getChatInfo(this.username, this.chatId).then(
       (response)=>{
-        console.log("getChatInfo: ", response)
         this.recipient = response.username_display
       }
     )

@@ -321,4 +321,10 @@ export class HttpService {
     return lastValueFrom(this.httpClient.get<any>(url,{params:params}))
   }
 
+  getNumberOfUnreadChats(username:string){
+    const url = this.messageBaseUrl + "/unreadcount"
+    const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
+  }
+
 }

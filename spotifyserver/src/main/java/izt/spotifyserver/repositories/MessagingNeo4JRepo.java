@@ -26,5 +26,8 @@ public interface MessagingNeo4JRepo extends  Neo4jRepository<Chat, String>{
     @Query(MessagingNeo4JQueries.CHECK_READ_STATUS)
     public List<Object> checkReadStatus(String username, String id);
 
+
+    @Query(MessagingNeo4JQueries.GET_NUMBER_OF_UNREAD_CHATS)
+    public Integer getNumberOfUnreadChats(String username);
     
 }

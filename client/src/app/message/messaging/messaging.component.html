@@ -1,24 +1,29 @@
+<div *ngIf="recipient">
+    {{recipient}}
+    <img [src]="recipientImage" alt="" class="profile-pic">
+</div>
 <div class="messages" id="message-scroller"
 (scroll)="scrollUp($event)"
     >
-    <div *ngFor="let m of messages">
-        <div>
-            {{m.sender}}
-        </div>
-        <div>
+    <div *ngFor="let m of messages" [ngClass]="{'user':username==m.sender, 'friend':username!=m.sender}"
+    class="message">
+        <!-- <div style>
+            <a [routerLink]="['/user',m.sender]">{{m.sender}}</a>
+
+        </div> -->
+        <div class="content">
             {{m.content}}
         </div>
-        <div>
+        <div class="timestamp">
             {{m.timestamp | date : "dd MMM yyyy, HH:mm"}}
         </div>
     </div>
 </div>
 
-<div>
-    <form [formGroup]="contentForm">
+<div >
+    <form [formGroup]="contentForm" class="message-sender">
         <textarea formControlName="content" name="" id="" cols="30" rows="10" (keydown.enter)="sendMessage($event)" 
         ></textarea>
-        <button >Send</button>
+        <button mat-flat-button class="button">Send</button>
     </form>
-
 </div>

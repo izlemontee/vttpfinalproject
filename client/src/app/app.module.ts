@@ -45,6 +45,7 @@ import { ArtistmanualresultsComponent } from './user/artist/artistmanualresults/
 import { MusiciansearchComponent } from './musician/musiciansearch/musiciansearch.component';
 import { ChatsComponent } from './message/chats/chats.component';
 import { MessagingComponent } from './message/messaging/messaging.component';
+import { MessagenotifComponent } from './message/messagenotif/messagenotif.component';
 
 
 
@@ -80,6 +81,7 @@ import { MessagingComponent } from './message/messaging/messaging.component';
     MusiciansearchComponent,
     ChatsComponent,
     MessagingComponent,
+    MessagenotifComponent,
 
   ],
   imports: [

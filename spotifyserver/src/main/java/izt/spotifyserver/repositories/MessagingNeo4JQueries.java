@@ -27,8 +27,14 @@ public class MessagingNeo4JQueries {
             """;
 
     public static final String CHECK_UNREAD_STATUS="""
-                MATCH (user: User {username: $username}) -[status:UNREAD]-> (chat: Chat {id: $id})
-                RETURN status
-                    """;
+        MATCH (user: User {username: $username}) -[status:UNREAD]-> (chat: Chat {id: $id})
+        RETURN status
+            """;
+
+    public static final String GET_NUMBER_OF_UNREAD_CHATS="""
+        MATCH(user:User)-[:UNREAD]->(chat:Chat)
+        WHERE user.username=$username
+        RETURN COUNT(chat)
+            """;
     
 }
