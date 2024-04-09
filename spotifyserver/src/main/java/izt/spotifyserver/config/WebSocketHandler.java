@@ -103,17 +103,22 @@ public class WebSocketHandler extends TextWebSocketHandler{
     public void updateUnreadChatsCount(String username, Integer count)throws IOException{
         List<WebSocketSession> sessionsList = messageSessions.get(username);
         List<WebSocketSession> newList = new ArrayList<>();
-        for(WebSocketSession ws:sessionsList){
-            TextMessage textMessage = new TextMessage(count.toString());
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonString = objectMapper.writeValueAsString(textMessage);
-            try{
-                ws.sendMessage(new TextMessage(jsonString));
-                newList.add(ws);
-            }catch(IllegalStateException ex){
-                ws.close();
+        try{
+            for(WebSocketSession ws:sessionsList){
+                TextMessage textMessage = new TextMessage(count.toString());
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonString = objectMapper.writeValueAsString(textMessage);
+                try{
+                    ws.sendMessage(new TextMessage(jsonString));
+                    newList.add(ws);
+                }catch(IllegalStateException ex){
+                    ws.close();
+                }
             }
+            sessions.replace(username, newList);
+        }catch(NullPointerException ex){
+            
         }
-        sessions.replace(username, newList);
+
     }
 }
