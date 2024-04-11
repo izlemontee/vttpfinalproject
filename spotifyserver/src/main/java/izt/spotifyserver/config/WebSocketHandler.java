@@ -25,12 +25,14 @@ public class WebSocketHandler extends TextWebSocketHandler{
     private final String TYPE_SESSION_USERNAME = "session_username";
     private final String TYPE_SESSION_MESSAGE = "session_message";
     private final String TYPE_SESSION_CHATS = "session_chats";
+    private final String TYPE_SESSION_MESSAGE_LIVE = "session_message_live";
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
 
     Map<String, List<WebSocketSession>> sessions = new HashMap<>();
     Map<String, List<WebSocketSession>> messageSessions = new HashMap<>();
     Map<String, List<WebSocketSession>> chatsSessions = new HashMap<>();
+    Map<String, List<WebSocketSession>> liveMessageSessions = new HashMap<>();
     
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message){
@@ -52,6 +54,11 @@ public class WebSocketHandler extends TextWebSocketHandler{
             case TYPE_SESSION_CHATS:{
                 String username = payload.getString("username");
                 addToChatsSessions(username, session);
+            }
+
+            case TYPE_SESSION_MESSAGE_LIVE:{
+                String id = payload.getString("id");
+                addToLiveMessageSessions(id, session);
             }
             
         }
@@ -100,6 +107,16 @@ public class WebSocketHandler extends TextWebSocketHandler{
             chatsSessions.put(username, list);
         }
         logger.info(chatsSessions.toString());
+    }
+
+    public void addToLiveMessageSessions(String id, WebSocketSession session){
+        if(liveMessageSessions.containsKey(id)){
+            liveMessageSessions.get(id).add(session);
+        }else{
+            List<WebSocketSession> list = new ArrayList<>();
+            list.add(session);
+            liveMessageSessions.put(id, list);
+        }
     }
 
     public void updateUnreadNotifsCount(String username, Integer count)throws IOException{
@@ -161,6 +178,27 @@ public class WebSocketHandler extends TextWebSocketHandler{
             sessions.replace(username, newList);
         }catch(NullPointerException ex){
             logger.info("nullpointerexception: " + ex.getMessage());
+        }
+    }
+
+    public void pushToMessageChannels(String id, String payload)throws IOException{
+        List<WebSocketSession> sessionsList = liveMessageSessions.get(id);
+        List<WebSocketSession> newList = new ArrayList<>();
+        try{
+            for(WebSocketSession ws:sessionsList){
+                TextMessage textMessage = new TextMessage(payload);
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonString = objectMapper.writeValueAsString(textMessage);
+                try{
+                    ws.sendMessage(new TextMessage(jsonString));
+                    newList.add(ws);
+                }catch(IllegalStateException ex){
+                    ws.close();
+                }
+            }
+            sessions.replace(id, newList);
+        }catch(NullPointerException ex){
+            
         }
     }
 }

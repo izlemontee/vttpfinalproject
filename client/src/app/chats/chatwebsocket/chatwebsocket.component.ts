@@ -72,11 +72,6 @@ sendUsernameToServer(){
 
   onReceive(event:MessageEvent<any>){
     try{
-      console.log("message received")
-      // let receivedMsg = JSON.parse(event.data)
-      // let payload = receivedMsg.payload
-      // this.unreadCount = payload
-      // this.cdr.detectChanges()
       this.getIdOfLatestChat()
 
     }catch(error){

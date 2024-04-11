@@ -119,10 +119,19 @@ public class MessagingService {
             sendMessageToSql(message);
             unreadChat(recipient, chat_id);
             updateChatListInRealTime(recipient, chat_id);
-            String body = message.toJsonWithoutChatId().toString();
+            String body = message.toJsonWithChatId().toString();
+            updateLiveMessage(chat_id, body);
             return body;
         }catch(SQLFailedException ex){
             throw ex;
+        }
+    }
+
+    public void updateLiveMessage(String id, String payload){
+        try{
+            webSocketHandler.pushToMessageChannels(id, payload);
+        }catch(IOException ex){
+
         }
     }
 

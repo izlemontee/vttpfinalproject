@@ -112,15 +112,21 @@ export class MessagingComponent implements OnInit,OnChanges{
     this.httpService.sendMessage(payload).then(
       (response)=>{
         this.contentForm.reset()
-        this.messages.unshift(response as Message)
-        this.messageDisplay = this.messages.slice().reverse()
-        this.chatIdSubject.next(this.chatId)
+        // this.messages.unshift(response as Message)
+        // this.messageDisplay = this.messages.slice().reverse()
+        // this.chatIdSubject.next(this.chatId)
       }
 
     ).catch(
       ()=>alert("Message could not be sent. Try again.")
     )
 
+  }
+
+  addLatestMessage(message:Message){
+    this.messages.unshift(message)
+    console.log("message: ", message)
+    this.chatIdSubject.next(message.chat_id)
   }
 
   sendMessageWithButton(){

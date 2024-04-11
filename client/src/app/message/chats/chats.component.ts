@@ -93,8 +93,10 @@ export class ChatsComponent implements OnInit{
   }
 
   updateChatList(id:string){
+    console.log("updateChatList id: ", id)
     this.httpService.getChatInfo(this.username, id).then(
       (response)=>{
+        console.log(response)
         var newChat = response as Chat
         if(this.chatId === id){
           newChat.read= true

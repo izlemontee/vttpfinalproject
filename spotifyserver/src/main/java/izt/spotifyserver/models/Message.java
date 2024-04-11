@@ -58,5 +58,17 @@ public class Message {
         return JOB.build();
     
     }
+
+    public JsonObject toJsonWithChatId(){
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        JOB.add("sender",getSender())
+            .add("recipient",getRecipient())
+            .add("content", getContent())
+            .add("timestamp",getTimestamp())
+            .add("chat_id", getChat_id());
+
+        return JOB.build();
+    
+    }
     
 }

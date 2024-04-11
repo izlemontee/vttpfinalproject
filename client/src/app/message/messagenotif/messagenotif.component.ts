@@ -14,14 +14,12 @@ export const TYPE_SESSION_MESSAGE = "session_message"
   styleUrl: './messagenotif.component.css'
 })
 export class MessagenotifComponent {
+
   webSocketUrl : string=environment.websocket_url
-
-
   myUsername!:string
-
   unreadCount: number = 0
-
   ws!:WebSocket
+  
   private cdr = inject(ChangeDetectorRef)
   private store = inject(Store)
   private httpService = inject(HttpService)

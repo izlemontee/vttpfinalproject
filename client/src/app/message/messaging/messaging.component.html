@@ -27,3 +27,5 @@
         <button mat-flat-button class="button" (click)="sendMessageWithButton()">Send</button>
     </form>
 </div>
+
+<app-messagelive [chatId]="chatId" (messageSubject)="addLatestMessage($event)"></app-messagelive>
