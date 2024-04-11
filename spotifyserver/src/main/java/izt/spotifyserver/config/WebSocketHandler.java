@@ -24,11 +24,13 @@ public class WebSocketHandler extends TextWebSocketHandler{
 
     private final String TYPE_SESSION_USERNAME = "session_username";
     private final String TYPE_SESSION_MESSAGE = "session_message";
+    private final String TYPE_SESSION_CHATS = "session_chats";
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
 
     Map<String, List<WebSocketSession>> sessions = new HashMap<>();
     Map<String, List<WebSocketSession>> messageSessions = new HashMap<>();
+    Map<String, List<WebSocketSession>> chatsSessions = new HashMap<>();
     
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message){
@@ -46,6 +48,12 @@ public class WebSocketHandler extends TextWebSocketHandler{
                 addToMessageSessions(username, session);
                 break;
             }
+
+            case TYPE_SESSION_CHATS:{
+                String username = payload.getString("username");
+                addToChatsSessions(username, session);
+            }
+            
         }
         
     }
@@ -58,7 +66,7 @@ public class WebSocketHandler extends TextWebSocketHandler{
     @Override
     public void afterConnectionEstablished(WebSocketSession session){
         String origin = session.getHandshakeHeaders().getFirst("Origin");
-        System.out.println("id: "+session.getId());
+        System.out.println("New connection");
         logger.info("WebSocket connection established from origin: {}", origin);
     }
 
@@ -81,6 +89,17 @@ public class WebSocketHandler extends TextWebSocketHandler{
             list.add(session);
             messageSessions.put(username, list);
         }
+    }
+
+    public void addToChatsSessions(String username, WebSocketSession session){
+        if(chatsSessions.containsKey(username)){
+            chatsSessions.get(username).add(session);
+        }else{
+            List<WebSocketSession> list = new ArrayList<>();
+            list.add(session);
+            chatsSessions.put(username, list);
+        }
+        logger.info(chatsSessions.toString());
     }
 
     public void updateUnreadNotifsCount(String username, Integer count)throws IOException{
@@ -119,6 +138,29 @@ public class WebSocketHandler extends TextWebSocketHandler{
         }catch(NullPointerException ex){
             
         }
+    }
 
+    public void updateUnreadChats(String username, String id)throws IOException{
+        
+        List<WebSocketSession> chatsList = chatsSessions.get(username);
+        logger.info("username, list: "+username+chatsList);
+        List<WebSocketSession> newList = new ArrayList<>();
+        try{
+            for(WebSocketSession ws:chatsList){
+                System.out.println("sending...");
+                TextMessage textMessage = new TextMessage(id.toString());
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonString = objectMapper.writeValueAsString(textMessage);
+                try{
+                    ws.sendMessage(new TextMessage(jsonString));
+                    newList.add(ws);
+                }catch(IllegalStateException ex){
+                    ws.close();
+                }
+            }
+            sessions.replace(username, newList);
+        }catch(NullPointerException ex){
+            logger.info("nullpointerexception: " + ex.getMessage());
+        }
     }
 }

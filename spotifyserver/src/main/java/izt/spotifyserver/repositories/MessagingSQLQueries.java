@@ -38,11 +38,6 @@ public class MessagingSQLQueries {
         OFFSET ?;
             """;
 
-            // SELECT * from chats
-            // WHERE user1 = ? OR user2 = ?
-            // ORDER BY last_updated DESC
-            // LIMIT 5
-            // OFFSET ?; 
 
     public static final String CHAT_EXISTS="""
         SELECT id from chats
@@ -55,6 +50,12 @@ public class MessagingSQLQueries {
         WHERE id = ?
             """;
 
+    public static final String GET_ID_LATEST_CHAT="""
+        SELECT id from chats
+        WHERE user1 = ? OR user2 = ?
+        ORDER BY last_updated DESC
+        LIMIT 1
+            """;
     
 
 }

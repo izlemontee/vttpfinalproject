@@ -327,4 +327,10 @@ export class HttpService {
     return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
   }
 
+  getIdOfLatestChat(username:string){
+    const url = this.messageBaseUrl + "/id"
+    const params = new HttpParams().set("username",username)
+    return lastValueFrom(this.httpClient.get<any>(url, {params:params}))
+  }
+
 }

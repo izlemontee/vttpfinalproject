@@ -24,6 +24,6 @@
     <form [formGroup]="contentForm" class="message-sender">
         <textarea formControlName="content" name="" id="" cols="30" rows="10" (keydown.enter)="sendMessage($event)" 
         ></textarea>
-        <button mat-flat-button class="button">Send</button>
+        <button mat-flat-button class="button" (click)="sendMessageWithButton()">Send</button>
     </form>
 </div>

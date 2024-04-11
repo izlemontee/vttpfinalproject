@@ -77,9 +77,17 @@ public class MessagingController {
         return response; 
     }
 
-    @GetMapping(path = "unreadcount")
+    @GetMapping(path = "/unreadcount")
     public ResponseEntity<String> getNumberOfUnreadChats(@RequestParam String username){
         String body = messagingService.getNumberOfUnreadChats(username);
+        ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
+        .body(body);
+        return response; 
+    }
+
+    @GetMapping(path = "/id")
+    public ResponseEntity<String> getIdOfLatestChat(@RequestParam String username){
+        String body = messagingService.getIdOfLatestChat(username);
         ResponseEntity<String> response = ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON)
         .body(body);
         return response; 

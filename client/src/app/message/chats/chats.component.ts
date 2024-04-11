@@ -4,6 +4,8 @@ import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../state/state.selectors';
 import { Chat } from '../../models';
 import { ActivatedRoute, Router } from '@angular/router';
+import { find } from 'rxjs';
+import { MessagenotifService } from '../../messagenotif.service';
 
 @Component({
   selector: 'app-chats',
@@ -16,17 +18,18 @@ export class ChatsComponent implements OnInit{
   private store = inject(Store)
   private activatedRoute = inject(ActivatedRoute)
   private router = inject(Router)
+  private messageNotifService = inject(MessagenotifService)
 
   username!:string
   id!:string
   chats: Chat[]=[]
 
   recipient!:string
-
-
   chatId!:string
+
   ngOnInit(): void {
       this.getUsername()
+      this.subscribeToMessagingSubject()
   }
 
   getUsername(){
@@ -79,6 +82,50 @@ export class ChatsComponent implements OnInit{
         }
       }
     )
+  }
+
+  subscribeToMessagingSubject(){
+    this.messageNotifService.messageSubject.subscribe({
+      next:(response)=>{
+        this.updateChatList(response)
+      }
+    })
+  }
+
+  updateChatList(id:string){
+    this.httpService.getChatInfo(this.username, id).then(
+      (response)=>{
+        var newChat = response as Chat
+        if(this.chatId === id){
+          newChat.read= true
+          this.httpService.readChat(this.username,id)
+        }
+        const oldChat = this.getChatInArray(id)
+        if(oldChat){
+          var index = this.getArrayIdOfChat(id)
+          this.chats.splice(index,1)
+        }
+        this.chats.unshift(newChat)
+      }
+    )
+
+  
+
+  }
+
+  getChatInArray(id:string):Chat | undefined{
+    const findCheck = (element:Chat)=> element.id==id
+    return this.chats.find(findCheck)
+  }
+
+  chatExistsInArray(id:string):boolean{
+    const someCheck = (element:Chat) => element.id == id
+    return this.chats.some(someCheck)
+  }
+
+  getArrayIdOfChat(id:string):number{
+    const findCheck = (element:Chat)=> element.id==id
+    return this.chats.findIndex(findCheck)
   }
 
   readChat(){

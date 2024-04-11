@@ -37,7 +37,7 @@ export class NotificationbarComponent implements OnInit{
       next:(response)=>{
         this.myUsername = response.username
         if(response.username !=''){
-          console.log("connected")
+          // console.log("connected")
           this.connectToWebsocket()
           this.getNumberOfUnreadNotifications()
         }else{
@@ -57,32 +57,31 @@ export class NotificationbarComponent implements OnInit{
       this.ws.onclose = this.onWebSocketClose.bind(this)
 
       this.ws.onerror = (error) =>{
-        console.error("Websocket error", error)
+        // console.error("Websocket error", error)
     }
   }
 }
   // using the native websocket library
   onWebSocketOpen(){
-    console.log("websocket connected in app component")
-    console.log(this.webSocketUrl)
+    // console.log("websocket connected in app component")
+    // console.log(this.webSocketUrl)
     this.sendUsernameToServer()
 
   }
 
   onWebSocketClose(){
-    console.log('websocket closed')
+    // console.log('websocket closed')
   }
 
   onWebSocketMessage(evt: {data:string}){
     let received_msg = JSON.parse(evt.data)
-    console.log("received_msg", received_msg)
+    // console.log("received_msg", received_msg)
   }
 
   onReceive(event:MessageEvent<any>){
     try{
-      console.log("message received")
+      // console.log("message received")
       let receivedMsg = JSON.parse(event.data)
-      console.log(receivedMsg)
       let payload = receivedMsg.payload
       this.unreadCount = payload
       this.cdr.detectChanges()
@@ -97,7 +96,7 @@ export class NotificationbarComponent implements OnInit{
   disconnectToWebSocket(){
     if(this.ws){
       this.ws.close()
-      console.log("closed")
+      // console.log("closed")
     }else(
       console.error("No websocket connection")
     )
@@ -111,7 +110,7 @@ export class NotificationbarComponent implements OnInit{
       }
 
       this.ws.send(JSON.stringify(payload))
-      console.log("send username success")
+      // console.log("send username success")
     }
     else{
       console.error("failed to send message. might still be connecting")

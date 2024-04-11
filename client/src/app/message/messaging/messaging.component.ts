@@ -1,9 +1,10 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { HttpService } from '../../http.service';
 import { Message } from '../../models';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../state/state.selectors';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-messaging',
@@ -18,6 +19,9 @@ export class MessagingComponent implements OnInit,OnChanges{
   @Input()
   recipient!:string
   recipientImage!:string
+
+  @Output()
+  chatIdSubject = new Subject<string>
 
 
   username!:string
@@ -94,7 +98,6 @@ export class MessagingComponent implements OnInit,OnChanges{
   }
 
   sendMessage(event:any){
-    console.log("message", event)
     if (!event.shiftKey){
       event.preventDefault()
     }
@@ -111,15 +114,34 @@ export class MessagingComponent implements OnInit,OnChanges{
         this.contentForm.reset()
         this.messages.unshift(response as Message)
         this.messageDisplay = this.messages.slice().reverse()
+        this.chatIdSubject.next(this.chatId)
       }
 
     ).catch(
       ()=>alert("Message could not be sent. Try again.")
     )
 
-  
-   
+  }
 
+  sendMessageWithButton(){
+    const content = this.contentForm.value['content'].trim()
+    const payload: Message = {
+      sender: this.username,
+      recipient: this.recipient,
+      content: content,
+      chat_id: this.chatId
+    }
+    this.httpService.sendMessage(payload).then(
+      (response)=>{
+        this.contentForm.reset()
+        this.messages.unshift(response as Message)
+        this.messageDisplay = this.messages.slice().reverse()
+        this.chatIdSubject.next(this.chatId)
+      }
+
+    ).catch(
+      ()=>alert("Message could not be sent. Try again.")
+    )
   }
 
   scrollUp(event:any){

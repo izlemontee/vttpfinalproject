@@ -74,5 +74,10 @@ public class MessagingRepository {
         SqlRowSet rowset = jdbcTemplate.queryForRowSet(MessagingSQLQueries.GET_CHAT_INFO, id);
         return rowset;
     }
+
+    public SqlRowSet getIdOfLatestChat(String username){
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(MessagingSQLQueries.GET_ID_LATEST_CHAT, username, username);
+        return rowSet;
+    }
     
 }

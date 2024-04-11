@@ -118,13 +118,23 @@ public class MessagingService {
         try{
             sendMessageToSql(message);
             unreadChat(recipient, chat_id);
+            updateChatListInRealTime(recipient, chat_id);
             String body = message.toJsonWithoutChatId().toString();
             return body;
         }catch(SQLFailedException ex){
             throw ex;
         }
+    }
 
-        
+    public void updateChatListInRealTime(String username, String id){
+        String payload = getChatInfo(username, id);
+        try{
+            
+            webSocketHandler.updateUnreadChats(username, payload);
+            
+        }catch(IOException ex){
+           
+        }
     }
 
     @Transactional("transactionManager")
@@ -225,6 +235,16 @@ public class MessagingService {
 
         }
 
+    }
+
+    public String getIdOfLatestChat(String username){
+        SqlRowSet rowset = messagingRepo.getIdOfLatestChat(username);
+        JsonObjectBuilder JOB = Json.createObjectBuilder();
+        while(rowset.next()){
+            String id = rowset.getString("id");
+            JOB.add("id",id);
+        }
+        return JOB.build().toString();
     }
     
 }

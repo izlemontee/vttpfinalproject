@@ -98,7 +98,8 @@ export interface Chat{
     user2:string,
     last_updated:number,
     image?:string,
-    username_display?:string
+    username_display?:string,
+    read?: boolean
 }
 
 export interface Message{

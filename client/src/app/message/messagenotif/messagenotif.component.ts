@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { HttpService } from '../../http.service';
 import { selectAllUsers } from '../../state/state.selectors';
+import { MessagenotifService } from '../../messagenotif.service';
 
 
 export const TYPE_SESSION_MESSAGE = "session_message"
@@ -24,6 +25,7 @@ export class MessagenotifComponent {
   private cdr = inject(ChangeDetectorRef)
   private store = inject(Store)
   private httpService = inject(HttpService)
+  private messageNotifService = inject(MessagenotifService)
 
   ngOnInit(): void {
       this.getUsernameFromStore()
@@ -60,33 +62,29 @@ export class MessagenotifComponent {
 }
   // using the native websocket library
   onWebSocketOpen(){
-    console.log("websocket connected in app component")
-    console.log(this.webSocketUrl)
     this.sendUsernameToServer()
 
   }
 
   onWebSocketClose(){
-    console.log('websocket closed')
+    // console.log('websocket closed')
   }
 
   onWebSocketMessage(evt: {data:string}){
     let received_msg = JSON.parse(evt.data)
-    console.log("received_msg", received_msg)
   }
 
   onReceive(event:MessageEvent<any>){
     try{
-      console.log("message received")
+
       let receivedMsg = JSON.parse(event.data)
-      console.log(receivedMsg)
       let payload = receivedMsg.payload
       this.unreadCount = payload
       this.cdr.detectChanges()
-
+      // this.getIdOfLatestChat()
 
     }catch(error){
-      console.error("error parsing message ", error)
+      // console.error("error parsing message ", error)
     }
 
   }
@@ -94,7 +92,7 @@ export class MessagenotifComponent {
   disconnectToWebSocket(){
     if(this.ws){
       this.ws.close()
-      console.log("closed")
+      // console.log("closed")
     }else(
       console.error("No websocket connection")
     )
@@ -108,18 +106,25 @@ export class MessagenotifComponent {
       }
 
       this.ws.send(JSON.stringify(payload))
-      console.log("send username success")
     }
     else{
-      console.error("failed to send message. might still be connecting")
+      // console.error("failed to send message. might still be connecting")
     }
   }
 
   getNumberOfUnreadChats(){
     this.httpService.getNumberOfUnreadChats(this.myUsername).then(
       (response)=>{
-        console.log(response)
         this.unreadCount = response.unread
+      }
+    )
+  }
+
+  getIdOfLatestChat(){
+    this.httpService.getIdOfLatestChat(this.myUsername).then(
+      (response)=>{
+        const id = response.id
+        this.messageNotifService.messageSubject.next(id)
       }
     )
   }

@@ -1,7 +1,8 @@
 
 <div class="container">
     <div *ngIf="chats.length>0" class="chats">
-        <div *ngFor="let c of chats" (click)="goToChat(c.id)" class="chat-container">
+        <div *ngFor="let c of chats" (click)="goToChat(c.id)" class="chat-container"
+        [ngClass]="c.read ? 'read' : 'unread'">
             
             <div class="profile-info">
                 <div>
@@ -17,8 +18,8 @@
         </div>
     </div>
     <div *ngIf="chatId" class="message-container">
-        <app-messaging [chatId]="chatId"  class="messages"></app-messaging>
+        <app-messaging [chatId]="chatId"  class="messages" (chatIdSubject)="updateChatList($event)"></app-messaging>
     </div>
-    
+    <app-chatwebsocket [username]="username" (chatIdSubject)="updateChatList($event)"></app-chatwebsocket>
 </div>
 
