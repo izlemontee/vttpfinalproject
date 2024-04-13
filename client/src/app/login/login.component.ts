@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy{
   passwordHidden: boolean = true
   usernameExists: boolean = true
   usernamePasswordMatch : boolean=true 
+  loggingIn: boolean = false
 
   private loginDialog = inject(MatDialog)
 
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy{
   }
 
   login(){
+    this.loggingIn = true
     const userSession = this.loginForm.value as UserSession
     this.httpService.checkUserExists(userSession.username).then(
       ()=>{
@@ -53,6 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy{
     ).catch(
       ()=>{
         this.usernameExists = false
+        this.loggingIn = true
       }
     )
     // if all works
@@ -79,6 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy{
     ).catch(
       ()=>{
         this.usernamePasswordMatch=false
+        this.loggingIn = false
       }
     )
   }

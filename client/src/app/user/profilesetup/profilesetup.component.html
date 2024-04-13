@@ -3,11 +3,15 @@
             'artist-manual':manualArtistSelection}">
     <div>
         <div class="button-container">
+            <button mat-flat-button class="button" matTooltip="Edit your profile info" matTooltipPosition="right"
+            (click)="activateUserSetup()">Update User Info</button>
+        </div>
+        <div class="button-container">
             <button mat-flat-button class="button"
-            (click)="loginToSpotify()">
+            (click)="loginToSpotify()" matTooltip="Link to your Spotify account" matTooltipPosition="right">
             <div style="display: flex;">
                 <div class="setupspotify">
-                    Setup spotify
+                    Link to Spotify
                 </div>
                 <div class="spotifylogo">
                     <img src="/assets/icons/Spotify-Logo-PNG.png" alt="" width="30px">
@@ -17,23 +21,24 @@
         </div>
         <div class="button-container">
             <button mat-flat-button class="button"
-            (click)="activateUserSetup()">Update User Info</button>
+            *ngIf="spotify_linked" (click)="getTopArtists()"
+            matTooltip="Get your top artists according to Spotify (linking to account required)" 
+            matTooltipPosition="right">Get top artists</button>
         </div>
         <div class="button-container">
             <button mat-flat-button class="button"
-            *ngIf="spotify_linked" (click)="getTopArtists()">Get top artists</button>
+            *ngIf="spotify_linked" (click)="manuallySelectArtists()"
+            matTooltip="Manually select your favourite artists from Spotify's library" matTooltipPosition="right">Manually select artists</button>
         </div>
         <div class="button-container">
             <button mat-flat-button class="button"
-            *ngIf="spotify_linked" (click)="manuallySelectArtists()">Manually select artists</button>
+            (click)="addInstruments()"
+            matTooltip="Add instruments that you can play" matTooltipPosition="right">Add instruments</button>
         </div>
         <div class="button-container">
             <button mat-flat-button class="button"
-            (click)="addInstruments()">Add instruments</button>
-        </div>
-        <div class="button-container">
-            <button mat-flat-button class="button"
-            (click)="uploadProfilePicture()">Upload Profile Picture</button>
+            (click)="uploadProfilePicture()"
+            matTooltip="Change your profile picture" matTooltipPosition="right">Upload Profile Picture</button>
         </div>
     </div>
     <div class="components">

@@ -24,6 +24,8 @@ export class UserinfoComponent implements OnInit, OnChanges{
   @Input()
   username!:string
 
+  pendingServer: boolean = false
+
   user:User={
     firstName:'',
     lastName:'',
@@ -40,13 +42,13 @@ export class UserinfoComponent implements OnInit, OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
 
       if(this.username && this.username != ''){
-        console.log("username in userinfo: ",this.username)
+        // console.log("username in userinfo: ",this.username)
         this.setupInit(this.username)
       }
   }
 
   createForm(){
-    console.log(this.user)
+    // console.log(this.user)
     return this.fb.group({
       firstName: this.fb.control<string>(''),
       lastName : this.fb.control<string>(''),
@@ -56,6 +58,7 @@ export class UserinfoComponent implements OnInit, OnChanges{
 
 
   processForm(){
+    this.pendingServer = true
     const firstname = this.profileForm.value['firstName'].toLowerCase()
     const lastname = this.profileForm.value['lastName'].toLowerCase()
     const bio = this.profileForm.value['bio']
@@ -66,18 +69,20 @@ export class UserinfoComponent implements OnInit, OnChanges{
     }
     this.httpService.updateUserProfile(user, this.username).then(
       ()=>{
+        alert("Profile updated!")
         this.profileForm.reset()
         this.deactivate()
       }
     ).catch(
       ()=>{
         alert("Something went wrong. Please try again.")
+        this.pendingServer = false
       }
     )
   }
 
   setupInit(username:string){
-    console.log("setupinit username", username)
+    // console.log("setupinit username", username)
     this.httpService.initUserSetup(username).then(
       response=>{
         

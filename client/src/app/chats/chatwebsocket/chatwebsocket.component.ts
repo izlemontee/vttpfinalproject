@@ -30,7 +30,7 @@ export class ChatwebsocketComponent implements OnInit, OnChanges{
 
   ngOnChanges(changes: SimpleChanges): void {
       if(this.username && this.username.trim().length>0){
-        console.log("changed: ", this.username)
+        // console.log("changed: ", this.username)
         this.connectToWebsocket()
       }
   }
@@ -55,7 +55,7 @@ sendUsernameToServer(){
       type:TYPE_SESSION_CHATS,
       username:this.username
     }
-    console.log('sending to server')
+    // console.log('sending to server')
     this.ws.send(JSON.stringify(payload))
   }
   else{
@@ -65,7 +65,7 @@ sendUsernameToServer(){
 
   // using the native websocket library
   onWebSocketOpen(){
-    console.log("chatwebsocket sending...")
+    // console.log("chatwebsocket sending...")
     this.sendUsernameToServer()
 
   }
@@ -87,9 +87,7 @@ sendUsernameToServer(){
     if(this.ws){
       this.ws.close()
       // console.log("closed")
-    }else(
-      console.error("No websocket connection")
-    )
+    }
   }
 
   getIdOfLatestChat(){

@@ -65,7 +65,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   }
 
   createForm(){
-    console.log(this.user)
+    // console.log(this.user)
     return this.fb.group({
       firstName: this.fb.control<string>(''),
       lastName : this.fb.control<string>(''),
@@ -96,7 +96,7 @@ export class ProfilesetupComponent implements OnInit, AfterContentInit,OnChanges
   loginToSpotify(){
     this.httpService.getLoginUri().then(
       response =>{
-        console.log(response)
+        // console.log(response)
         window.location.replace(response.uri)
       }
     )

@@ -34,7 +34,7 @@ export class MessagenotifComponent {
       next:(response)=>{
         this.myUsername = response.username
         if(response.username !=''){
-          console.log("connected")
+          // console.log("connected")
           this.connectToWebsocket()
           this.getNumberOfUnreadChats()
         }else{

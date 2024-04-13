@@ -2,16 +2,16 @@
     <p>Select time range for your top artists</p>
     <div class="button-container">
         <div>
-            <button mat-flat-button class="button" (click)="getArtists('short_term')"
-            >Short Term</button>
+            <button mat-flat-button class="button" (click)="getArtists('short_term')" [disabled]="pendingServer"
+            matTooltip="~ Latest 4 weeks" matTooltipPosition="below">Short Term</button>
         </div>
         <div>
-            <button mat-flat-button class="button" (click)="getArtists('medium_term')"
-            >Medium Term</button>
+            <button mat-flat-button class="button" (click)="getArtists('medium_term')" [disabled]="pendingServer"
+            matTooltip="~ Lastest 6 months" matTooltipPosition="below">Medium Term</button>
         </div>
         <div>
-            <button mat-flat-button class="button" (click)="getArtists('long_term')"
-            >Long Term</button>
+            <button mat-flat-button class="button" (click)="getArtists('long_term')" [disabled]="pendingServer"
+            matTooltip="~ Latest 1 year" matTooltipPosition="below">Long Term</button>
         </div>
         <div>
             <button mat-flat-button class="button" (click)="cancel()">Cancel</button>
@@ -26,7 +26,8 @@
                 Your top artists: {{term}}
             </div>
             <div *ngIf="artists.length>0" >
-                <button (click)="submitArtists()" mat-flat-button class="button">Update Artists</button>
+                <button (click)="submitArtists()" mat-flat-button class="button"
+                [disabled]="pendingServer">Update Artists</button>
             </div>
         </div>
     

@@ -40,10 +40,10 @@ export class GuardService{
     // })
     firstValueFrom(this.store.select(selectAllUsers)).then(
       response=>{
-        console.log("response:",response)
+        // console.log("response:",response)
         if(response != null){
           if(!this.usernameOrIdEmpty(response.username, response.id)){
-            console.log("logged in")
+            // console.log("logged in")
             this.loggedIn = true
             return this.loggedIn
           }
@@ -74,7 +74,7 @@ export class GuardService{
   changeLoginStatus(){
     this.store.select(selectAllUsers).subscribe({
       next:(response)=>{
-        console.log("userngrx",response)
+        // console.log("userngrx",response)
         if(response != null){
           if(!this.usernameOrIdEmpty(response.username, response.id)){
             this.loggedIn = true

@@ -15,6 +15,8 @@ export class InstrumentsComponent implements OnInit{
 
   form!:FormGroup
 
+  pendingServer : boolean = false
+
   @Input()
   username!:string
 
@@ -36,14 +38,14 @@ export class InstrumentsComponent implements OnInit{
 
   processForm(){
     const instrument = this.form.value.instrument
-    this.instruments.push(instrument)
+    this.instruments.push(instrument.toLowerCase())
     this.form.reset()
   }
 
   getInstruments(){
     this.httpService.getUserInstruments(this.username).then(
       response =>{
-        console.log("instruments", response)
+        // console.log("instruments", response)
         this.instruments = response.instruments
       }
     )
@@ -59,13 +61,16 @@ export class InstrumentsComponent implements OnInit{
   }
 
   submitInstruments(){
+    this.pendingServer = true
     this.httpService.updateUserInstruments(this.instruments, this.username).then(
       ()=>{
         this.deactivateInstrumentSelection.next()
+        this.pendingServer = false
       }
     ).catch(
       ()=>{
         alert("Update Error. Try again.")
+        this.pendingServer = false
       }
     )
   }

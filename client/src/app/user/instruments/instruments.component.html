@@ -16,6 +16,6 @@
 <form [formGroup]="form">
     <input type="text" formControlName="instrument">
     <button type="submit" [disabled]="form.invalid" (click)="processForm()" mat-flat-button class="button">Add</button>
-    <button (click)="submitInstruments()" mat-flat-button class="button">Update Profile</button>
+    <button (click)="submitInstruments()" mat-flat-button class="button" [disabled]="pendingServer">Update Profile</button>
 </form>
 <button (click)="deactivate()" mat-flat-button class="button">Cancel</button>

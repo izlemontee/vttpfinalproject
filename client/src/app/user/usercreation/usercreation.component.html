@@ -65,7 +65,7 @@
 
         </table>
     <button mat-flat-button style="background-color: #98D5F1; color: white;"
-    type="submit"  [disabled]="!creationForm.valid" type="submit" (click)="processForm()"
+    type="submit"  [disabled]="!creationForm.valid || pendingServer" type="submit" (click)="processForm()"
     class="button">Register</button>
     </form>
 

@@ -39,7 +39,7 @@ export class NotificationsComponent implements OnInit{
   getNotifications(){
     this.httpService.getNotifications(this.username, this.notificationOffset).then(
       (response)=>{
-        console.log(response)
+        // console.log(response)
         for (let r of response){
           r = r as Notification
           this.notifications.push(r)

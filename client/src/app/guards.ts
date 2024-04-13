@@ -9,10 +9,10 @@ export const isLoggedIn: CanActivateFn=
         const guardService = inject(GuardService)
         const router = inject(Router)
         if(guardService.loggedIn){
-            console.log("guardservice is logged in")
+            // console.log("guardservice is logged in")
             return true
         }
-        console.log("guard service is logged out")
+        // console.log("guard service is logged out")
         return router.parseUrl("/")
     }
 export const isLoggedOut: CanActivateFn=

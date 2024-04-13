@@ -2,7 +2,7 @@
 <div *ngIf="user else loading">
     <div *ngIf="!isLoading else loading" class="container">
         <!-- basic profile info -->
-        <div>
+        <div class="info">
             <img [src]="user.image" alt="" width="200" height="200" style="border-radius: 100px;">
             <table class="profiletext" style="margin-bottom: 10px;">
                 <tr>
@@ -46,13 +46,13 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div style="margin-top: 5px;;">
                 <a [routerLink]="['/user',usernameInProfile,'friends']"
                 mat-flat-button style="background-color: #98D5F1; color: white;">
                     Friends ({{numberOfFriends}})
                 </a>
             </div>
-            <div>
+            <div style="margin-top:5px;">
                 <!-- instruments -->
                 <div *ngIf="instruments.length>0">
                     <h4>{{usernameInProfile}} plays:</h4>
@@ -79,11 +79,11 @@
             <div *ngIf="isMyProfile">
                 <app-post></app-post>
             </div>
-            <div *ngIf="posts.length>0 && (isMyFriend || isMyProfile)"
+            <div *ngIf="posts.length>0 && (isMyFriend || isMyProfile) else noposts"
                 infiniteScroll
             [infiniteScrollDistance]="2"
             (scrolled)="getPosts()">
-                <div *ngFor="let p of posts" class="post">
+                <div *ngFor="let p of posts " class="post">
                     <div class="profile-info">
                         <div class="username">
                             <a [routerLink]="['/user',p.username]">{{p.username}}</a>
@@ -130,7 +130,7 @@
             </table>
 
             <!-- top genres -->
-            <div *ngIf="genres.length>0">
+            <div *ngIf="genres.length>0 ">
                 <h4>Top genres:</h4>
                 <table>
                     <tr *ngFor="let g of genres">
@@ -145,9 +145,13 @@
 
 <ng-template #myProfile>
     <button mat-flat-button style="background-color: #98D5F1; color: white;"
-    (click)="setupUser()">Setup Profile</button>
+    (click)="setupUser()">Edit Profile</button>
 </ng-template>
 
 <ng-template #loading>
     <p>Loading...</p>
+</ng-template>
+
+<ng-template #noposts>
+    <p>Nothing to see here...</p>
 </ng-template>

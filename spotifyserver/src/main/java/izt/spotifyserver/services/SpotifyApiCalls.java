@@ -107,22 +107,12 @@ public class SpotifyApiCalls {
         String bearer = "Bearer "+ user.getAccessKey();
         headers.set("Authorization", bearer);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
-       
+       try{
         ResponseEntity<String> response = restTemplate.exchange(requestUri,
                                             HttpMethod.GET
                                             ,entity,
                                             String.class
                                             );
-        // if the access key has expired
-        if(response.getStatusCode().value() == 401){
-            refreshUserAccessToken(user);
-            String responseBody = getUserTopGenres(username, duration);
-            return responseBody;
-        }
-        else if(response.getStatusCode().value() == 403){
-            String body = response.getBody();
-            return body;
-        }
         String responseBody = response.getBody();
         JsonObject responseJson = Utils.stringToJson(responseBody);
         JsonArray items = responseJson.getJsonArray("items");
@@ -171,6 +161,20 @@ public class SpotifyApiCalls {
         }
 
         return JAB.build().toString();
+       }catch(HttpClientErrorException ex){
+        Integer errorCode = ex.getStatusCode().value();
+        // if the access key has expired
+        if(errorCode == 401){
+            refreshUserAccessToken(user);
+            String responseBody = getUserTopGenres(username, duration);
+            return responseBody;
+        }
+        else{
+            String body = ex.getResponseBodyAsString();
+            return body;
+        }
+       }
+
         
     }
 

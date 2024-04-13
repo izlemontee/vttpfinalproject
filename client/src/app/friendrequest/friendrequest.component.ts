@@ -20,6 +20,9 @@ export class FriendrequestComponent implements OnInit{
   names:string[]=[]
   users:Request[]=[]
 
+  // to disable the button while waiting for server
+  pendingServer : boolean = false
+
   ngOnInit(): void {
       this.getUsernameForSession()
   }
@@ -72,6 +75,7 @@ export class FriendrequestComponent implements OnInit{
   }
 
   acceptRequest(index:number){
+    this.pendingServer = true
     const friend = this.username
     const username = this.users[index].username
     if(username!=''){
@@ -80,23 +84,30 @@ export class FriendrequestComponent implements OnInit{
           const payload = this.notifTemplate.createRequestAcceptedNotification(friend,username)
           this.httpService.addNotification(payload)
           this.users[index].accepted = true
+          this.pendingServer = false
         }
       ).catch(
-        ()=>{alert("something went wrong.")}
+        ()=>{alert("something went wrong.")
+          this.pendingServer = false
+        }
       )
     }
   }
 
   deleteRequest(index:number){
+    this.pendingServer = true
     const friend = this.username
     const username = this.users[index].username
     if(username!=''){
       this.httpService.deleteFriendRequest(username, friend).then(
         ()=>{
           this.users[index].rejected = true
+          this.pendingServer = false
         }
       ).catch(
-        ()=>{alert("something went wrong.")}
+        ()=>{alert("something went wrong.")
+          this.pendingServer = false
+        }
       )
     }
   }

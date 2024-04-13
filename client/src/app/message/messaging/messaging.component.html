@@ -1,6 +1,10 @@
-<div *ngIf="recipient">
-    {{recipient}}
-    <img [src]="recipientImage" alt="" class="profile-pic">
+<div *ngIf="recipient" class="recipient">
+    <div class="username">
+        {{recipient}}
+    </div>
+    <div>
+        <img [src]="recipientImage" alt="" class="profile-pic">
+    </div>
 </div>
 <div class="messages" id="message-scroller"
 (scroll)="scrollUp($event)"
@@ -22,9 +26,10 @@
 
 <div >
     <form [formGroup]="contentForm" class="message-sender">
-        <textarea formControlName="content" name="" id="" cols="30" rows="10" (keydown.enter)="sendMessage($event)" 
+        <textarea formControlName="content" name="" id="" cols="30" rows="10" [disabled]="pendingServer" 
+        (keydown.enter)="sendMessage($event)" 
         ></textarea>
-        <button mat-flat-button class="button" (click)="sendMessageWithButton()">Send</button>
+        <button mat-flat-button class="button" [disabled]="pendingServer || contentForm.invalid" (click)="sendMessageWithButton()">Send</button>
     </form>
 </div>
 

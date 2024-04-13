@@ -1,7 +1,9 @@
 
 <div class="container">
-    <div *ngIf="chats.length>0" class="chats">
-        <div *ngFor="let c of chats" (click)="goToChat(c.id)" class="chat-container"
+    <div *ngIf="chats.length>0 else nochats" class="chats"
+        infiniteScroll
+        (scrolled)="getChats()">
+        <div *ngFor="let c of chats, index as i" (click)="goToChat(c.id, i)" class="chat-container"
         [ngClass]="c.read ? 'read' : 'unread'">
             
             <div class="profile-info">
@@ -21,5 +23,10 @@
         <app-messaging [chatId]="chatId"  class="messages" (chatIdSubject)="updateChatList($event)"></app-messaging>
     </div>
     <app-chatwebsocket [username]="username" (chatIdSubject)="updateChatList($event)"></app-chatwebsocket>
+    <ng-template #nochats>
+        <div class="nochats">
+            <p>You have no chats. Go to your friends' profiles to start a new chat!</p>
+        </div>
+    </ng-template>
 </div>
 

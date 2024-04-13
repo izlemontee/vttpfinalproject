@@ -25,7 +25,7 @@ export class AppInitialiserService {
     return new Promise<void>((resolve, reject) =>{
       this.dexieSession.getSession().then(
         (response)=>{
-          console.log("response in initialiser", response)
+          // console.log("response in initialiser", response)
           var payload = {
             username:'',
             id:'',
@@ -49,7 +49,7 @@ export class AppInitialiserService {
   getUserState(){
     this.store.select(selectAllUsers).subscribe({
       next:(response)=>{
-        console.log("user state:",response)
+        // console.log("user state:",response)
       }
     })
   }

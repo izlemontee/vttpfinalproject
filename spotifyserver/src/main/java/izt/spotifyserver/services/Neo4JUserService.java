@@ -115,6 +115,7 @@ public class Neo4JUserService {
     }
 
     public void addFriendRequest(String username, String friend){
+        System.out.println("adding" + username + " " + friend);
         userNeo4jRepo.addFriendRequest(username, friend);
     }
 

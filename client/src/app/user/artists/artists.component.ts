@@ -27,9 +27,11 @@ export class ArtistsComponent {
   genres: string[]=[]
 
   term!:string
+  pendingServer: boolean = false
 
 
   getArtists(term:string){
+    this.pendingServer = true
     this.artists = []
     this.changeTerm(term)
     this.httpService.getTopArtists(this.username,term).then(
@@ -42,23 +44,36 @@ export class ArtistsComponent {
             genres : a.genres
           }
           this.artists.push(artist)
+
         }
-        
+        this.pendingServer = false
       }
       
     ).catch(
       error =>{
         alert("Something went wrong. Try again.")
+        this.pendingServer = false
       }
     )
     this.getGenres(term)
   }
 
   submitArtists(){
-    console.log(this.username)
-    this.httpService.updateUserArtists(this.username,this.artists)
-    this.submitGenres()
-    this.deactivateArtistSelection.next()
+    this.pendingServer = true
+    this.httpService.updateUserArtists(this.username,this.artists).then(
+      ()=>{
+        this.submitGenres()
+        this.deactivateArtistSelection.next()
+        this.pendingServer = false
+      }
+    ).catch(
+      ()=>{
+        alert("Sending to server failed. Please try again.")
+      }
+    )
+
+
+
   }
 
   cancel(){

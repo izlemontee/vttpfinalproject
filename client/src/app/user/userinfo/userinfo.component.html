@@ -18,11 +18,11 @@
             <div>
                 <button 
                 mat-flat-button class="button"
-                (click)="processForm()">Save</button>
+                (click)="processForm()" [disabled]="pendingServer">Save</button>
             </div>
             <div>
                 <button mat-flat-button class="button"
-                (click)="deactivate()">
+                (click)="deactivate()" [disabled]="pendingServer">
                     Cancel
                 </button>
             </div>

@@ -83,7 +83,7 @@ export class HttpService {
 
   getUserProfile(username:string){
     const url = this.baseUrl+"/user/"+username
-    console.log(url)
+    // console.log(url)
     return lastValueFrom(this.httpClient.get<any>(url))
   }
 
@@ -257,7 +257,7 @@ export class HttpService {
     const payload = {
       url:apiUrl
     }
-    console.log(payload)
+    // console.log(payload)
     const url = this.baseUrl +"/searchartists"
     return lastValueFrom(this.httpClient.post<any>(url,payload))
   }

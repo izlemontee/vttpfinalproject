@@ -25,6 +25,7 @@ export class MessagingComponent implements OnInit,OnChanges{
 
 
   username!:string
+  pendingServer : boolean = false
 
   private httpService = inject(HttpService)
   private fb = inject(FormBuilder)
@@ -75,13 +76,23 @@ export class MessagingComponent implements OnInit,OnChanges{
         this.messages = []
         this.getChatInfo()
         this.getMessages()
+        this.readChat()
       }
  
  
   
       
   }
-
+  readChat(){
+    this.httpService.readChat(this.username, this.chatId).then(
+      ()=>{
+      }
+    ).catch(
+      ()=>{
+        alert("Server error reading chat. Try again later.")
+      }
+    )
+  }
   chatIdNotEmpty(){
     return this.chatId && this.chatId.length>0
   }
@@ -98,11 +109,44 @@ export class MessagingComponent implements OnInit,OnChanges{
   }
 
   sendMessage(event:any){
+    this.pendingServer = true
+
+    
     if (!event.shiftKey){
       event.preventDefault()
     }
     const content = this.contentForm.value['content'].trim()
+    this.contentForm.reset()
+    const payload: Message = {
+      sender: this.username,
+      recipient: this.recipient,
+      content: content,
+      chat_id: this.chatId
+    }
+    this.httpService.sendMessage(payload).then(
+      (response)=>{
 
+        this.pendingServer = false
+      }
+
+    ).catch(
+      ()=>{
+        alert("Message could not be sent. Try again.")
+        this.pendingServer = false
+      }
+
+    )
+
+  }
+
+  addLatestMessage(message:Message){
+    this.messages.unshift(message)
+    this.chatIdSubject.next(message.chat_id)
+  }
+
+  sendMessageWithButton(){
+    this.pendingServer = true
+    const content = this.contentForm.value['content'].trim()
     const payload: Message = {
       sender: this.username,
       recipient: this.recipient,
@@ -115,38 +159,14 @@ export class MessagingComponent implements OnInit,OnChanges{
         // this.messages.unshift(response as Message)
         // this.messageDisplay = this.messages.slice().reverse()
         // this.chatIdSubject.next(this.chatId)
+        this.pendingServer = false
       }
 
     ).catch(
-      ()=>alert("Message could not be sent. Try again.")
-    )
-
-  }
-
-  addLatestMessage(message:Message){
-    this.messages.unshift(message)
-    console.log("message: ", message)
-    this.chatIdSubject.next(message.chat_id)
-  }
-
-  sendMessageWithButton(){
-    const content = this.contentForm.value['content'].trim()
-    const payload: Message = {
-      sender: this.username,
-      recipient: this.recipient,
-      content: content,
-      chat_id: this.chatId
-    }
-    this.httpService.sendMessage(payload).then(
-      (response)=>{
-        this.contentForm.reset()
-        this.messages.unshift(response as Message)
-        this.messageDisplay = this.messages.slice().reverse()
-        this.chatIdSubject.next(this.chatId)
+      ()=>{
+        alert("Message could not be sent. Try again.")
+        this.pendingServer = false
       }
-
-    ).catch(
-      ()=>alert("Message could not be sent. Try again.")
     )
   }
 

@@ -51,9 +51,9 @@ export class ChatsComponent implements OnInit{
     this.activatedRoute.params.subscribe(
       (response)=>{
         this.chatId = response['id']
-        console.log("username and chat id", this.username, this.chatId)
+        // console.log("username and chat id", this.username, this.chatId)
         if(!this.userNameOrChatIdEmpty()){
-          this.readChat()
+          // this.readChat()
           this.getChatInfo()
         }
       }
@@ -93,14 +93,14 @@ export class ChatsComponent implements OnInit{
   }
 
   updateChatList(id:string){
-    console.log("updateChatList id: ", id)
+    // console.log("updateChatList id: ", id)
     this.httpService.getChatInfo(this.username, id).then(
       (response)=>{
-        console.log(response)
+        // console.log(response)
         var newChat = response as Chat
         if(this.chatId === id){
           newChat.read= true
-          this.httpService.readChat(this.username,id)
+          // this.httpService.readChat(this.username,id)
         }
         const oldChat = this.getChatInArray(id)
         if(oldChat){
@@ -141,8 +141,18 @@ export class ChatsComponent implements OnInit{
     )
   }
 
-  goToChat(id:string){
-    this.router.navigate(['/chats',id])
+  goToChat(id:string, index:number){
+    this.httpService.readChat(this.username, id).then(
+      ()=>{
+        this.chats[index].read=true
+        this.router.navigate(['/chats',id])
+      }
+    ).catch(
+      ()=>{
+        alert("Server error reading chat. Try again later.")
+      }
+    )
+ 
   }
 
   getChatInfo(){

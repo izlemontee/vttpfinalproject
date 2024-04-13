@@ -33,3 +33,7 @@
     display: inline-block;
     width:90%;
 }
+
+mat-icon:hover{
+    cursor: pointer;
+}

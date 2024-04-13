@@ -21,11 +21,11 @@ export class LoginredirectComponent implements OnInit{
 
   ngOnInit(): void {
       this.tempId = this.activatedRoute.snapshot.queryParams['id']
-      console.log("tempid",this.tempId)
       this.sessionService.getSession().then(
         response =>{
           this.username = response[0].username
           this.httpService.addAccessKeyToUser(this.tempId,this.username)
+          alert("Link to Spotify successful! Now you may get your top artists by going to 'Edit profile > Get Top Artists'")
           this.router.navigate(['/user/'+this.username])
         }
       )

@@ -35,7 +35,7 @@
             <tr>
                 <div class="cell">
                     <button mat-flat-button style="background-color: #98D5F1; color: white;"
-                    type="submit" (click)="login()" [disabled]="!loginForm.valid">Login</button>
+                    type="submit" (click)="login()" [disabled]="!loginForm.valid || loggingIn">Login</button>
                 </div>
             </tr>
         </table>

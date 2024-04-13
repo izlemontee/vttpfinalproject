@@ -48,6 +48,9 @@ export class ProfileComponent implements OnInit{
 
   isLoading: boolean = true
 
+  // disable the buttons while waiting to senda  request to the server
+  requestPending: boolean = false
+
   constructor(){
 
   }
@@ -135,19 +138,29 @@ export class ProfileComponent implements OnInit{
   }
 
   addFriend(){
+    this.pendingRequest = true
     this.httpService.addFriendRequest(this.myUsername, this.usernameInProfile).then(
       ()=>{
         this.checkFriendStatus()
+        const payload = this.notifTemplate.createAddFriendNotification(this.myUsername, this.usernameInProfile)
+        this.httpService.addNotification(payload)
+        this.pendingRequest = false
+      }
+    ).catch(
+      ()=>{
+        alert("Error sending request. Try again.")
+        this.pendingRequest = false
       }
     )
-    const payload = this.notifTemplate.createAddFriendNotification(this.myUsername, this.usernameInProfile)
-    this.httpService.addNotification(payload)
+
   }
 
   deleteRequest(){
+    this.pendingRequest = true
     this.httpService.deleteFriendRequest(this.myUsername, this.usernameInProfile).then(
       ()=>{
         this.checkFriendStatus()
+        this.pendingRequest = false
       }
     )
   }
@@ -155,7 +168,7 @@ export class ProfileComponent implements OnInit{
   checkFriendStatus(){
     this.httpService.checkFriendStatus(this.myUsername,this.usernameInProfile).then(
       (response)=>{
-        console.log("friend status: ",response)
+        // console.log("friend status: ",response)
         this.pendingRequest = response.pending
         this.isMyFriend = response.friends
         this.addedMe = response.addedme
@@ -164,12 +177,13 @@ export class ProfileComponent implements OnInit{
   }
 
   deleteFriend(){
+    this.pendingRequest = true
     this.httpService.deleteFriend(this.usernameInProfile,this.myUsername).then(
       (response)=>{
-        console.log("friend status: ",response)
         this.pendingRequest = false
         this.isMyFriend = false
         this.addedMe = false
+        this.pendingRequest = false
       }
     )
   }
@@ -198,6 +212,7 @@ export class ProfileComponent implements OnInit{
   }
 
   openChat(){
+    this.pendingRequest = true
     this.httpService.openChat(this.myUsername, this.usernameInProfile).then(
       (response)=>{
         const chatId = response.id

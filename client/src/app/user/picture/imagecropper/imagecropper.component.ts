@@ -25,14 +25,14 @@ export class ImagecropperComponent {
       this.imgChangeEvt = event;
   }
   cropImg(e: ImageCroppedEvent) {
-    console.log("event",e)
+    // console.log("event",e)
       // this.cropImgPreview = e.blob;
       
-      console.log("e.objectUrl",e.objectUrl)
+      // console.log("e.objectUrl",e.objectUrl)
       this.blob = e.blob
       let array = e.objectUrl?.split(":");
       this.cropImgPreview = this.sanitizer.bypassSecurityTrustUrl(e.objectUrl ?? "");
-      console.log("cropimg preview",this.cropImgPreview)
+      // console.log("cropimg preview",this.cropImgPreview)
           // create a new file from the blob
       // const file = new File([e.blob], "captured.jpg", {type: 'image/jpg'})
       // console.log("file: ")

@@ -38,7 +38,7 @@ export class FeedComponent implements OnInit{
               this.posts = response as Post[]
               
             }
-          ).then(
+          ).catch(
             ()=>this.feedError = true
           )
           

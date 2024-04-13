@@ -54,11 +54,13 @@ public class WebSocketHandler extends TextWebSocketHandler{
             case TYPE_SESSION_CHATS:{
                 String username = payload.getString("username");
                 addToChatsSessions(username, session);
+                break;
             }
 
             case TYPE_SESSION_MESSAGE_LIVE:{
                 String id = payload.getString("id");
                 addToLiveMessageSessions(id, session);
+                break;
             }
             
         }
