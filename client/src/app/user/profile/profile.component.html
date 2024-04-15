@@ -30,18 +30,18 @@
                     <p>
                         {{usernameInProfile}} added you as a friend.
                     </p>
-                    <button mat-flat-button style="background-color: #8FEAA1; color: white;">
+                    <button mat-flat-button style="background-color: #8FEAA1;; color: white;">
                         Accept
                     </button>
                 </div>
                 <div *ngIf="isMyFriend && !pendingRequest && !addedMe">
                     <p>You are friends</p>
                     <div>
-                        <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                        <button mat-flat-button style="background-color:#8FEAA1;; color: white;"
                         (click)="deleteFriend()">Remove Friend</button>
                     </div>
                     <div>
-                        <button mat-flat-button style="background-color: #98D5F1; color: white;"
+                        <button mat-flat-button style="background-color: #8FEAA1;; color: white;"
                         (click)="openChat()">Message</button>
                     </div>
                 </div>
@@ -154,4 +154,8 @@
 
 <ng-template #noposts>
     <p>Nothing to see here...</p>
+</ng-template>
+
+<ng-template #noartists>
+    <p>{{usernameInProfile}} has no artists yet.</p>
 </ng-template>

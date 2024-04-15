@@ -4,6 +4,8 @@
     font-family: Futura, "Trebuchet MS", Arial, sans-serif;
     margin-left:5%;
     margin-top:20px;
+    height:100px;
+
 }
 
 .button{
@@ -15,7 +17,9 @@
 }
 
 textarea{
-    height:2em;
+    /* height:30px; */
+    resize:none;
+    border-radius: 20px;
 }
 
 .container{
@@ -26,3 +30,4 @@ textarea{
     background-color: #767C7F ;
     border-radius: 10px;
 }
+

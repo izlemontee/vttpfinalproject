@@ -10,7 +10,7 @@
 
 .default{
     height:300px;
-    background-color: #8eed9d;
+    background-color: #767C7F;
 }
 
 .artist{
@@ -44,7 +44,7 @@
 }
 
 .button{
-    background-color: #98D5F1; 
+    background-color: #8FEAA1; 
     color: white;
     width:200px;
 }

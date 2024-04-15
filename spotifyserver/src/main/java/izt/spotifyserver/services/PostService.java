@@ -81,10 +81,7 @@ public class PostService {
             if(hasPicture){
                 image_url = rowset.getString("image_url");
             }
-            String profile_picture = PLACEHOLDER_IMAGE;
-            if(rowset.getString("profile_picture")!=null){
-                profile_picture = rowset.getString("profile_picture");
-            }
+            String profile_picture = getProfilePicture(usernamePost);
             Post post = new Post(id, usernamePost, content, timestamp, hasPicture, image_url);
             post.setProfile_picture(profile_picture);
             posts.add(post);
@@ -107,10 +104,7 @@ public class PostService {
                 if(hasPicture){
                     image_url = rowset.getString("image_url");
                 }
-                String profile_picture = PLACEHOLDER_IMAGE;
-                if(rowset.getString("profile_picture")!=null){
-                    profile_picture = rowset.getString("profile_picture");
-                }
+                String profile_picture = getProfilePicture(usernamePost);
                 Post post = new Post(id, usernamePost, content, timestamp, hasPicture, image_url);
                 post.setProfile_picture(profile_picture);
                 posts.add(post);
