@@ -7,7 +7,7 @@
 }
 
 .button{
-    background-color: #98D5F1; 
+    background-color: #8FEAA1; 
     color: white;
     width:100px;
     margin-left:85%;
@@ -23,6 +23,6 @@ textarea{
     margin-top:20px;
     margin-bottom:20px;
     color:white;
-    background-color: #D7DAD7 ;
+    background-color: #767C7F ;
     border-radius: 10px;
 }
