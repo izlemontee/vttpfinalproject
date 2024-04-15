@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,12 +75,21 @@ public class ApiController {
     }
 
     @GetMapping(path = "/callback")
-    public String redirectAfterAuth(@RequestParam("code") String authKey, HttpServletResponse response)throws Exception{
-        String tempId = spotifyApiService.redirectAfterAuth(authKey);
-        String url = CLIENT_DOMAIN+"/redirect?id="+tempId;
-        
-        response.sendRedirect(url);
-        return tempId;
+    public String redirectAfterAuth(@RequestParam(required = false, name ="code") String authKey, HttpServletResponse response)throws Exception{
+   
+        String urlError = CLIENT_DOMAIN+"/rejected";
+        if(authKey != null){
+            String tempId = spotifyApiService.redirectAfterAuth(authKey);
+            String url = CLIENT_DOMAIN+"/redirect?id="+tempId;
+            response.sendRedirect(url);
+            return tempId;
+        }
+        else{
+            response.sendRedirect(urlError);
+            return urlError;
+        }
+
+
     }
 
     @PostMapping(path = "/addaccesskey")

@@ -48,6 +48,7 @@ import { MessagingComponent } from './message/messaging/messaging.component';
 import { MessagenotifComponent } from './message/messagenotif/messagenotif.component';
 import { ChatwebsocketComponent } from './chats/chatwebsocket/chatwebsocket.component';
 import { MessageliveComponent } from './message/messagelive/messagelive.component';
+import { RejectedComponent } from './loginredirect/rejected/rejected.component';
 
 
 
@@ -86,6 +87,7 @@ import { MessageliveComponent } from './message/messagelive/messagelive.componen
     MessagenotifComponent,
     ChatwebsocketComponent,
     MessageliveComponent,
+    RejectedComponent,
 
   ],
   imports: [

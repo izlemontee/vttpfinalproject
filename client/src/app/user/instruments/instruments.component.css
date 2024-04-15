@@ -1,5 +1,5 @@
 .button{
-    background-color: #98D5F1; 
+    background-color: #8FEAA1; 
     color: white;
     width:80px;
     margin-top:10px;
@@ -7,7 +7,7 @@
 }
 
 .instrument{
-    background-color: #767C7F;
+    background-color: #8FEAA1;
     font-family: Futura, "Trebuchet MS", Arial, sans-serif;
     color:white;
     display:flex;

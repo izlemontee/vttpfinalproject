@@ -14,6 +14,7 @@ import { FriendsComponent } from './user/friends/friends.component';
 import { PostdisplayComponent } from './postdisplay/postdisplay.component';
 import { MusiciansearchComponent } from './musician/musiciansearch/musiciansearch.component';
 import { ChatsComponent } from './message/chats/chats.component';
+import { RejectedComponent } from './loginredirect/rejected/rejected.component';
 
 
 const routes: Routes = [
@@ -28,7 +29,8 @@ const routes: Routes = [
   {path:"post/:id", component:PostdisplayComponent},
   {path:"musicians/search", component:MusiciansearchComponent},
   {path:"chats", component:ChatsComponent},
-  {path:"chats/:id", component:ChatsComponent}
+  {path:"chats/:id", component:ChatsComponent},
+  {path:"rejected", component:RejectedComponent}
 
 ];
 

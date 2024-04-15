@@ -22,7 +22,7 @@
 .searchbar{
     margin-top:20px;
     height:60%;
-    width:70%;
+    width:50%;
     /* border-style: dashed; */
 }
 
@@ -42,6 +42,7 @@
     width:5%;
     /* border-style: dashed; */
     margin-top:30px;
+    margin-left:40px;
 }
 
 .icon{
@@ -49,6 +50,12 @@
     margin-left:5px;
     margin-top:5px;
 
+}
+
+.home{
+    margin-left:20px;
+    width:12.5%;
+    margin-top:5px;
 }
 
 .name{
@@ -66,8 +73,8 @@
     font-family: Futura, "Trebuchet MS", Arial, sans-serif;
     color:white;
     text-shadow: 2px 2px black;
-    margin-top:10%;
-    margin-left:5px;
+    margin-top:6%;
+    margin-left:10px;
 }
 
 .loginbutton{
@@ -90,7 +97,9 @@
 }
 
 .musician-search-container{
-    margin-top:30px;
+    margin-top:22px;
+    margin-left:10px;
+    margin-right:20px;
     width:60px;
     height:60px;
     
