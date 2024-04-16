@@ -1,6 +1,7 @@
 <div *ngIf="recipient" class="recipient">
     <div class="username">
-        {{recipient}}
+        <a [routerLink]="['/user',recipient]">{{recipient}}</a>
+
     </div>
     <div>
         <img [src]="recipientImage" alt="" class="profile-pic">
