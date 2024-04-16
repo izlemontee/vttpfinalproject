@@ -9,7 +9,14 @@
                 </mat-form-field>
             </div>
             <div>
-                <button  mat-flat-button class="button" (click)="processForm()" [disabled]="commentForm.invalid">Comment</button>
+                <button  mat-flat-button class="button" (click)="processForm()" [disabled]="commentForm.invalid || pendingServer">
+                    <div *ngIf="!pendingServer">
+                        Comment
+                    </div>
+                    <div *ngIf="pendingServer">
+                        Posting...
+                    </div>
+                </button>
             </div>
         </div>
 

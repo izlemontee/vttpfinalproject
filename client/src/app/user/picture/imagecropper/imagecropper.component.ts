@@ -1,4 +1,4 @@
-import { Component, Output, inject } from '@angular/core';
+import { Component, Input, Output, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Subject } from 'rxjs';
@@ -17,6 +17,9 @@ export class ImagecropperComponent {
   
   cropImgPreview!: any;
   blob!:any
+
+  @Input()
+  pendingServer : boolean = false
 
   @Output()
   croppedImageUpload = new Subject<any>

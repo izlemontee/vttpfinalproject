@@ -29,7 +29,14 @@
         <textarea formControlName="content" name="" id="" cols="30" rows="10" [disabled]="pendingServer" 
         (keydown.enter)="sendMessage($event)" 
         ></textarea>
-        <button mat-flat-button class="button" [disabled]="pendingServer || contentForm.invalid" (click)="sendMessageWithButton()">Send</button>
+        <button mat-flat-button class="button" [disabled]="pendingServer || contentForm.invalid" (click)="sendMessageWithButton()">
+            <div *ngIf="!pendingServer">
+                Send
+            </div>
+            <div *ngIf="pendingServer">
+                Sending...
+            </div>
+        </button>
     </form>
 </div>
 

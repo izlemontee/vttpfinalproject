@@ -19,26 +19,51 @@
             <div *ngIf="!isMyProfile else myProfile">
                 <div *ngIf="!pendingRequest && !isMyFriend && !addedMe">
                     <button mat-flat-button style="background-color: #8FEAA1; color: white;"
-                    (click)="addFriend()">Add friend</button>
+                    (click)="addFriend()" [disabled]="pendingServer">
+                        <div *ngIf="!pendingServer">
+                            Add friend
+                        </div>
+                        <div *ngIf="pendingServer">
+                            Adding...
+                        </div>
+                    </button>
                 </div>
                 <div *ngIf="pendingRequest && !isMyFriend && !addedMe">
-                    <p>pending request</p>
+                    <p>Pending request</p>
                     <button mat-flat-button style="background-color: #8FEAA1; color: white;"
-                    (click)="deleteRequest()">Delete Request</button>
+                    (click)="deleteRequest()" [disabled]="pendingServer">
+                    <div *ngIf="!pendingServer">
+                        Delete Request
+                    </div>
+                    <div *ngIf="pendingServer">
+                        Deleting...
+                    </div></button>
                 </div>
                 <div *ngIf="addedMe && !isMyFriend &&!pendingRequest">
                     <p>
                         {{usernameInProfile}} added you as a friend.
                     </p>
-                    <button mat-flat-button style="background-color: #8FEAA1;; color: white;">
-                        Accept
+                    <button mat-flat-button style="background-color: #8FEAA1;; color: white;" [disabled]="pendingServer"
+                        (click)="acceptRequest()">
+                        <div *ngIf="!pendingServer">
+                            Accept
+                        </div>
+                        <div *ngIf="pendingServer">
+                            Please wait...
+                        </div>
                     </button>
                 </div>
                 <div *ngIf="isMyFriend && !pendingRequest && !addedMe">
                     <p>You are friends</p>
                     <div>
                         <button mat-flat-button style="background-color:#8FEAA1;; color: white;"
-                        (click)="deleteFriend()">Remove Friend</button>
+                        (click)="deleteFriend()" [disabled]="pendingServer">
+                        <div *ngIf="!pendingServer">
+                            Remove friend
+                        </div>
+                        <div *ngIf="pendingServer">
+                            Removing...
+                        </div></button>
                     </div>
                     <div>
                         <button mat-flat-button style="background-color: #8FEAA1;; color: white;"

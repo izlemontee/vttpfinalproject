@@ -20,6 +20,7 @@ export class ArtistmanualComponent implements OnInit{
   artists: Artist[]=[]
 
   canSearch: boolean = true
+  pendingServer : boolean = false
 
   @Input()
   username!:string
@@ -50,6 +51,7 @@ export class ArtistmanualComponent implements OnInit{
   }
 
   updateArtists(){
+    this.pendingServer = true
     this.httpService.updateArtistsManually(this.artists, this.username).then(
       ()=>{
         this.deactivateManualArtistSelection.next()
@@ -57,6 +59,7 @@ export class ArtistmanualComponent implements OnInit{
     ).catch(
       ()=>{
         alert("Server error. Please try again later.")
+        this.pendingServer = false
       }
     )
   }

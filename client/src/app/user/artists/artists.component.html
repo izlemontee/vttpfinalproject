@@ -27,7 +27,14 @@
             </div>
             <div *ngIf="artists.length>0" >
                 <button (click)="submitArtists()" mat-flat-button class="button"
-                [disabled]="pendingServer">Update Artists</button>
+                [disabled]="pendingServer">
+                    <div *ngIf="!pendingServer">
+                        Update Artists
+                    </div>
+                    <div *ngIf="pendingServer">
+                        Updating...
+                    </div>
+                </button>
             </div>
         </div>
     

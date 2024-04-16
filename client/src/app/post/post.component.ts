@@ -20,6 +20,7 @@ export class PostComponent implements OnInit{
   postInput!: FormGroup
   username!:string
   id!:string
+  pendingServer : boolean = false
 
   ngOnInit(): void {
       this.postInput = this.createForm()
@@ -33,9 +34,10 @@ export class PostComponent implements OnInit{
   }
 
   processForm(){
+    this.pendingServer = true
     var content = this.postInput.value['content']
-    console.log(content)
-    console.log(this.username)
+    // console.log(content)
+    // console.log(this.username)
     if(!this.usernameEmpty()){
       const post: Post={
         username: this.username,
@@ -44,11 +46,13 @@ export class PostComponent implements OnInit{
       }
       this.httpService.addNewPost(post).then(
         ()=>{
+          this.pendingServer = false
           location.reload()
         }
       ).catch(
         ()=>{
           alert("Post could not be posted. Try again.")
+          this.pendingServer = false
         }
       )
     }
@@ -78,9 +82,9 @@ export class PostComponent implements OnInit{
   }
 
   usernameEmpty():boolean{
-    console.log("usernameEmpty:", this.username)
-    console.log("null? ", this.username!=null)
-    console.log("empty?", this.username.trim() != '')
+    // console.log("usernameEmpty:", this.username)
+    // console.log("null? ", this.username!=null)
+    // console.log("empty?", this.username.trim() != '')
     return ((this.username==null) || (this.username.trim()==''))
   }
 }

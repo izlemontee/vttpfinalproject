@@ -6,7 +6,14 @@
             <textarea matInput placeholder="Share some thoughts" col="50" rows="5" formControlName="content"
            ></textarea>
         </mat-form-field>
-        <button  mat-flat-button class="button" (click)="processForm()" [disabled]="postInput.invalid">Post</button>
+        <button  mat-flat-button class="button" (click)="processForm()" [disabled]="postInput.invalid || pendingServer">
+            <div *ngIf="!pendingServer">
+                Post
+            </div>
+            <div *ngIf="pendingServer">
+                Posting...
+            </div>
+        </button>
     </form>
     
 </div>

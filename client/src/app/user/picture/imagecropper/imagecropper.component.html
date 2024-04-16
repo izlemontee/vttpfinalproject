@@ -18,5 +18,12 @@
   <h6>Image Preview</h6>
   <img [src]="cropImgPreview" style="border-radius: 125px;"/>
   <button mat-flat-button class="button" 
-  (click)="uploadImage()">Upload</button>
+  (click)="uploadImage()" [disabled]="pendingServer">
+    <div *ngIf="!pendingServer">
+      Upload
+  </div>
+  <div *ngIf="pendingServer">
+      Uploading..
+  </div>
+  </button>
 </div>

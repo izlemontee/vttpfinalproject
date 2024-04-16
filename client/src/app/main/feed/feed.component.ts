@@ -20,6 +20,7 @@ export class FeedComponent implements OnInit{
   posts:Post[] =[]
 
   feedError: boolean = false
+  loading: boolean = false
 
   ngOnInit(): void {
     this.getUsername()
@@ -32,10 +33,12 @@ export class FeedComponent implements OnInit{
         if(response != null){
           this.username = response.username
           this.id = response.id
+          this.loading = true
           this.httpService.getFeed(this.username, this.skip).then(
             (response)=>{
-             this.feedError = false
-              this.posts = response as Post[]
+            this.feedError = false
+            this.loading = false
+            this.posts = response as Post[]
               
             }
           ).catch(
@@ -48,19 +51,26 @@ export class FeedComponent implements OnInit{
   }
 
   onScroll(){
+    this.loading = true
     this.skip = this.posts.length
     this.httpService.getFeed(this.username, this.skip).then(
       (response)=>{
+        this.feedError = false
         for(let r of response){
           this.posts.push(r)
         }
+        this.loading = false
+      }
+    ).catch(
+      ()=>{
+        this.feedError = true
       }
     )
   }
 
   addComment(event:any, index:number){
-    console.log("event: ",event)
-    console.log("index: ", index)
+    // console.log("event: ",event)
+    // console.log("index: ", index)
     var comments = this.posts[index].comments
     comments?.push(event)
 

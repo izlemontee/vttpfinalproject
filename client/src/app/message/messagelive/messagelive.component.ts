@@ -54,7 +54,7 @@ export class MessageliveComponent implements OnChanges{
 
     onReceive(event:MessageEvent<any>){
       try{
-        console.log(event)
+        // console.log(event)
         let receivedMsg = JSON.parse(event.data)
         let payload = receivedMsg.payload
         var message = JSON.parse(payload) as Message
@@ -71,9 +71,9 @@ export class MessageliveComponent implements OnChanges{
       if(this.ws){
         this.ws.close()
         // console.log("closed")
-      }else(
-        console.error("No websocket connection")
-      )
+      }else{
+        // console.error("No websocket connection")
+    }
     }
 
     sendIdToServer(){

@@ -43,9 +43,9 @@ export class UsercreationComponent implements OnInit, OnDestroy{
 
   createForm(){
     return this.fb.group({
-      username: this.fb.control<string>('',[Validators.required]),
-      password: this.fb.control<string>('',[Validators.required]),
-      email: this.fb.control<string>('', [Validators.required]),
+      username: this.fb.control<string>('',[Validators.required, Validators.minLength(3)]),
+      password: this.fb.control<string>('',[Validators.required, Validators.minLength(12)]),
+      email: this.fb.control<string>('', [Validators.required, Validators.email]),
       firstName : this.fb.control<string>('' , [Validators.required]),
       lastName : this.fb.control<string>('', [Validators.required])
     })
@@ -82,6 +82,7 @@ export class UsercreationComponent implements OnInit, OnDestroy{
             username:username,
             password:password
           }
+          alert("Success! Welcome to Legato!")
           this.login(userSession)
           // this.router.navigate(['/'])
           // this.dialog.closeAll()

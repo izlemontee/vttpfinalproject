@@ -52,10 +52,16 @@
             </div>
         </div>
     </div>
+    <div *ngIf="loading">
+        <p>Loading...</p>
+    </div>
+    <div *ngIf="feedError">
+        <p>Server error. Try again later.</p>
+    </div>
 
     <ng-template #noposts>
-        <div *ngIf="!feedError">
-            <p>Loading...</p>
+        <div *ngIf="!feedError && !loading">
+            <p>There are no posts for now. Try making one or find some people!</p>
         </div>
         <div *ngIf="feedError">
             <p>Server error. Try again later.</p>

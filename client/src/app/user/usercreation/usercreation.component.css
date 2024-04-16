@@ -1,10 +1,11 @@
 .container{
-    background-color: #8eed9d;
-    width: 310px;
+    background-color:#767C7F;
+    width: 400px;
     font-family: Futura, "Trebuchet MS", Arial, sans-serif;
     font-size: 15px;
     text-shadow: 1px 1px black;
     color: white;
+    height:450px;
 }
 
 .default{
@@ -38,4 +39,6 @@
 .button{
     margin-left:10px;
     margin-top:10px;
+    background-color: #8FEAA1;
+    color: white;
 }

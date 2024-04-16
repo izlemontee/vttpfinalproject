@@ -88,7 +88,7 @@ export class NotificationbarComponent implements OnInit{
 
 
     }catch(error){
-      console.error("error parsing message ", error)
+      // console.error("error parsing message ", error)
     }
 
   }
@@ -97,9 +97,7 @@ export class NotificationbarComponent implements OnInit{
     if(this.ws){
       this.ws.close()
       // console.log("closed")
-    }else(
-      console.error("No websocket connection")
-    )
+    }
   }
 
   sendUsernameToServer(){
@@ -113,7 +111,7 @@ export class NotificationbarComponent implements OnInit{
       // console.log("send username success")
     }
     else{
-      console.error("failed to send message. might still be connecting")
+      // console.error("failed to send message. might still be connecting")
     }
   }
 

@@ -39,7 +39,7 @@
                     {{c.timestamp | date:"dd MMM yyyy, HH:mm"}}
                 </div>
             </div>
-            <div>
+            <div *ngIf="comments.length != post.number_of_comments">
                 <button mat-flat-button class="button" (click)="getComments()" [disabled]="comments.length == post.number_of_comments">
                     Load more comments
                 </button>

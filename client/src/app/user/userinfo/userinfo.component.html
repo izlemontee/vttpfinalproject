@@ -18,7 +18,12 @@
             <div>
                 <button 
                 mat-flat-button class="button"
-                (click)="processForm()" [disabled]="pendingServer">Save</button>
+                (click)="processForm()" [disabled]="pendingServer">
+                    <div *ngIf="!pendingServer">
+                        Save
+                    </div>
+                    <div *ngIf="pendingServer">Saving...</div>
+                </button>
             </div>
             <div>
                 <button mat-flat-button class="button"

@@ -1,4 +1,4 @@
-<div class="container" [ngClass]="usernameExists ? 'incorrect' : 'default'">
+<div class="container" >
     <form [formGroup]="creationForm">
         <table>
             <tbody>
@@ -9,6 +9,7 @@
                         </div>
                         <div class="input">
                             <p *ngIf="usernameExists">Username already exists!</p> 
+                            <p *ngIf="creationForm.controls['username'].hasError('minlength')">Username needs to be at least 3 characters long.</p>
                             <input type="text" formControlName="username">
                         </div>
                     </div>
@@ -20,6 +21,7 @@
                         </div>
                         <div class="password">
                             <div>
+                                <p *ngIf="creationForm.controls['password'].hasError('minlength')">Password needs to be at least 12 characters long.</p>
                                 <input [type]="passwordHidden ? 'text' : 'password'" formControlName="password">    
                             </div>
                             <div>
@@ -37,6 +39,7 @@
                             Email:
                         </div>
                         <div class="input">
+                            <p *ngIf="creationForm.controls['email'].hasError('email')">Use a valid email format.</p>
                             <input type="text" formControlName="email">
                         </div>
                     </div>
@@ -44,9 +47,11 @@
                 <tr>
                     <div class="cell">
                         <div class="text">
+
                             First Name: 
                         </div>
                         <div class="input">
+                            <p *ngIf="creationForm.controls['firstName'].hasError('required')">First name required.</p>
                             <input type="text" formControlName="firstName">
                         </div>
                     </div>
@@ -57,6 +62,7 @@
                             Last Name:
                         </div>
                         <div class="input">
+                            <p *ngIf="creationForm.controls['lastName'].hasError('required')">Last name required.</p>
                             <input type="text" formControlName="lastName">
                         </div>
                     </div>
@@ -64,9 +70,16 @@
             </tbody>
 
         </table>
-    <button mat-flat-button style="background-color: #98D5F1; color: white;"
+    <button mat-flat-button 
     type="submit"  [disabled]="!creationForm.valid || pendingServer" type="submit" (click)="processForm()"
-    class="button">Register</button>
+    class="button">
+        <div *ngIf="!pendingServer">
+            Register
+        </div>
+        <div *ngIf="pendingServer">
+            Waiting...
+        </div>
+    </button>
     </form>
 
 </div>

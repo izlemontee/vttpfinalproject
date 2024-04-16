@@ -1,5 +1,5 @@
 .container{
-    background-color: #8eed9d;
+    background-color: #767C7F;
     width: 350px;
     font-family: Futura, "Trebuchet MS", Arial, sans-serif;
     font-size: 15px;
@@ -33,4 +33,9 @@
 .incorrect{
     height: 200px;
 
+}
+
+.button{
+    background-color:#8FEAA1;
+    color:white;
 }

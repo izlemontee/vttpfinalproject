@@ -16,12 +16,26 @@
                         </div>
                         <div class="button-container">
                             <div class="button">
-                                <button mat-flat-button style="background-color: #98D5F1; color: white;" 
-                        (click)="acceptRequest(i)">Accept</button>
+                                <button mat-flat-button style=" background-color: #8FEAA1; color: white;" 
+                        (click)="acceptRequest(i)">
+                                <div *ngIf="!pendingServer">
+                                    Accept
+                                </div>
+                                <div *ngIf="pendingServer">
+                                    Accepting...
+                                </div>
+                            </button>
                             </div>
                             <div class="button">
-                                <button mat-flat-button style="background-color: #98D5F1; color: white;" 
-                        (click)="deleteRequest(i)">Reject</button>
+                                <button mat-flat-button style=" background-color: #8FEAA1; color: white;" 
+                        (click)="deleteRequest(i)">
+                        <div *ngIf="!pendingServer">
+                            Reject
+                        </div>
+                        <div *ngIf="pendingServer">
+                            Rejecting...
+                        </div>
+                    </button>
                             </div>
                         </div>
                     </div>

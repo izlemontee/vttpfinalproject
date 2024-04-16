@@ -34,7 +34,7 @@ export class FriendrequestComponent implements OnInit{
         if(this.username!=''){
           this.httpService.getFriendRequests(this.username).then(
             (response)=>{
-              console.log(response)
+              // console.log(response)
               for(let i in response){
                 const user = response[i].username
                 this.names.push(user)

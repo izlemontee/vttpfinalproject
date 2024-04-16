@@ -10,3 +10,12 @@
     width:100%;
     margin-top:10px;
 }
+
+input{
+    background-color: #353735;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    font-size:15px;
+    color:white;
+    border-radius: 20px;
+    border-style: none;
+}

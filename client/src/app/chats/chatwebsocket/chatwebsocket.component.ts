@@ -44,7 +44,7 @@ export class ChatwebsocketComponent implements OnInit, OnChanges{
       this.ws.onclose = this.onWebSocketClose.bind(this)
 
       this.ws.onerror = (error) =>{
-        console.error("Websocket error", error)
+        // console.error("Websocket error", error)
     }
   }
 }

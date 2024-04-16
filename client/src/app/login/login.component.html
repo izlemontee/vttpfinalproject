@@ -34,8 +34,15 @@
             </tr>
             <tr>
                 <div class="cell">
-                    <button mat-flat-button style="background-color: #98D5F1; color: white;"
-                    type="submit" (click)="login()" [disabled]="!loginForm.valid || loggingIn">Login</button>
+                    <button mat-flat-button class="button"
+                    type="submit" (click)="login()" [disabled]="!loginForm.valid || loggingIn">
+                        <div *ngIf="!loggingIn">
+                            Login
+                        </div>
+                        <div *ngIf="loggingIn">
+                            Logging in...
+                        </div>
+                    </button>
                 </div>
             </tr>
         </table>

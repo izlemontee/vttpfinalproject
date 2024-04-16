@@ -22,6 +22,7 @@ export class CommentComponent implements OnInit{
   username!:string
   image!:string
   commentForm!:FormGroup
+  pendingServer : boolean = false
 
   @Input()
   post_id:string=''
@@ -44,6 +45,7 @@ export class CommentComponent implements OnInit{
   }
 
   processForm(){
+    this.pendingServer = true
     if(this.username == '' || !this.username){
       alert("No username detected. Try again.")
     }
@@ -58,10 +60,12 @@ export class CommentComponent implements OnInit{
         (response)=>{
           this.commentOutput.next(response)
           this.commentForm.reset()
+          this.pendingServer = false
         }
       ).catch(
         ()=>{
           alert("Comment couldn't be posted. Try again later.")
+          this.pendingServer = false
         }
       )
       if(this.username != this.post_author){
@@ -103,7 +107,7 @@ export class CommentComponent implements OnInit{
 
     this.httpService.addNotification(payload).then(
       ()=>{
-        console.log("notification success")
+        // console.log("notification success")
       }
     ).catch(
       ()=>{

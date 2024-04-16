@@ -34,13 +34,13 @@ export class ArtistmanualresultsComponent implements OnChanges{
   searchArtistsByName(){
     this.httpService.searchArtistsByName(this.artistName,this.skip).then(
       (response)=>{
-          console.log(response)
+          // console.log(response)
           this.results = response.artists as Artist[]
           this.next = response.next
           this.prev = response.prev
           this.skip = this.results.length
-          console.log("next",this.next)
-          console.log("prev", this.prev)
+          // console.log("next",this.next)
+          // console.log("prev", this.prev)
       }
     ).catch(
       ()=>alert("Server error. Try again.")

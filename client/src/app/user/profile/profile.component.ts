@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit{
   isLoading: boolean = true
 
   // disable the buttons while waiting to senda  request to the server
-  requestPending: boolean = false
+  pendingServer: boolean = false
 
   constructor(){
 
@@ -138,6 +138,7 @@ export class ProfileComponent implements OnInit{
   }
 
   addFriend(){
+    this.pendingServer = true
     this.pendingRequest = true
     this.httpService.addFriendRequest(this.myUsername, this.usernameInProfile).then(
       ()=>{
@@ -145,6 +146,7 @@ export class ProfileComponent implements OnInit{
         const payload = this.notifTemplate.createAddFriendNotification(this.myUsername, this.usernameInProfile)
         this.httpService.addNotification(payload)
         this.pendingRequest = false
+        this.pendingServer = false
       }
     ).catch(
       ()=>{
@@ -155,12 +157,43 @@ export class ProfileComponent implements OnInit{
 
   }
 
+  acceptRequest(){
+    this.pendingServer = true
+    const friend = this.myUsername
+    const username = this.usernameInProfile
+    this.httpService.acceptFriendRequest(username, friend).then(
+      ()=>{
+        const payload = this.notifTemplate.createRequestAcceptedNotification(friend, username)
+        this.httpService.addNotification(payload)
+        this.pendingServer = false
+        location.reload()
+      }
+    ).catch(
+      ()=>{
+        alert("Something went wrong. Please try again.")
+        this.pendingServer = false
+      }
+    )
+  }
+
+  rejectRequest(){
+    this.pendingServer = true
+    const friend = this.myUsername
+    const username = this.usernameInProfile
+    this.httpService.deleteFriendRequest(username, friend)
+    this.pendingServer = false
+    location.reload()
+    
+  }
+
   deleteRequest(){
+    this.pendingServer = true
     this.pendingRequest = true
     this.httpService.deleteFriendRequest(this.myUsername, this.usernameInProfile).then(
       ()=>{
         this.checkFriendStatus()
         this.pendingRequest = false
+        this.pendingServer = false
       }
     )
   }

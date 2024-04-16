@@ -5,7 +5,14 @@
         Manually select your artists
     </p>
     <button type="submit" 
-    mat-flat-button class="button" (click)="updateArtists()">Update Artists</button>
+    mat-flat-button class="button" (click)="updateArtists()" [disabled]="pendingServer">
+        <div *ngIf="!pendingServer">
+            Update Artists
+        </div>
+        <div *ngIf="pendingServer">
+            Updating...
+        </div>
+    </button>
 </div>
 <div *ngIf="artists.length>0" class="artist-container">
     <p>Your artists:</p>

@@ -13,6 +13,8 @@ export class PictureComponent implements OnInit{
   form !: FormGroup
   file !: any
 
+  pendingServer: boolean = false
+
   @Input()
   username!:string
 
@@ -38,14 +40,17 @@ export class PictureComponent implements OnInit{
   }
 
   uploadImage(imgBlob:any){
+    this.pendingServer = true
     this.httpService.uploadUserProfilePicture(imgBlob, this.username).then(
       ()=>{
         this.form.reset()
+        this.pendingServer = false
         this.deactivateImageUploader.next()
       }
     ).catch(
       ()=>{
         alert("Image upload failed. Try again.")
+        this.pendingServer = false
         this.form.reset()
       }
     )

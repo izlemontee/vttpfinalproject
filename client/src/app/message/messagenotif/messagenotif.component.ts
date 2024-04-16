@@ -54,7 +54,7 @@ export class MessagenotifComponent {
       this.ws.onclose = this.onWebSocketClose.bind(this)
 
       this.ws.onerror = (error) =>{
-        console.error("Websocket error", error)
+        // console.error("Websocket error", error)
     }
   }
 }
@@ -91,9 +91,8 @@ export class MessagenotifComponent {
     if(this.ws){
       this.ws.close()
       // console.log("closed")
-    }else(
-      console.error("No websocket connection")
-    )
+    }else{}
+
   }
 
   sendUsernameToServer(){
