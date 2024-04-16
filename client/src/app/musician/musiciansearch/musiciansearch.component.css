@@ -67,13 +67,24 @@ h3{
 }
 
 .button{
-    background-color: #98D5F1; 
+    background-color: #8FEAA1; 
     color: white;
     width:100px;
     margin-left:10px;
-    margin-top:5px;
+    margin-top:2px;
 }
 
 .result-container{
     padding-top:30px;
+}
+
+input{
+    background-color: #767C7F;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    font-size:18px;
+    color:white;
+    border-radius: 20px;
+    border-style: none;
+    height:35px;
+    margin-top:2px;
 }
